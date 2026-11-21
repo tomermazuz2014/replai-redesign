@@ -286,6 +286,93 @@ html{scroll-padding-top:104px}
   .scene__node[data-n="1"]{left:96.5%;top:28%}
 }
 
+/* ---------- A clearer picture: tabs over one living map ---------- */
+.tour{background:var(--forest);color:var(--bright);padding-block:clamp(72px,9vw,128px);overflow-x:clip}
+.tour__head{display:grid;gap:var(--s5);align-items:end}
+@media (min-width:1001px){.tour__head{grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:var(--s8)}}
+.tour h2{font-size:clamp(2.25rem,1.3rem + 3vw,3.75rem);line-height:1.08;letter-spacing:var(--ls-display);margin-top:var(--s4)}
+.tour h2 span{display:block}
+.tour h2 em{font-style:normal;color:var(--spark)}
+.tour__intro{color:#c3dccd;line-height:1.6;max-width:24rem;padding-bottom:6px}
+/* tabs: the line under the open tab fills as Plai works through its map */
+.tour__tabs{display:grid;grid-template-columns:repeat(4,minmax(0,max-content));gap:var(--s2);margin-top:var(--s7);border-bottom:1px solid rgba(144,202,170,.22)}
+.tour__tab{--p:0;position:relative;display:flex;align-items:center;gap:12px;min-height:58px;padding:0 22px;border:0;border-radius:10px 10px 0 0;background:none;color:#a9c9b8;font:inherit;cursor:pointer;transition:background-color 180ms ease,color 180ms ease;-webkit-tap-highlight-color:transparent}
+.tour__tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.tour__tab i{margin-left:14px;font:normal 400 var(--fs-label)/1 var(--mono);color:#7fa391}
+.tour__tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--spark);transform:scaleX(var(--p));transform-origin:left;transition:transform 500ms var(--ease-out)}
+.tour__tab[aria-selected="true"]{background:rgba(232,244,235,.07);color:var(--bright)}
+@media (hover:hover) and (pointer:fine){.tour__tab:not([aria-selected="true"]):hover{color:var(--bright);background:rgba(232,244,235,.04)}}
+.tour__body{display:grid;gap:var(--s6);margin-top:var(--s7);align-items:center}
+@media (min-width:1001px){.tour__body{grid-template-columns:minmax(0,3.4fr) minmax(0,8.6fr);gap:var(--s8)}}
+.tour__copy{display:grid;gap:var(--s4);justify-items:start;align-content:center}
+.tour__copy h3{font-size:clamp(1.5rem,1.1rem + 1.1vw,2rem);line-height:1.18;letter-spacing:var(--ls-heading);max-width:14ch}
+.tour__copy p{color:#c3dccd;line-height:1.65;max-width:26rem}
+.tour__copy .link{margin-top:var(--s2);color:var(--bright)}
+/* the map panel */
+.map{--nd:clamp(52px,9.2cqw,76px);position:relative;container-type:inline-size;border-radius:20px;background:var(--cream);color:var(--ink);box-shadow:0 0 0 1px rgba(232,244,235,.14),0 30px 60px -30px rgba(0,0,0,.6)}
+.map__bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:46px;padding:0 16px;border-bottom:1px solid var(--line)}
+.map__spark{width:18px;height:18px;fill:var(--spark)}
+.map__crumb{font:normal 400 var(--fs-label)/1 var(--mono);color:#2a3d36}
+.map__note{justify-self:end;font:normal 400 var(--fs-label)/1 var(--mono);color:var(--muted)}
+.map__stage{position:relative;aspect-ratio:16/9;background:radial-gradient(circle at 1px 1px,rgba(11,41,29,.13) 1px,transparent 1.5px) 0 0/22px 22px}
+.map__wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.map__wires path{fill:none;stroke-linecap:round}
+.map__wires .w0{stroke:rgba(11,41,29,.2);stroke-width:1.5}
+.map__wires .w1{stroke:var(--spark);stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:1}
+.mnode{position:absolute;width:0;height:0}
+.mnode__dot{position:absolute;left:0;top:0;display:grid;place-items:center;width:var(--nd);height:var(--nd);border-radius:50%;background:#fff;color:#35554a;box-shadow:inset 0 0 0 2px #c5d5cc;transform:translate(-50%,-50%);transition:box-shadow 260ms ease,background-color 260ms ease,color 260ms ease}
+.mnode__dot svg{width:42%;height:42%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mnode__dot svg.is-mark{width:54%;height:54%;stroke:none}
+.mnode.on .mnode__dot{background:#e3f6fe;color:var(--ink);box-shadow:inset 0 0 0 2.5px var(--spark)}
+/* labels sit on a patch of the panel colour, so a line passing behind never strikes through the words */
+.mnode__txt{position:absolute;left:0;top:calc(var(--nd)/2 + 5px);display:grid;gap:1px;justify-items:center;padding:3px 7px;border-radius:8px;background:var(--cream);transform:translateX(-50%);text-align:center;white-space:nowrap}
+.mnode__txt b{font-size:clamp(.8125rem,1.9cqw,1rem);font-weight:600;line-height:1.25;color:var(--ink)}
+.mnode__txt small{font-size:clamp(.75rem,1.6cqw,.8125rem);line-height:1.3;color:var(--muted)}
+.mnode__badge{position:absolute;right:-2px;bottom:-2px;display:grid;place-items:center;width:38%;aspect-ratio:1;border-radius:50%;background:#1f9d63;color:#fff;box-shadow:0 0 0 2.5px var(--cream);opacity:0;transform:scale(.6);transition:opacity 200ms var(--ease-out),transform 200ms var(--ease-out),background-color 200ms ease}
+.mnode__badge svg{width:62%;height:62%;stroke-width:2.4}
+.mnode__badge.warn{background:#f5a524;color:var(--ink)}
+.mnode__badge.show{opacity:1;transform:none}
+/* Plai on the flying reader: the page moves him along the lines, his clip does the flying */
+.rider{position:absolute;left:0;top:0;z-index:3;width:clamp(96px,19cqw,164px);pointer-events:none;visibility:hidden;will-change:transform}
+.rider.is-on{visibility:visible}
+.rider__bob{position:relative;animation:hover 2.2s ease-in-out infinite alternate}
+.rider.flip .rider__bob{scale:-1 1}
+.rider img{display:block;width:100%;height:auto}
+.rider canvas{position:absolute;left:-46.1%;top:-33%;width:192.3%;height:auto;aspect-ratio:16/9;opacity:0}
+.rider.is-live canvas{opacity:1}.rider.is-live img{opacity:0}
+.rider video{position:absolute;width:2px;height:2px;opacity:0}
+.map__foot{display:flex;align-items:center;justify-content:space-between;gap:var(--s4);min-height:50px;padding:8px 16px;border-top:1px solid var(--line);font-size:var(--fs-small)}
+.map__cap{color:var(--ink)}
+.map__say{display:flex;align-items:center;gap:8px;color:#2a3d36;font:normal 400 var(--fs-label)/1.3 var(--mono);text-align:right}
+.map__say:not(:empty)::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--spark);flex:none}
+@media (max-width:1000px){
+  .tour__tabs{grid-template-columns:repeat(2,minmax(0,1fr));border-bottom:0;gap:var(--s2)}
+  .tour__tab{min-height:52px;padding:0 14px;border-radius:12px;background:rgba(232,244,235,.05);box-shadow:inset 0 0 0 1px rgba(144,202,170,.16)}
+  .tour__tab i{margin-left:auto}
+  .tour__tab::after{left:12px;right:12px;bottom:6px;border-radius:2px}
+  .tour__copy h3{max-width:none}
+}
+/* A phone in landscape: the tabs, the copy and the map share one screen. */
+@media (max-height:540px) and (orientation:landscape){
+  .tour__tabs{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s5)}
+  .tour__tab{min-height:46px;padding:0 10px;gap:8px;font-size:var(--fs-small)}
+  .tour__tab i{display:none}
+  .tour__body{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:var(--s5);margin-top:var(--s3);scroll-margin-top:120px}
+  .tour__copy{gap:var(--s2)}
+  .tour__copy h3{font-size:1.25rem;max-width:none}
+  .tour__copy p{font-size:var(--fs-small);line-height:1.5}
+  .map{--nd:46px}
+  .map__bar,.map__foot{display:none}
+  .map__stage{aspect-ratio:auto;height:calc(100svh - 150px);min-height:210px}
+  .mnode__txt small{display:none}
+}
+@media (max-width:640px) and (orientation:portrait){
+  .map__stage{aspect-ratio:4/5}
+  .map__note{display:none}.map__bar{grid-template-columns:auto 1fr;gap:10px}
+  .map__foot{flex-direction:column;align-items:flex-start;gap:4px}
+  .map__say{text-align:left;min-height:1.3em}
+}
+
 /* ---------- Code to context ---------- */
 .reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
 .reads__grid{display:grid;gap:var(--s7)}
@@ -512,8 +599,9 @@ html{scroll-padding-top:104px}
   .js .rise,.js .hits li{animation:fade 200ms ease both}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
+  .rider__bob{animation:none}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
-  .blk::before,.blk::after,.btn__face,.nav__in,.nav__links,.scene__node,.scene__strip i,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
+  .blk::before,.blk::after,.btn__face,.nav__in,.nav__links,.scene__node,.scene__strip i,.tour__tab,.tour__tab::after,.mnode__dot,.mnode__badge,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
 </style>
 </head>
@@ -642,6 +730,42 @@ html{scroll-padding-top:104px}
       <p>Most legacy systems carry decades of business logic that nobody fully understands anymore. The original developers are gone, the documentation is incomplete, and making changes feels risky.</p>
       <p>Replai reads your existing code - COBOL, Oracle Forms, PL/I, and others - and builds a structured map of what the system actually does: the business rules, the workflows, the dependencies between components. Your team can then ask plain-language questions about that code, trace how changes will ripple through the system, and plan modernization work without guessing.</p>
       <p>The result is a team that can safely extend, refactor, or migrate legacy systems without needing someone who remembers how things were built 30 years ago.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ A CLEARER PICTURE: four ways in, one living map ============ -->
+<section class="tour on-dark" id="tour" aria-labelledby="tourT">
+  <div class="wrap">
+    <header class="tour__head">
+      <div>
+        <p class="label eyebrow">Meet your living knowledge base</p>
+        <h2 id="tourT"><span>A clearer picture.</span> <span><em>A smarter next move.</em></span></h2>
+      </div>
+      <p class="tour__intro">From a question about one field to a plan for your entire estate. It starts with understanding.</p>
+    </header>
+    <div class="tour__tabs" role="tablist" aria-label="What you can do with Replai">
+      <button class="tour__tab" role="tab" id="tt0" aria-selected="true" aria-controls="tourPanel" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="5" rx="1.5"/><rect x="13" y="11" width="7" height="9" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/></svg><span>Workspace</span><i>01</i></button>
+      <button class="tour__tab" role="tab" id="tt1" aria-selected="false" aria-controls="tourPanel" tabindex="-1" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17.500 4 20l3-1a8 8 0 1 0-2-1.500Z"/></svg><span>Understand</span><i>02</i></button>
+      <button class="tour__tab" role="tab" id="tt2" aria-selected="false" aria-controls="tourPanel" tabindex="-1" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="8" r="2.2"/><path d="M6 8.200v7.600M8.200 18c6 0 9.800-2 9.800-7.800"/></svg><span>Trace impact</span><i>03</i></button>
+      <button class="tour__tab" role="tab" id="tt3" aria-selected="false" aria-controls="tourPanel" tabindex="-1" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4 8 4-8 4-8-4 8-4Z"/><path d="m4 12 8 4 8-4M4 16l8 4 8-4"/></svg><span>Modernize</span><i>04</i></button>
+    </div>
+    <div class="tour__body" id="tourPanel" role="tabpanel" aria-labelledby="tt0">
+      <div class="tour__copy" id="tourCopy">
+        <h3>Your work. A connected view.</h3>
+        <p>See what needs your attention, pick up a conversation, and follow work in progress. A shared starting point for understanding and modernizing your systems.</p>
+        <a class="link" href="#">Explore the possibilities <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6"/></svg></a>
+      </div>
+      <!-- A schematic, not a screenshot: each tab is a small map, and Plai rides along its lines. -->
+      <div class="map" id="map">
+        <div class="map__bar"><svg class="map__spark" viewBox="0 0 28 28" aria-hidden="true"><path d="M14 1Q17 11 27 14 17 17 14 27 11 17 1 14 11 11 14 1Z"/></svg><span class="map__crumb" id="mapCrumb">Replai / Workspace</span><span class="map__note">Sample data</span></div>
+        <div class="map__stage" id="mapStage" role="img" aria-label="A map of the workspace: Plai flies along the lines between its parts and each one lights up as he reaches it.">
+          <svg class="map__wires" aria-hidden="true"></svg>
+          <div class="map__nodes"></div>
+          <div class="rider" id="rider" aria-hidden="true"><div class="rider__bob"><img src="assets/rider.webp" alt="" width="560" height="365" loading="lazy" decoding="async"><canvas width="960" height="540"></canvas><video data-src="assets/rider.mp4" muted playsinline loop preload="none" tabindex="-1"></video></div></div>
+        </div>
+        <div class="map__foot"><p class="map__cap" id="mapCap">Questions, decisions, and progress in one workspace</p><p class="map__say" id="mapSay" aria-hidden="true"></p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1101,6 +1225,195 @@ const makeKeyer = (c) => {
     if (on) { v.play().catch(() => {}); if (fly) fly.play(); else if (!rest) rest = setTimeout(go, 900); }
     else { v.pause(); if (fly) fly.pause(); else { clearTimeout(rest); rest = 0; } }
   }, { threshold: .05 }).observe(sec);
+})();
+
+/* ---------- A clearer picture: four small maps, and Plai flying their lines ---------- */
+(() => {
+  const sec = $('#tour'); if (!sec) return;
+  const tabs = $$('.tour__tab', sec), copy = $('#tourCopy'), stage = $('#mapStage'), wires = $('.map__wires', stage), nodesEl = $('.map__nodes', stage),
+    rider = $('#rider'), crumb = $('#mapCrumb'), cap = $('#mapCap'), say = $('#mapSay'), panel = $('#tourPanel');
+  const I = {
+    bell: '<path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15L6 16Z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+    chat: '<path d="M5 17.5 4 20l3-1a8 8 0 1 0-2-1.5Z"/>',
+    run: '<circle cx="12" cy="12" r="8"/><path d="m10.5 8.5 5 3.5-5 3.5v-7Z"/>',
+    team: '<circle cx="9" cy="9" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="10" r="2.3"/><path d="M16 14.6a4.5 4.5 0 0 1 4.5 4.4"/>',
+    code: '<path d="m9 8-4 4 4 4M15 8l4 4-4 4M13 6l-2 12"/>',
+    list: '<path d="M9 7h10M9 12h10M9 17h10"/><circle cx="5" cy="7" r="1"/><circle cx="5" cy="12" r="1"/><circle cx="5" cy="17" r="1"/>',
+    spark: '<path d="M12 3q1.8 6.2 9 9-7.2 2.8-9 9-1.8-6.2-9-9 7.2-2.800 9-9Z"/>',
+    tag: '<path d="M4 5h7l9 9-6 6-10-9V5Z"/><circle cx="8" cy="9" r="1.2"/>',
+    file: '<path d="M7 3h7l4 4v14H7V3Z"/><path d="M14 3v4h4M10 12l-1.5 2 1.5 2M14 12l1.5 2-1.5 2"/>',
+    table: '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 14.5h16M10 10v9"/>',
+    screen: '<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M9 21h6M12 17v4"/>',
+    clock: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+    book: '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"/><path d="M5 17a3 3 0 0 1 3-3h11"/>',
+    bot: '<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 8V4.5M9.5 13v1.5M14.5 13v1.5"/><circle cx="12" cy="3.5" r=".8"/>',
+    you: '<circle cx="10" cy="8" r="3.5"/><path d="M3.5 20a6.5 6.5 0 0 1 12-3.500M15 17.5l2 2 4-4.5"/>',
+    box: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4 7.5 8 4.500 8-4.500M12 12v9"/>',
+    ok: '<path d="m6 12.5 4 4 8-9"/>', warn: '<path d="M12 6v8M12 17.5v.5"/>',
+  };
+  /* Each map: its parts (at: desktop position in % of the stage, m: the same on a narrow, taller stage),
+     the lines between them, and the route Plai flies. A stop can set a badge, say something, hold, or
+     "burst": light every line that leads away from it, the way one change ripples through a system. */
+  const TABS = [
+    { name: 'Workspace', h: 'Your work. A connected view.',
+      p: 'See what needs your attention, pick up a conversation, and follow work in progress. A shared starting point for understanding and modernizing your systems.',
+      cap: 'Questions, decisions, and progress in one workspace', alt: 'A map of the workspace: what needs you, questions, runs and your team, all joined to one hub.',
+      nodes: [
+        { id: 'hub', at: [50, 47], m: [50, 46], icon: 'mark', t: 'Core Banking', s: 'your workspace' },
+        { id: 'needs', at: [17, 27], m: [22, 16], icon: 'bell', t: 'Needs you', s: '1 decision' },
+        { id: 'ask', at: [83, 27], m: [78, 16], icon: 'chat', t: 'Ask', s: '3 knowledge bases' },
+        { id: 'runs', at: [17, 72], m: [22, 78], icon: 'run', t: 'Runs', s: '1 in progress' },
+        { id: 'team', at: [83, 72], m: [78, 78], icon: 'team', t: 'Team', s: '8 collaborators' }],
+      edges: [['hub', 'needs'], ['hub', 'ask'], ['hub', 'runs'], ['hub', 'team']],
+      route: [['needs', { badge: 'warn', say: '1 decision needs you' }], ['hub', { say: 'Core Banking, in one view' }], ['ask', { badge: 'ok', say: 'Answers from 3 knowledge bases' }], ['hub', { hold: 250 }],
+        ['runs', { badge: 'ok', say: 'Payment documentation · 68%' }], ['hub', { hold: 250 }], ['team', { badge: 'ok', say: '8 collaborators, one shared view' }]] },
+    { name: 'Understand', h: 'Ask your code. Get the whole story.',
+      p: 'Turn decades of business logic into answers your team can use. Explore the source, the rules, and the relationships behind every answer.',
+      cap: 'Natural-language answers, grounded in your system', alt: 'A question in plain language is followed to its source code, to the business rules behind it, and to an answer linked to those lines.',
+      nodes: [
+        { id: 'q', at: [12, 60], m: [26, 15], icon: 'chat', t: 'Your question', s: 'in plain language' },
+        { id: 'src', at: [37, 32], m: [74, 36], icon: 'code', t: 'PAYCALC.cbl', s: 'lines 213–223' },
+        { id: 'rules', at: [63, 62], m: [26, 58], icon: 'list', t: '3 business rules', s: 'recovered' },
+        { id: 'ans', at: [88, 34], m: [74, 80], icon: 'spark', t: 'The whole story', s: 'answer with sources' }],
+      edges: [['q', 'src'], ['src', 'rules'], ['rules', 'ans']],
+      route: [['q', { say: '“What changes if I update a field?”' }], ['src', { badge: 'ok', say: 'Reading the source' }], ['rules', { badge: 'ok', say: '3 rules behind the answer' }], ['ans', { badge: 'ok', say: 'Answered, linked to its lines' }]] },
+    { name: 'Trace impact', h: 'One change. See what it touches.',
+      p: 'Search your estate, follow dependencies, and inspect the evidence behind a change. Give your team a clearer view of risk before they write the next line.',
+      cap: 'Connected dependencies. Visible impact. Inspectable evidence.', alt: 'One field is changed and the lines to every program, table, screen and job that depends on it light up, ending at the one that needs a closer look.',
+      nodes: [
+        { id: 'f', at: [11, 50], m: [50, 12], icon: 'tag', t: 'WS-NET-PAY', s: 'the field you change' },
+        { id: 'a', at: [39, 24], m: [18, 36], icon: 'file', t: 'PAYCALC', s: 'program' },
+        { id: 'b', at: [39, 52], m: [50, 40], icon: 'table', t: 'LEDGER-TBL', s: 'table' },
+        { id: 'c', at: [39, 78], m: [82, 36], icon: 'screen', t: 'PAYSLIP', s: 'screen' },
+        { id: 'd', at: [66, 34], m: [32, 63], icon: 'file', t: 'GL-POST', s: 'program' },
+        { id: 'e', at: [89, 62], m: [68, 84], icon: 'clock', t: 'NIGHTLY-RUN', s: 'batch job' }],
+      edges: [['f', 'a'], ['f', 'b'], ['f', 'c'], ['a', 'd'], ['b', 'd'], ['d', 'e'], ['c', 'e']],
+      route: [['f', { say: 'One change: WS-NET-PAY', burst: true, hold: 1900 }], ['b', { badge: 'ok', say: '5 places touched' }], ['d', { badge: 'ok', say: 'Following the dependency' }], ['e', { badge: 'warn', say: 'Evidence: NIGHTLY-RUN reads this field' }]] },
+    { name: 'Modernize', h: 'Move forward. Keep what matters.',
+      p: 'Bring agents, workflows, and human judgment together. Plan and review modernization steps with the recovered business logic close at hand.',
+      cap: 'Agent-assisted work, with your team in control', alt: 'Recovered business logic feeds a plan, an agent drafts the change, a person reviews and approves it, and the new service ships with the rules intact.',
+      nodes: [
+        { id: 'k', at: [10, 60], m: [24, 12], icon: 'book', t: 'Recovered logic', s: 'rules + sources' },
+        { id: 'plan', at: [30, 32], m: [74, 29], icon: 'list', t: 'Plan', s: '4 steps' },
+        { id: 'agent', at: [50, 62], m: [26, 48], icon: 'bot', t: 'Agent run', s: 'drafts the change' },
+        { id: 'you', at: [70, 32], m: [74, 66], icon: 'you', t: 'Your review', s: 'you approve' },
+        { id: 'out', at: [90, 60], m: [30, 85], icon: 'box', t: 'New service', s: 'Java · tested' }],
+      edges: [['k', 'plan'], ['plan', 'agent'], ['agent', 'you'], ['you', 'out']],
+      route: [['k', { badge: 'ok', say: 'Business logic close at hand' }], ['plan', { badge: 'ok', say: 'Plan: 4 steps' }], ['agent', { badge: 'ok', say: 'Agent drafts the change' }],
+        ['you', { badge: 'warn', say: 'Waiting for your approval', hold: 1500, then: 'ok', say2: 'Approved by you' }], ['out', { badge: 'ok', say: 'Shipped, with the rules intact' }]] },
+  ];
+  const NS = 'http://www.w3.org/2000/svg', FLY = 'cubic-bezier(.65,0,.35,1)';
+  const svg = (inner, cls) => `<svg viewBox="0 0 24 24"${cls ? ` class="${cls}"` : ''}>${inner}</svg>`;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  let cur = 0, token = 0, G = null, pos = null, auto = true, running = false;
+  const narrow = () => stage.clientWidth < 520 && stage.clientHeight > stage.clientWidth;
+  const pt = (n) => { const [x, y] = narrow() ? n.m : n.at; return [stage.clientWidth * x / 100, stage.clientHeight * y / 100]; };
+  const key = (a, b) => (a < b ? a + '|' + b : b + '|' + a);
+  const select = (i) => {
+    const T = TABS[i];
+    tabs.forEach((b, k) => { b.setAttribute('aria-selected', k === i); b.tabIndex = k === i ? 0 : -1; b.style.setProperty('--p', 0); });
+    panel.setAttribute('aria-labelledby', tabs[i].id);
+    $('h3', copy).textContent = T.h; $('p', copy).textContent = T.p;
+    crumb.textContent = 'Replai / ' + T.name; cap.textContent = T.cap; say.textContent = ''; stage.setAttribute('aria-label', T.alt);
+    if (!reduce.matches && copy.animate) copy.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.23,1,.32,1)' });
+  };
+  const badge = (id, kind) => { const b = $('.mnode__badge', G.el[id]); b.className = 'mnode__badge show' + (kind === 'warn' ? ' warn' : ''); b.innerHTML = svg(I[kind]); };
+  const build = (i, done) => {
+    const T = TABS[i], by = {}; T.nodes.forEach((n) => { by[n.id] = n; });
+    nodesEl.textContent = ''; wires.textContent = '';
+    wires.setAttribute('viewBox', `0 0 ${stage.clientWidth} ${stage.clientHeight}`);
+    G = { T, by, el: {}, lit: {} };
+    T.edges.forEach(([a, b]) => {
+      const [x1, y1] = pt(by[a]), [x2, y2] = pt(by[b]);
+      const base = document.createElementNS(NS, 'path'); base.setAttribute('class', 'w0'); base.setAttribute('d', `M${x1} ${y1}L${x2} ${y2}`); wires.appendChild(base);
+      const lit = document.createElementNS(NS, 'path'); lit.setAttribute('class', 'w1'); lit.setAttribute('pathLength', 1); lit.setAttribute('d', `M${x1} ${y1}L${x2} ${y2}`); wires.appendChild(lit);
+      G.lit[key(a, b)] = { el: lit, on: false };
+      if (done) { lit.style.strokeDashoffset = 0; G.lit[key(a, b)].on = true; }
+    });
+    T.nodes.forEach((n, k) => {
+      const [x, y] = narrow() ? n.m : n.at, el = document.createElement('div');
+      el.className = 'mnode' + (done ? ' on' : ''); el.style.left = x + '%'; el.style.top = y + '%';
+      el.innerHTML = `<span class="mnode__dot">${n.icon === 'mark' ? '<svg class="is-mark" viewBox="0 0 101 100"><use href="#mark"/></svg>' : svg(I[n.icon])}<i class="mnode__badge"></i></span><span class="mnode__txt"><b>${n.t}</b><small>${n.s}</small></span>`;
+      nodesEl.appendChild(el); G.el[n.id] = el;
+      if (!done && el.animate) el.animate([{ opacity: 0, transform: 'scale(.94)' }, { opacity: 1, transform: 'none' }], { duration: 300, delay: k * 50, easing: 'cubic-bezier(.23,1,.32,1)', fill: 'backwards' });
+    });
+    if (done) T.route.forEach(([id, o = {}]) => { if (o.then || o.badge) badge(id, o.then || o.badge); });
+  };
+  const light = (a, b, dur, delay) => {                    /* draw the blue line from a to b, in step with whatever travels it */
+    const L = G.lit[key(a, b)]; if (!L || L.on) return; L.on = true;
+    const [x1, y1] = pt(G.by[a]), [x2, y2] = pt(G.by[b]); L.el.setAttribute('d', `M${x1} ${y1}L${x2} ${y2}`);
+    L.el.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: dur, delay: delay || 0, easing: FLY, fill: 'both' });
+  };
+  const burst = (from) => {                                 /* one change ripples outward, a ring of lines at a time */
+    const seen = new Set([from]); let ring = [from], depth = 0;
+    while (ring.length) {
+      const next = [];
+      ring.forEach((a) => G.T.edges.forEach(([p, q]) => {
+        const b = p === a ? q : q === a ? p : null; if (!b || G.lit[key(a, b)].on) return;
+        light(a, b, 520, depth * 430);
+        if (!seen.has(b)) { seen.add(b); next.push(b); const el = G.el[b], my = token; setTimeout(() => { if (my === token) el.classList.add('on'); }, depth * 430 + 480); }
+      }));
+      ring = next; depth++;
+    }
+  };
+  /* where Plai hovers for a node: just above its circle */
+  const seat = (id) => { const [x, y] = pt(G.by[id]), nd = $('.mnode__dot', G.el[id]).offsetWidth; return [x - rider.offsetWidth / 2, y - nd / 2 - rider.offsetHeight * .86]; };
+  const tr = ([x, y]) => `translate3d(${x}px,${y}px,0)`;
+  const hop = (prev, id) => new Promise((res) => {
+    const to = seat(id), from = pos || [-rider.offsetWidth * 1.5, to[1] - 24];
+    const dur = Math.max(520, Math.hypot(to[0] - from[0], to[1] - from[1]) / 330 * 1000);
+    if (Math.abs(to[0] - from[0]) > 6) rider.classList.toggle('flip', to[0] < from[0]);   /* he faces the way he flies */
+    rider.classList.add('is-on');
+    if (prev) light(prev, id, dur);
+    const a = rider.animate([{ transform: tr(from) }, { transform: tr(to) }], { duration: dur, easing: FLY, fill: 'forwards' });
+    a.onfinish = () => { pos = to; rider.style.transform = tr(to); a.cancel(); res(); };
+  });
+  const play = async (i) => {
+    const my = ++token; cur = i; running = true; select(i); build(i, false);
+    const T = TABS[i]; let prev = null;
+    await wait(420); if (my !== token) return;
+    for (let k = 0; k < T.route.length; k++) {
+      const [id, o = {}] = T.route[k];
+      await hop(prev, id); if (my !== token) return;
+      G.el[id].classList.add('on'); if (o.badge) badge(id, o.badge); if (o.say) say.textContent = o.say;
+      tabs[i].style.setProperty('--p', (k + 1) / T.route.length);
+      if (o.burst) burst(id);
+      await wait(o.hold || 950); if (my !== token) return;
+      if (o.then) { badge(id, o.then); say.textContent = o.say2; await wait(950); if (my !== token) return; }
+      prev = id;
+    }
+    await wait(2800); if (my !== token) return;
+    if (auto) play((i + 1) % TABS.length);
+  };
+  const show = (i) => {                                     /* reduced motion: the finished map, no flight */
+    cur = i; select(i); build(i, true); tabs[i].style.setProperty('--p', 1);
+    const last = TABS[i].route[TABS[i].route.length - 1]; say.textContent = last[1].say2 || last[1].say;
+    rider.classList.add('is-on'); rider.classList.remove('flip'); pos = seat(last[0]); rider.style.transform = tr(pos);
+  };
+  const go = (i) => (reduce.matches || !rider.animate ? show(i) : play(i));
+  tabs.forEach((b, i) => {
+    b.addEventListener('click', () => { auto = false; go(i); });
+    b.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      e.preventDefault(); const n = (i + d + tabs.length) % tabs.length; tabs[n].focus(); auto = false; go(n);
+    });
+  });
+  let rw = 0, rt = 0;
+  new ResizeObserver(() => { const w = stage.clientWidth; if (!rw) { rw = w; return; } if (Math.abs(w - rw) < 2) return; rw = w; clearTimeout(rt); rt = setTimeout(() => { pos = null; if (running || reduce.matches) go(cur); }, 200); }).observe(stage);
+  if (reduce.matches) show(0);
+  /* his clip: keyed like the others, loaded when the map first comes into view */
+  const rv = $('video', rider), rc = $('canvas', rider); let rkey = null, rT = -1;
+  const rtick = () => {
+    if (running && rkey && rv.readyState >= 2 && rv.currentTime !== rT && rkey.draw(rv)) { rT = rv.currentTime; rider.classList.add('is-live'); }
+    requestAnimationFrame(rtick);
+  };
+  new IntersectionObserver(([e]) => {
+    if (reduce.matches) return;
+    if (e.isIntersecting && !rkey && (rkey = makeKeyer(rc))) { rkey.geo(0, 0); rv.src = rv.dataset.src; rv.load(); rtick(); }
+    if (e.isIntersecting) { rv.play().catch(() => {}); if (!running) play(cur); }
+    else { rv.pause(); if (running) { token++; running = false; } }
+  }, { threshold: .3 }).observe(stage);
+  window.__tour = { go, get cur() { return cur; }, rider };       /* handle for visual tests */
 })();
 
 /* ---------- Ticker: three hidden copies make the -25% loop seamless ---------- */
