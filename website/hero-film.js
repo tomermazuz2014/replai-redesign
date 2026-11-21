@@ -23,6 +23,9 @@
     video.addEventListener('pause', () => show(false));
     video.addEventListener('error', () => show(false));
     const start = () => { const s = state(); if (!s.paused && !s.reduced && !s.hidden && hero.dataset.inView !== 'false') video.play().catch(() => {}); };
+    // the shared controller may already have started it before this script ran
+    if (!video.paused && video.readyState >= 3 && video.currentTime > 0) show(true);
+    video.addEventListener('timeupdate', () => { if (!video.paused) show(true); }, { once: true });
     if (video.readyState >= 3) start(); else video.addEventListener('canplay', start, { once: true });
   }
 

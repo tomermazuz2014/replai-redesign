@@ -10,6 +10,7 @@
     film.addEventListener('playing', () => show(true));
     film.addEventListener('pause', () => show(false));
     film.addEventListener('error', () => show(false));
+    if (!film.paused && film.currentTime > 0) show(true);   // already running before this script attached
     /* the first play request can arrive before any data exists: ask again once the film can start */
     film.addEventListener('canplay', () => {
       const s = window.WebsiteEffects && window.WebsiteEffects.state, region = film.closest('[data-motion-region]');
