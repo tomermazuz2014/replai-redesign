@@ -48,11 +48,11 @@
 (() => {
   'use strict';
   const hero = document.querySelector('#hero.hero--film'); if (!hero) return;
-  const NS = 'http://www.w3.org/2000/svg', FILLS = ['#91b3a5', '#f2dc93', '#e48268', '#c5e2e9', '#91b3a5'];
+  const NS = 'http://www.w3.org/2000/svg', FILLS = ['#cfdcc8', '#f6d9c2', '#cfdcc8', '#efe8a9', '#dcd6ea'];
   const copy = hero.querySelector('.hero-copy');
   const layer = document.createElement('div'); layer.className = 'hero-wind'; layer.setAttribute('aria-hidden', 'true');
   hero.insertBefore(layer, hero.querySelector('.hero-copy'));
-  const count = matchMedia('(max-width: 760px)').matches ? 6 : 11, leaves = [];
+  const count = matchMedia('(max-width: 760px)').matches ? 4 : 7, leaves = [];
   const rnd = (a, b) => a + Math.random() * (b - a);
   const place = (l, anywhere) => {
     const under = (copy.offsetTop + copy.offsetHeight) / hero.clientHeight + 0.03;   // start below the copy when it sits on top
@@ -62,10 +62,10 @@
   };
   for (let i = 0; i < count; i++) {
     const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '-1 -7 20 14'); svg.setAttribute('class', 'hero-leaf');
-    const size = rnd(15, 26); svg.style.width = size + 'px'; svg.style.height = size * 0.7 + 'px';
+    const size = rnd(18, 28); svg.style.width = size + 'px'; svg.style.height = size * 0.7 + 'px';
     const blade = document.createElementNS(NS, 'path'); blade.setAttribute('d', 'M0 0C4 -6.5 13 -6 18 0C13 5.5 4 6 0 0Z');
-    blade.setAttribute('fill', FILLS[i % FILLS.length]); blade.setAttribute('fill-opacity', '.78'); blade.setAttribute('stroke', '#172c39'); blade.setAttribute('stroke-width', '.9'); blade.setAttribute('stroke-linejoin', 'round');
-    const rib = document.createElementNS(NS, 'path'); rib.setAttribute('d', 'M1.5 0H14'); rib.setAttribute('stroke', '#172c39'); rib.setAttribute('stroke-width', '.6'); rib.setAttribute('fill', 'none'); rib.setAttribute('stroke-linecap', 'round');
+    blade.setAttribute('fill', FILLS[i % FILLS.length]); blade.setAttribute('stroke', '#1a191f'); blade.setAttribute('stroke-width', '1'); blade.setAttribute('stroke-linejoin', 'round');
+    const rib = document.createElementNS(NS, 'path'); rib.setAttribute('d', 'M1.5 0H14'); rib.setAttribute('stroke', '#1a191f'); rib.setAttribute('stroke-width', '.8'); rib.setAttribute('fill', 'none'); rib.setAttribute('stroke-linecap', 'round');
     svg.append(blade, rib); layer.append(svg);
     const l = { el: svg }; place(l, true); leaves.push(l);
   }
