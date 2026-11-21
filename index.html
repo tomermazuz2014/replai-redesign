@@ -93,29 +93,39 @@ svg{display:block}
 .link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:450;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 calc(100% - 9px)/100% 1px no-repeat;transition:color 150ms ease}
 @media (hover:hover) and (pointer:fine){.link:hover{color:var(--green)}}
 
-/* ---------- Nav ---------- */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav__in{display:flex;align-items:center;gap:var(--s5);min-height:72px}
-.logo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Replai Logo",var(--display);font-weight:600;font-size:1.625rem;letter-spacing:-.045em;min-height:44px}
-.logo svg{width:34px;height:34px}
-.nav__links{display:flex;gap:var(--s2);margin-left:auto}
-.nav__links a{display:flex;align-items:center;min-height:44px;padding:0 12px;font-size:var(--fs-small);font-weight:450;text-decoration:none;border-radius:8px;transition:background-color 150ms ease}
-.nav__links a[aria-current]{box-shadow:inset 0 -2px 0 var(--ink);border-radius:0}
-@media (hover:hover) and (pointer:fine){.nav__links a:hover{background:rgba(11,41,29,.06)}}
-.nav__menu{display:none;width:44px;height:44px;border:0;background:none;border-radius:10px;cursor:pointer;place-items:center}
+/* ---------- Nav: a floating glass bar that sits inside the hero colour ---------- */
+html{scroll-padding-top:104px}
+.nav{position:fixed;top:20px;left:0;right:0;z-index:50;pointer-events:none}
+.nav__in{position:relative;pointer-events:auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--s4);min-height:68px;padding:0 12px 0 22px;border-radius:24px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),0 1px 2px rgba(11,41,29,.04),0 12px 28px -14px rgba(11,41,29,.16);transition:min-height 220ms var(--ease-out),background-color 220ms ease,box-shadow 220ms ease}
+/* once the page scrolls: a little shorter, and solid enough to read over any section */
+.nav.is-scrolled .nav__in{min-height:56px;background:rgba(255,255,255,.95);box-shadow:inset 0 0 0 1px rgba(11,41,29,.06),0 1px 2px rgba(11,41,29,.05),0 14px 30px -14px rgba(11,41,29,.22)}
+.logo{justify-self:start;display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Replai Logo",var(--display);font-weight:600;font-size:1.5rem;letter-spacing:-.045em;min-height:44px;padding-right:8px}
+.logo svg{width:32px;height:32px}
+.nav__links{display:flex;gap:2px}
+.nav__links a{position:relative;isolation:isolate;display:flex;align-items:center;min-height:44px;padding:0 14px;font-size:.875rem;letter-spacing:.005em;font-weight:450;color:#1e3a30;text-decoration:none;transition:color 150ms ease}
+.nav__links a::before{content:"";position:absolute;inset:5px 0;z-index:-1;border-radius:999px;background:transparent;transition:background-color 150ms ease}
+.nav__links a[aria-current]{color:var(--ink)}
+.nav__links a[aria-current]::before{background:rgba(0,184,252,.16)}   /* the active page: a soft wash of the logo blue */
+@media (hover:hover) and (pointer:fine){.nav__links a:not([aria-current]):hover{color:var(--ink)}.nav__links a:not([aria-current]):hover::before{background:rgba(11,41,29,.06)}}
+.nav__end{justify-self:end;display:flex;align-items:center;gap:var(--s2)}
+.nav .btn__face{min-height:44px}
+.nav__menu{display:none;width:44px;height:44px;border:0;background:none;border-radius:14px;cursor:pointer;place-items:center}
 .nav__menu span{display:block;width:20px;height:2px;background:var(--ink);box-shadow:0 6px 0 var(--ink),0 -6px 0 var(--ink)}
 @media (max-width:900px){
-  .nav__in{gap:var(--s3);min-height:64px}
-  .nav__cta{margin-left:auto}
+  html{scroll-padding-top:88px}
+  .nav{top:12px}
+  .nav__in{grid-template-columns:1fr auto;gap:var(--s2);min-height:60px;padding:0 8px 0 16px;border-radius:20px}
+  .nav.is-scrolled .nav__in{min-height:54px}
   .nav__menu{display:grid}
-  .nav__links{position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;margin:0;padding:var(--s2) var(--gutter) var(--s4);background:var(--page);border-bottom:1px solid var(--line);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
-  .nav__links a{min-height:52px;font-size:var(--fs-body);border-bottom:1px solid var(--line);border-radius:0;padding:0}
-  .nav__links a[aria-current]{box-shadow:none}
+  .nav__links{position:absolute;left:0;right:0;top:calc(100% + 8px);flex-direction:column;gap:0;padding:6px 20px;border-radius:20px;background:rgba(255,255,255,.98);box-shadow:inset 0 0 0 1px rgba(11,41,29,.06),0 18px 40px -16px rgba(11,41,29,.28);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
+  .nav__links a{min-height:52px;font-size:var(--fs-body);padding:0}
+  .nav__links a+a{box-shadow:inset 0 1px 0 var(--line)}
+  .nav__links a::before{inset:7px -10px}
   .nav.open .nav__links{opacity:1;transform:none;visibility:visible;transition:opacity 220ms var(--ease-out),transform 220ms var(--ease-out),visibility 0s}
 }
 
 /* ---------- Hero ---------- */
-.hero{background:var(--mint);padding-block:clamp(32px,4vw,56px) 0;overflow:hidden}
+.hero{background:var(--mint);padding-block:calc(88px + clamp(28px,3.4vw,48px)) 0;overflow:hidden}
 .hero__grid{display:grid;gap:var(--s5);padding-bottom:clamp(40px,5vw,72px);align-items:center;width:100%}
 @media (min-width:1001px){.hero__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7)}}
 .hero__copy{display:grid;justify-items:start}
@@ -133,7 +143,7 @@ svg{display:block}
 /* Plai's clip. One H.264 file on flat magenta, keyed to transparent on a canvas
    at runtime, so it works in every browser without an alpha video format.
    He walks in front of the copy; the canvas ignores the pointer, so links stay clickable. */
-.hero{--fxw:clamp(900px,min(100vw,(100vh - 150px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638);display:grid;align-content:center}
+.hero{--fxw:clamp(900px,min(100vw,(100vh - 64px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638);display:grid;align-content:center}
 .hero__fx{position:absolute;left:0;right:0;bottom:0;height:calc(var(--fxw)*.5638);pointer-events:none;z-index:3}
 .hero__fx img{position:absolute;right:0;top:0;width:var(--fxw);height:100%}
 .hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
@@ -378,16 +388,15 @@ svg{display:block}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
-  .blk::before,.blk::after,.btn__face,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
+  .blk::before,.blk::after,.btn__face,.nav__in,.nav__links,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<p class="label proto">Design prototype for review · not the live Replai site</p>
 
 <header class="nav" id="nav">
-  <div class="wrap nav__in">
+  <div class="wrap"><div class="nav__in">
     <a class="logo" href="#" aria-label="Replai home">
       <svg viewBox="0 0 101 100" aria-hidden="true"><use href="#mark"/></svg>Replai
     </a>
@@ -398,9 +407,11 @@ svg{display:block}
       <a href="#">Company</a>
       <a href="#">Resources</a>
     </nav>
+    <div class="nav__end">
     <a class="btn btn--sm nav__cta" href="#"><span class="btn__face">Let's talk <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6"/></svg></span></a>
     <button class="nav__menu" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span></button>
-  </div>
+    </div>
+  </div></div>
 </header>
 
 <!-- shared SVG symbols -->
@@ -634,6 +645,7 @@ svg{display:block}
     </ul>
   </div>
 </aside>
+<p class="label proto">Design prototype for review · not the live Replai site</p>
 
 <script>
 (() => {
@@ -769,6 +781,8 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
 
 /* ---------- Mobile menu ---------- */
 const nav = $('#nav'), menuBtn = $('#menuBtn');
+const onScroll = () => nav.classList.toggle('is-scrolled', scrollY > 12);
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
 menuBtn.addEventListener('click', () => {
   const open = nav.classList.toggle('open');
   menuBtn.setAttribute('aria-expanded', open);
