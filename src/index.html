@@ -119,19 +119,12 @@ svg{display:block}
 .hero__stack a{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink);font-weight:500}
 @media (max-width:520px){.hero__cta .btn{width:100%}.hero__cta .btn__face{width:100%}}
 
-/* The scene: three layers (code, structure, knowledge) with Plai on top.
-   Stand-in for the keyed character clip; same box, same seat. */
-.scene{position:relative;width:100%;max-width:520px;margin-inline:auto;aspect-ratio:480/648}
-.scene__art{position:absolute;inset:0 0 auto 0;aspect-ratio:480/600}
-.scene__art svg{width:100%;height:100%;overflow:visible}
-.scene__plai{position:absolute;left:30%;top:13.4%;width:40%}
+/* The scene: Plai on the three layers (code, structure, knowledge).
+   A keyed still for now; the looping clip drops into the same box. */
+.scene{position:relative;width:100%;max-width:500px;margin-inline:auto;padding-bottom:var(--s6)}
+.scene__img{display:block;width:100%;height:auto;animation:bob 5.6s var(--ease-in-out) infinite alternate}
 .scene__cap{position:absolute;left:0;right:0;bottom:0;text-align:center;color:#2a6b52;letter-spacing:.06em}
 @keyframes bob{to{transform:translateY(-6px)}}
-.slab{animation:bob 5.6s var(--ease-in-out) infinite alternate}
-.slab--2{animation-delay:-1.4s}.slab--3,.scene__plai{animation:bob 5.6s var(--ease-in-out) -2.8s infinite alternate}
-@keyframes blinkstar{50%{opacity:.25;transform:scale(.7)}}
-.scene .tw{transform-box:fill-box;transform-origin:center;animation:blinkstar 3.2s ease-in-out infinite}
-.scene .tw:nth-of-type(2){animation-delay:-1.1s}.scene .tw:nth-of-type(3){animation-delay:-2.1s}
 
 /* ---------- Code to context ---------- */
 .reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
@@ -345,7 +338,7 @@ svg{display:block}
   .js .rise,.js .hits li{animation:fade 200ms ease both}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
-  .slab,.scene__plai,.scene .tw{animation:none}
+  .scene__img{animation:none}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
   .blk::before,.blk::after,.btn__face,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
@@ -408,9 +401,8 @@ svg{display:block}
       </div>
     </div>
     <div class="scene rise" style="--d:200ms" aria-hidden="true">
-      <div class="scene__art" id="scene"></div>
-      <div class="scene__plai" id="scenePlai"></div>
-      <p class="label scene__cap">Animatic · character animation in production</p>
+      <img class="scene__img" src="__SCENE_STILL__" alt="" width="684" height="976" decoding="async">
+      <p class="label scene__cap">Still frame · animation in production</p>
     </div>
   </div>
   <div class="seam" aria-hidden="true" data-punch="3,140,7"></div>
@@ -638,42 +630,6 @@ $$('[data-punch]').forEach((el) => {
 
 /* reel tape pack: fuller on the supply side */
 $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
-
-/* ---------- Hero scene: three hand-set layers, Plai seated on the top one ---------- */
-(() => {
-  const W = 190, H = 92, CX = 240;
-  const slab = (cy, t, top, side, cls, extra = '') => {
-    const T = [CX, cy - H], R = [CX + W, cy], B = [CX, cy + H], L = [CX - W, cy];
-    const pts = (...p) => p.map((q) => q.join(',')).join(' ');
-    const dn = ([x, y]) => [x, y + t];
-    return `<g class="slab ${cls}" stroke="#0b291d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-      <polygon points="${pts(L, B, dn(B), dn(L))}" fill="${side}"/><polygon points="${pts(B, R, dn(R), dn(B))}" fill="${side}"/>
-      <polygon points="${pts(T, R, B, L)}" fill="${top}"/>${extra}</g>`;
-  };
-  /* a point on a slab's top face: a along the left edge, b along the right edge (0..1) */
-  const at = (cy, a, b) => [CX + (b - a) * W, cy - H + (a + b) * H];
-  const line = (cy, a, b0, b1) => { const p = at(cy, a, b0), q = at(cy, a, b1); return `<path d="M${p}L${q}"/>`; };
-  const code = [[.22, .16, .52], [.34, .16, .7], [.46, .22, .6], [.58, .22, .78], [.7, .16, .46], [.82, .16, .62]]
-    .map(([a, b0, b1]) => line(410, a, b0, b1)).join('');
-  const nodes = [[.3, .3], [.3, .72], [.7, .5], [.72, .82]].map(([a, b]) => at(300, a, b));
-  const node = ([x, y]) => `<polygon points="${x},${y - 9} ${x + 18},${y} ${x},${y + 9} ${x - 18},${y}" fill="#fcfbf6"/>`;
-  const links = `<path d="M${nodes[0]}L${nodes[1]}M${nodes[0]}L${nodes[2]}L${nodes[3]}" fill="none" stroke-width="2.5"/>`;
-  const star = (x, y, s) => `<path class="tw" d="M${x} ${y - s}Q${x} ${y} ${x + s} ${y} ${x} ${y} ${x} ${y + s} ${x} ${y} ${x - s} ${y} ${x} ${y} ${x} ${y - s}Z" fill="#3fb4ff" stroke="#3fb4ff" stroke-width="3" stroke-linejoin="round"/>`;
-  $('#scene').innerHTML = `<svg viewBox="0 -70 480 600" role="presentation">
-    <path d="M50 212V410M430 212V410" stroke="#0b291d" stroke-opacity=".3" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
-    ${slab(410, 24, '#8fd3a9', '#5fae82', 'slab--1', `<g fill="none" stroke-opacity=".6" stroke-width="5">${code}</g>`)}
-    ${slab(300, 20, '#cfc8fb', '#a99fe6', 'slab--2', links + nodes.map(node).join(''))}
-    ${slab(190, 20, '#f8f3e4', '#e6dcc0', 'slab--3')}
-    ${star(402, 60, 13)}${star(64, 120, 9)}${star(440, 250, 8)}
-  </svg>`;
-  const mount = $('#scenePlai');
-  mount.innerHTML = plai('sit', reduce.matches ? 'is-play' : 'is-reading');
-  if (!reduce.matches) {
-    const p = $('.plai', mount);
-    /* reads for a beat, understands, repeats: the same two states the final clip will have */
-    setInterval(() => { p.classList.toggle('is-reading'); p.classList.toggle('is-play'); }, 3200);
-  }
-})();
 
 /* ---------- Mobile menu ---------- */
 const nav = $('#nav'), menuBtn = $('#menuBtn');
