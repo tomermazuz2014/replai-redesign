@@ -206,22 +206,22 @@ html{scroll-padding-top:104px}
 .drone.is-still{visibility:visible;left:auto;top:auto;right:6%;bottom:20px}
 .drone.is-still .drone__bob{animation:none}
 .does__grid{display:grid;gap:var(--s7)}
-@media (min-width:1001px){.does__grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:var(--s8)}}
+@media (min-width:1001px){.does__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s8)}}
 @media (min-width:640px) and (max-width:1000px) and (orientation:landscape){.does__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6)}.does__copy{font-size:var(--fs-body)}}
 .does h2{font-size:clamp(1.875rem,1.2rem + 2vw,2.5rem)}
 .does h2 em{font-style:normal;color:var(--spark)}
 .does__copy{display:grid;gap:var(--s5);align-content:start;font-size:var(--fs-lead);line-height:1.7;color:#1e3a30;max-width:38rem}
 /* The scene. Everything is placed in % of the box, so it scales as one picture.
    The four slots are where a strip can rest: two in the floating pile, one beside his hand, one in his hand. */
-.scene{--strip:clamp(28px,6.2cqw,34px);position:relative;container-type:inline-size;aspect-ratio:6/5;margin-top:var(--s6);max-width:600px}
-.scene canvas,.scene__poster{position:absolute;left:-3%;bottom:0;width:150%;max-width:none;height:auto;aspect-ratio:16/9;pointer-events:none;opacity:0}
+.scene{--strip:clamp(28px,6.2cqw,34px);position:relative;container-type:inline-size;aspect-ratio:6/5;margin-top:var(--s6);max-width:700px}
+.scene canvas,.scene__poster{position:absolute;left:-5%;bottom:0;width:175%;max-width:none;height:auto;aspect-ratio:16/9;pointer-events:none;opacity:0}
 .scene.is-live canvas,.scene.is-still .scene__poster{opacity:1}
 .scene video{position:absolute;width:2px;height:2px;opacity:0}
 .scene__slot{position:absolute;width:1px;height:1px}
 .scene__slot[data-slot="p0"]{left:26%;top:6%}
 .scene__slot[data-slot="p1"]{left:31%;top:16.5%}
-.scene__slot[data-slot="near"]{left:53.5%;top:62.5%}
-.scene__slot[data-slot="hand"]{left:47%;top:62.5%}
+.scene__slot[data-slot="near"]{left:61%;top:57%}
+.scene__slot[data-slot="hand"]{left:54.5%;top:57%}
 .scene__strip{position:absolute;left:0;top:0;z-index:3;will-change:transform}
 .scene__strip i{position:relative;overflow:hidden;display:flex;align-items:center;height:var(--strip);padding:0 clamp(10px,2.4cqw,14px);border-radius:9px;background:var(--forest);color:var(--bright);font:normal 500 clamp(.75rem,2.25cqw,.8125rem)/1 var(--mono);white-space:nowrap;box-shadow:0 2px 0 var(--night),0 12px 18px -12px rgba(11,41,29,.5);transition:box-shadow 240ms ease}
 .scene__strip i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(0,184,252,.6) 50%,transparent 75%);transform:translateX(var(--shine,-110%))}
@@ -231,7 +231,7 @@ html{scroll-padding-top:104px}
 .scene.is-live .scene__strip:nth-of-type(3) i{animation-delay:-2.4s}
 @keyframes bob{50%{transform:translateY(-4px)}}
 /* the card grows out of the strip: the strip stays as its bottom line, the rule opens above it */
-.scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,52cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
+.scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,44cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
 .scene__tag{display:flex;align-items:center;gap:8px;color:#2a3d36}
 .scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;border-radius:6px;background:#cdeffe;color:var(--ink);font-weight:600;letter-spacing:.04em}
 .scene__rule{font-size:clamp(.875rem,2.9cqw,1.0625rem);line-height:1.4;color:var(--ink)}
@@ -248,11 +248,12 @@ html{scroll-padding-top:104px}
 .does__lead{container-type:inline-size}
 @container (max-width:480px){
   .scene{aspect-ratio:5/6}
-  .scene canvas,.scene__poster{left:-6%;width:132%}
+  .scene canvas,.scene__poster{left:-8%;width:160%}
+  .scene__card{width:clamp(184px,52cqw,300px)}
   .scene__slot[data-slot="p0"]{left:14%;top:7%}
   .scene__slot[data-slot="p1"]{left:19%;top:16.5%}
-  .scene__slot[data-slot="near"]{left:44%;top:75.5%}
-  .scene__slot[data-slot="hand"]{left:38%;top:75.5%}
+  .scene__slot[data-slot="near"]{left:52.5%;top:71.7%}
+  .scene__slot[data-slot="hand"]{left:45%;top:71.7%}
   .scene__node[data-n="0"]{left:88%;top:19%}
   .scene__node[data-n="1"]{left:71%;top:6%}
 }
