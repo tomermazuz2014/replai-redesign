@@ -41,6 +41,15 @@
         ],
         "createdAt": "2026-11-21T06:50:25.644Z",
         "reason": "agent decision: literal COBOL keyword inside an illustrative source listing, not template copy"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "src/index.html"
+        ],
+        "createdAt": "2026-11-21T07:19:34.567Z",
+        "reason": "user confirmed: asked for the hero copy exactly as on the live site, including the eyebrow line"
       }
     ]
   }

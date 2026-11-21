@@ -21,7 +21,7 @@
   --bright:#e8f4eb;
 
   /* type: six sizes plus one mono label */
-  --fs-display:clamp(3.5rem,8.1vw,6.75rem);
+  --fs-display:clamp(3.5rem,7.6vw,6.9rem);
   --fs-h2:clamp(2.125rem,1.4rem + 3vw,3.625rem);
   --fs-h3:1.375rem;
   --fs-lead:clamp(1.0625rem,1rem + .35vw,1.1875rem);
@@ -104,21 +104,48 @@ svg{display:block}
 }
 
 /* ---------- Hero ---------- */
-.hero{background:var(--mint);padding-block:clamp(40px,6vw,72px) 0;overflow:hidden}
-.hero h1{font-size:var(--fs-display);font-weight:540;line-height:.96;letter-spacing:-.072em;text-wrap:balance}
+.hero{background:var(--mint);padding-block:clamp(40px,5vw,72px) 0;overflow:hidden}
+.hero__grid{display:grid;gap:var(--s7);padding-bottom:clamp(56px,7vw,96px);align-items:center}
+@media (min-width:1001px){.hero__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7)}}
+.hero__copy{display:grid;justify-items:start}
+.hero h1{font-size:var(--fs-display);font-weight:540;line-height:.97;letter-spacing:-.072em;margin-top:var(--s5)}
 .hero h1 em{font-style:normal;color:var(--green)}
 .hero h1 span{display:block}
-@media (min-width:901px){.hero h1{white-space:nowrap}.hero h1 span{display:inline}}
-.hero__grid{display:grid;gap:var(--s7);margin-top:clamp(40px,7vw,88px);padding-bottom:clamp(56px,7vw,96px)}
-@media (min-width:1001px){.hero__grid{grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--s8);align-items:start}}
-.hero__copy{display:grid;gap:var(--s6);align-content:start;max-width:34rem}
-.hero__copy p.lead{font-size:var(--fs-lead);line-height:1.55;color:#1e3a30}
-.hero__copy p.lead strong{font-weight:600;color:var(--ink)}
-.hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s5)}
+.hero .lead{font-size:var(--fs-lead);line-height:1.55;color:#1e3a30;max-width:27rem;margin-top:var(--s6)}
+.hero__cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s5);margin-top:var(--s6)}
+.hero__foot{display:grid;gap:var(--s3);margin-top:var(--s6)}
 .hero__trust{display:flex;align-items:center;gap:10px;font-size:var(--fs-small);color:var(--muted)}
-.hero__stack{padding-top:var(--s5);border-top:1px solid rgba(11,41,29,.14);color:var(--muted)}
-.hero__stack a{color:var(--ink)}
+.hero__stack{font-size:var(--fs-small);color:#2a3d36}
+.hero__stack a{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink);font-weight:500}
 @media (max-width:520px){.hero__cta .btn{width:100%}.hero__cta .btn__face{width:100%}}
+
+/* The scene: three layers (code, structure, knowledge) with Plai on top.
+   Stand-in for the keyed character clip; same box, same seat. */
+.scene{position:relative;width:100%;max-width:520px;margin-inline:auto;aspect-ratio:480/648}
+.scene__art{position:absolute;inset:0 0 auto 0;aspect-ratio:480/600}
+.scene__art svg{width:100%;height:100%;overflow:visible}
+.scene__plai{position:absolute;left:30%;top:13.4%;width:40%}
+.scene__cap{position:absolute;left:0;right:0;bottom:0;text-align:center;color:#2a6b52;letter-spacing:.06em}
+@keyframes bob{to{transform:translateY(-6px)}}
+.slab{animation:bob 5.6s var(--ease-in-out) infinite alternate}
+.slab--2{animation-delay:-1.4s}.slab--3,.scene__plai{animation:bob 5.6s var(--ease-in-out) -2.8s infinite alternate}
+@keyframes blinkstar{50%{opacity:.25;transform:scale(.7)}}
+.scene .tw{transform-box:fill-box;transform-origin:center;animation:blinkstar 3.2s ease-in-out infinite}
+.scene .tw:nth-of-type(2){animation-delay:-1.1s}.scene .tw:nth-of-type(3){animation-delay:-2.1s}
+
+/* ---------- Code to context ---------- */
+.reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
+.reads__grid{display:grid;gap:var(--s7)}
+@media (min-width:1101px){.reads__grid{grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:var(--s8);align-items:start}}
+.reads h2{font-size:var(--fs-h2);font-weight:520;letter-spacing:-.055em;line-height:1.02}
+.reads h2 em{font-style:normal;color:var(--green)}
+.reads h2 span{display:block}
+.reads .lead{font-size:var(--fs-lead);line-height:1.55;color:#1e3a30;margin-top:var(--s5);max-width:30rem}
+.points{display:grid;gap:var(--s4);margin-top:var(--s6);padding-top:var(--s5);border-top:1px solid rgba(11,41,29,.14);max-width:30rem}
+.points li{font-size:var(--fs-small);line-height:1.5;color:var(--muted)}
+.points b{display:block;color:var(--ink);font-weight:600;font-size:var(--fs-body)}
+.reads .stage{margin-top:var(--s8)}
+@media (min-width:1101px){.reads .stage{margin-top:var(--s7)}}
 
 /* The stage: tape deck on the left, plain-language rules on the right */
 .stage{position:relative;display:grid;gap:var(--s5)}
@@ -172,7 +199,7 @@ svg{display:block}
 .rules{display:grid;gap:var(--s3);align-content:start}
 .rules__head{display:grid;gap:6px;padding-bottom:var(--s2)}
 @media (min-width:721px){.rules__head{min-height:103px;align-content:end;padding-bottom:var(--s4)}}
-.rules__head h2{font-size:var(--fs-h3);font-weight:520;letter-spacing:-.03em;line-height:1.15}
+.rules__head h3{font-size:var(--fs-h3);font-weight:520;letter-spacing:-.03em;line-height:1.15}
 .rules__head p{color:var(--muted)}
 .rule{--x:-14px;--y:0px;position:relative;display:grid;gap:10px;padding:16px 18px 14px;border-radius:14px;background:var(--bg,var(--cream));box-shadow:0 3px 0 rgba(11,41,29,.16)}
 .rule:nth-of-type(1){--bg:var(--lav)}.rule:nth-of-type(2){--bg:var(--peach)}.rule:nth-of-type(3){--bg:var(--cream)}
@@ -183,7 +210,6 @@ svg{display:block}
 .js .rule{opacity:0;transform:translate(var(--x),var(--y)) scale(.97);transition:opacity 420ms var(--ease-out),transform 520ms var(--ease-out)}
 .js .rule.in{opacity:1;transform:none}
 @media (max-width:720px){.rule{--x:0px;--y:-12px}.plai-seat{width:80px;right:18px}}
-@media (max-width:1000px){.stage{margin-top:var(--s7)}}
 
 /* entrance: one per container, uneven delays */
 @keyframes rise{from{opacity:0;transform:translateY(14px)}}
@@ -319,6 +345,7 @@ svg{display:block}
   .js .rise,.js .hits li{animation:fade 200ms ease both}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
+  .slab,.scene__plai,.scene .tw{animation:none}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
   .blk::before,.blk::after,.btn__face,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
@@ -366,21 +393,81 @@ svg{display:block}
 
 <!-- ============ HERO ============ -->
 <section class="hero" aria-labelledby="h1">
-  <div class="wrap">
-    <h1 id="h1" class="rise"><span>Your code. </span><span><em>Understood.</em></span></h1>
-
-    <div class="hero__grid">
-      <div class="hero__copy rise" style="--d:90ms">
-        <p class="lead"><strong>The living knowledge platform.</strong> Decades of business knowledge, hiding in plain sight. Replai brings it to life so you can understand your systems, change with confidence, and build what comes next.</p>
-        <div class="hero__cta">
-          <a class="btn" href="#"><span class="btn__face"><span class="play" aria-hidden="true"></span>See Replai in action</span></a>
-          <a class="link" href="#search">Explore the platform <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4"/></svg></a>
-        </div>
-        <p class="hero__trust"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9 1.8 3 4v4.6c0 3.4 2.4 6.2 6 7.6 3.6-1.4 6-4.200 6-7.6V4L9 1.800Z"/><path d="m6.500 9 1.800 1.800L11.700 7.400"/></svg>Your knowledge. Your environment. Your control.</p>
-        <p class="label hero__stack">COBOL · Oracle Forms · Java · .NET &nbsp;<a href="#proof">+ 13 more</a></p>
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <p class="label eyebrow rise">The living knowledge platform</p>
+      <h1 id="h1" class="rise" style="--d:60ms"><span>Your code.</span> <span><em>Understood.</em></span></h1>
+      <p class="lead rise" style="--d:130ms">Decades of business knowledge, hiding in plain sight. Replai brings it to life so you can understand your systems, change with confidence, and build what comes next.</p>
+      <div class="hero__cta rise" style="--d:190ms">
+        <a class="btn" href="#"><span class="btn__face">See Replai in action <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 11 3M5 3h6v6"/></svg></span></a>
+        <a class="link" href="#context">Explore the platform <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4"/></svg></a>
       </div>
+      <div class="hero__foot rise" style="--d:240ms">
+        <p class="hero__trust"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9 1.8 3 4v4.6c0 3.4 2.4 6.2 6 7.6 3.6-1.4 6-4.200 6-7.6V4L9 1.800Z"/><path d="m6.500 9 1.800 1.800L11.700 7.400"/></svg>Your knowledge. Your environment. Your control.</p>
+        <p class="hero__stack">COBOL · Oracle Forms · Java · .NET &nbsp;<a href="#proof">+ more</a></p>
+      </div>
+    </div>
+    <div class="scene rise" style="--d:200ms" aria-hidden="true">
+      <div class="scene__art" id="scene"></div>
+      <div class="scene__plai" id="scenePlai"></div>
+      <p class="label scene__cap">Animatic · character animation in production</p>
+    </div>
+  </div>
+  <div class="seam" aria-hidden="true" data-punch="3,140,7"></div>
+</section>
 
-      <div class="stage rise" style="--d:200ms" id="stage" data-state="idle">
+<!-- ============ PROOF ============ -->
+<section class="proof" id="proof" aria-labelledby="proofT">
+  <div class="wrap proof__grid">
+    <div>
+      <h2 id="proofT">Made for mission-critical. <em>Built for your next chapter.</em></h2>
+      <ul class="chips" aria-label="Who it is for">
+        <li>Banking</li><li>Insurance</li><li>Enterprise</li><li>System integrators</li>
+      </ul>
+    </div>
+    <div>
+      <ul class="cards">
+        <li class="card reveal">
+          <span class="card__n">17</span>
+          <p>legacy languages and platforms, read as one body of knowledge.</p>
+          <div class="punch" aria-hidden="true" data-punch="3,34,11"></div>
+          <span class="label">COBOL · PL/I · RPG · Natural +13</span>
+        </li>
+        <li class="card reveal" style="--d:70ms">
+          <span class="card__n">On-prem</span>
+          <p>or private cloud, with role-based access and audit trails.</p>
+          <div class="punch" aria-hidden="true" data-punch="3,34,23"></div>
+          <span class="label">Your environment · your control</span>
+        </li>
+        <li class="card reveal" style="--d:120ms">
+          <span class="card__n">Line-level</span>
+          <p>Every rule stays connected to the source it came from.</p>
+          <div class="punch" aria-hidden="true" data-punch="3,34,5"></div>
+          <span class="label">Rule → file → line</span>
+        </li>
+      </ul>
+      <div class="logos">
+        <span class="label">Trusted by</span>
+        <span class="slot">Customer logo</span><span class="slot">Customer logo</span><span class="slot">Customer logo</span><span class="slot">Customer logo</span>
+      </div>
+      <p class="note">Placeholder row. Swap in real customer logos, or remove it until there are some.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CODE TO CONTEXT ============ -->
+<section class="reads" id="context" aria-labelledby="contextT">
+  <div class="wrap reads__grid">
+    <div class="reads__copy">
+      <h2 id="contextT"><span>From code</span> <span><em>to context.</em></span></h2>
+      <p class="lead">Press play on thirty-year-old COBOL and watch the business rules come out, each one linked to the lines it came from.</p>
+      <ul class="points">
+        <li><b>Recover the why.</b> Connect technical components to their business purpose.</li>
+        <li><b>Keep your options open.</b> Rebuild in the architecture and technology that fit your future.</li>
+        <li><b>Make knowledge usable.</b> Give developers, architects, and business teams a shared view.</li>
+      </ul>
+    </div>
+      <div class="stage" id="stage" data-state="idle">
         <div class="deck on-dark">
           <div class="plai-seat" id="plaiHero"></div>
           <div class="transport">
@@ -428,7 +515,7 @@ svg{display:block}
 
         <div class="rules">
           <div class="rules__head">
-            <h2>What this code decides, in plain language</h2>
+            <h3>What this code decides, in plain language</h3>
           </div>
           <ol style="display:grid;gap:var(--s3)">
             <li class="rule" data-rule="1">
@@ -449,47 +536,6 @@ svg{display:block}
           </ol>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="seam" aria-hidden="true" data-punch="3,140,7"></div>
-</section>
-
-<!-- ============ PROOF ============ -->
-<section class="proof" id="proof" aria-labelledby="proofT">
-  <div class="wrap proof__grid">
-    <div>
-      <h2 id="proofT">Made for mission-critical. <em>Built for your next chapter.</em></h2>
-      <ul class="chips" aria-label="Who it is for">
-        <li>Banking</li><li>Insurance</li><li>Enterprise</li><li>System integrators</li>
-      </ul>
-    </div>
-    <div>
-      <ul class="cards">
-        <li class="card reveal">
-          <span class="card__n">17</span>
-          <p>legacy languages and platforms, read as one body of knowledge.</p>
-          <div class="punch" aria-hidden="true" data-punch="3,34,11"></div>
-          <span class="label">COBOL · PL/I · RPG · Natural +13</span>
-        </li>
-        <li class="card reveal" style="--d:70ms">
-          <span class="card__n">On-prem</span>
-          <p>or private cloud, with role-based access and audit trails.</p>
-          <div class="punch" aria-hidden="true" data-punch="3,34,23"></div>
-          <span class="label">Your environment · your control</span>
-        </li>
-        <li class="card reveal" style="--d:120ms">
-          <span class="card__n">Line-level</span>
-          <p>Every rule stays connected to the source it came from.</p>
-          <div class="punch" aria-hidden="true" data-punch="3,34,5"></div>
-          <span class="label">Rule → file → line</span>
-        </li>
-      </ul>
-      <div class="logos">
-        <span class="label">Trusted by</span>
-        <span class="slot">Customer logo</span><span class="slot">Customer logo</span><span class="slot">Customer logo</span><span class="slot">Customer logo</span>
-      </div>
-      <p class="note">Placeholder row. Swap in real customer logos, or remove it until there are some.</p>
-    </div>
   </div>
 </section>
 
@@ -592,6 +638,42 @@ $$('[data-punch]').forEach((el) => {
 
 /* reel tape pack: fuller on the supply side */
 $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
+
+/* ---------- Hero scene: three hand-set layers, Plai seated on the top one ---------- */
+(() => {
+  const W = 190, H = 92, CX = 240;
+  const slab = (cy, t, top, side, cls, extra = '') => {
+    const T = [CX, cy - H], R = [CX + W, cy], B = [CX, cy + H], L = [CX - W, cy];
+    const pts = (...p) => p.map((q) => q.join(',')).join(' ');
+    const dn = ([x, y]) => [x, y + t];
+    return `<g class="slab ${cls}" stroke="#0b291d" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <polygon points="${pts(L, B, dn(B), dn(L))}" fill="${side}"/><polygon points="${pts(B, R, dn(R), dn(B))}" fill="${side}"/>
+      <polygon points="${pts(T, R, B, L)}" fill="${top}"/>${extra}</g>`;
+  };
+  /* a point on a slab's top face: a along the left edge, b along the right edge (0..1) */
+  const at = (cy, a, b) => [CX + (b - a) * W, cy - H + (a + b) * H];
+  const line = (cy, a, b0, b1) => { const p = at(cy, a, b0), q = at(cy, a, b1); return `<path d="M${p}L${q}"/>`; };
+  const code = [[.22, .16, .52], [.34, .16, .7], [.46, .22, .6], [.58, .22, .78], [.7, .16, .46], [.82, .16, .62]]
+    .map(([a, b0, b1]) => line(410, a, b0, b1)).join('');
+  const nodes = [[.3, .3], [.3, .72], [.7, .5], [.72, .82]].map(([a, b]) => at(300, a, b));
+  const node = ([x, y]) => `<polygon points="${x},${y - 9} ${x + 18},${y} ${x},${y + 9} ${x - 18},${y}" fill="#fcfbf6"/>`;
+  const links = `<path d="M${nodes[0]}L${nodes[1]}M${nodes[0]}L${nodes[2]}L${nodes[3]}" fill="none" stroke-width="2.5"/>`;
+  const star = (x, y, s) => `<path class="tw" d="M${x} ${y - s}Q${x} ${y} ${x + s} ${y} ${x} ${y} ${x} ${y + s} ${x} ${y} ${x - s} ${y} ${x} ${y} ${x} ${y - s}Z" fill="#3fb4ff" stroke="#3fb4ff" stroke-width="3" stroke-linejoin="round"/>`;
+  $('#scene').innerHTML = `<svg viewBox="0 -70 480 600" role="presentation">
+    <path d="M50 212V410M430 212V410" stroke="#0b291d" stroke-opacity=".3" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+    ${slab(410, 24, '#8fd3a9', '#5fae82', 'slab--1', `<g fill="none" stroke-opacity=".6" stroke-width="5">${code}</g>`)}
+    ${slab(300, 20, '#cfc8fb', '#a99fe6', 'slab--2', links + nodes.map(node).join(''))}
+    ${slab(190, 20, '#f8f3e4', '#e6dcc0', 'slab--3')}
+    ${star(402, 60, 13)}${star(64, 120, 9)}${star(440, 250, 8)}
+  </svg>`;
+  const mount = $('#scenePlai');
+  mount.innerHTML = plai('sit', reduce.matches ? 'is-play' : 'is-reading');
+  if (!reduce.matches) {
+    const p = $('.plai', mount);
+    /* reads for a beat, understands, repeats: the same two states the final clip will have */
+    setInterval(() => { p.classList.toggle('is-reading'); p.classList.toggle('is-play'); }, 3200);
+  }
+})();
 
 /* ---------- Mobile menu ---------- */
 const nav = $('#nav'), menuBtn = $('#menuBtn');
