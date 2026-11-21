@@ -225,8 +225,8 @@ html{scroll-padding-top:104px}
 .scene__slot{position:absolute;width:1px;height:1px}
 .scene__slot[data-slot="p0"]{left:26%;top:6%}
 .scene__slot[data-slot="p1"]{left:31%;top:16.5%}
-.scene__slot[data-slot="near"]{left:54%;top:50%}
-.scene__slot[data-slot="hand"]{left:47%;top:62%}
+.scene__slot[data-slot="near"]{left:53.5%;top:62.5%}
+.scene__slot[data-slot="hand"]{left:47%;top:62.5%}
 .scene__strip{position:absolute;left:0;top:0;z-index:3;will-change:transform}
 .scene__strip i{position:relative;overflow:hidden;display:flex;align-items:center;height:var(--strip);padding:0 clamp(10px,2.4cqw,14px);border-radius:9px;background:var(--forest);color:var(--bright);font:normal 500 clamp(.75rem,2.25cqw,.8125rem)/1 var(--mono);white-space:nowrap;box-shadow:0 2px 0 var(--night),0 12px 18px -12px rgba(11,41,29,.5);transition:box-shadow 240ms ease}
 .scene__strip i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(0,184,252,.6) 50%,transparent 75%);transform:translateX(var(--shine,-110%))}
@@ -256,8 +256,8 @@ html{scroll-padding-top:104px}
   .scene canvas,.scene__poster{left:-6%;width:132%}
   .scene__slot[data-slot="p0"]{left:14%;top:7%}
   .scene__slot[data-slot="p1"]{left:19%;top:16.5%}
-  .scene__slot[data-slot="near"]{left:44%;top:60%}
-  .scene__slot[data-slot="hand"]{left:37%;top:70%}
+  .scene__slot[data-slot="near"]{left:44%;top:75.5%}
+  .scene__slot[data-slot="hand"]{left:38%;top:75.5%}
   .scene__node[data-n="0"]{left:88%;top:19%}
   .scene__node[data-n="1"]{left:71%;top:6%}
 }
@@ -957,9 +957,10 @@ const makeKeyer = (c) => {
     ['02', 'Negative pay', 'Net pay can never drop below zero. If it would, the run is held for audit.', 'PAYCALC.cbl · 219–221'],
     ['03', 'Posting', 'Every approved payslip posts exactly one entry to the ledger.', 'PAYCALC.cbl · 223'],
   ];
-  /* One loop of the clip, as fractions of its length. The last stretch already brings the next
-     strip to his hand and sends the old one to the back of the pile, so the loop has no seam. */
-  const T = { pull: [.04, .2], spark: [.26, .44], open: [.44, .56], wire: [.56, .7], fold: [.79, .88], next: [.78, .9], shift: [.84, .96], back: [.9, 1] };
+  /* One loop of the clip, as fractions of its length, timed to his hands: he reaches at .19, pulls at .31,
+     sweeps at .44 and holds his arm out from .59. The card stays open across the end of the loop and folds at
+     the start of the next one, while the next strip is already sliding to his hand, so the loop has no seam. */
+  const T = { fold: [.03, .11], next: [.04, .17], back: [.1, .2], shift: [.12, .22], pull: [.305, .373], spark: [.435, .51], open: [.585, .66], wire: [.66, .76] };
   const PAD = 10, clamp = (k) => Math.min(1, Math.max(0, k)), seg = (u, [a, b]) => clamp((u - a) / (b - a));
   const out = (k) => 1 - Math.pow(1 - k, 3), inOut = (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
   const mix = (A, B, k) => [A[0] + (B[0] - A[0]) * k, A[1] + (B[1] - A[1]) * k];
@@ -986,34 +987,36 @@ const makeKeyer = (c) => {
       n: nodes.map((n) => [n.offsetLeft, n.offsetTop]), nr: nodes[0].offsetWidth / 2 };
     svg.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`); layout();
   };
-  /* u: where we are in the loop (0..1) · a: which of the three strips is in his hand this time round */
-  const render = (u, a) => {
+  /* u: where we are in the loop (0..1) · a: the strip he reads this time round · first: nothing has been read yet */
+  const render = (u, a, first) => {
     if (!G) return;
-    fill(a);
-    const { p0, p1, near, hand, sh } = G, fold = out(seg(u, T.fold)), open = out(seg(u, T.open)) * (1 - fold);
+    const before = u < T.fold[1], prev = (a + 2) % 3;     /* until the fold ends, the card still shows the last rule */
+    fill(before && !first ? prev : a);
+    const { p0, p1, near, hand, sh } = G;
+    const open = before ? (first ? 0 : 1 - out(seg(u, T.fold))) : out(seg(u, T.open));
     strips.forEach((s, j) => {
-      const r = (j - a + 3) % 3;
-      const at = r === 0 ? (u < T.back[0] ? mix(near, hand, out(seg(u, T.pull))) : mix(hand, p1, inOut(seg(u, T.back))))
-        : r === 1 ? mix(p0, near, inOut(seg(u, T.next))) : mix(p1, p0, inOut(seg(u, T.shift)));
+      const r = (j - a + 3) % 3;                          /* 0: the one he reads · 1: next in the pile · 2: the one he just read */
+      const at = r === 0 ? (u < T.pull[0] ? mix(p0, near, inOut(seg(u, T.next))) : mix(near, hand, out(seg(u, T.pull))))
+        : r === 1 ? mix(p1, p0, inOut(seg(u, T.shift))) : first ? p1 : mix(hand, p1, inOut(seg(u, T.back)));
       s.style.transform = `translate3d(${at[0]}px,${at[1]}px,0)`;
-      s.style.zIndex = r === 0 ? (u < T.back[0] ? 4 : 1) : 3 - r + 1;
+      s.style.zIndex = r === 0 ? 4 : r === 1 ? 2 : u < T.back[0] ? 3 : 1;
       const k = r === 0 ? seg(u, T.spark) : 0;
       s.style.setProperty('--shine', (k > 0 && k < 1 ? -110 + 220 * k : -110) + '%');
-      s.classList.toggle('is-read', r === 0 && u >= T.spark[1] && u < T.back[0]);
+      s.classList.toggle('is-read', r === 0 ? u >= T.spark[1] : r === 2 && !first && u < T.back[0]);
     });
     /* the card opens out of the strip (which stays as its bottom-left corner) and folds back the same way */
-    const [, , cw, ch] = G.card, sw = G.sw[a];
+    const [, , cw, ch] = G.card, sw = G.sw[shown];
     card.style.visibility = open > .001 ? 'visible' : 'hidden';
     card.style.clipPath = `inset(${(ch - sh - 2 * PAD) * (1 - open)}px ${(cw - sw - 2 * PAD) * (1 - open)}px 0 0 round 16px)`;
-    const k = seg(u, T.spark), lit = k > 0 && k < 1;
+    const k = seg(u, T.spark), lit = k > 0 && k < 1, sa = G.sw[a];
     spark.style.opacity = lit ? Math.sin(Math.PI * k) ** .6 : 0;
-    if (lit) spark.style.transform = `translate3d(${hand[0] - 14 + (sw + 4) * inOut(k)}px,${hand[1] + sh / 2 - 14 - 10 * Math.sin(Math.PI * k)}px,0) rotate(${180 * k}deg) scale(${.7 + .5 * Math.sin(Math.PI * k)})`;
-    const w = out(seg(u, T.wire)) * (1 - seg(u, [T.fold[0] - .03, T.fold[0] + .02]));
+    if (lit) spark.style.transform = `translate3d(${hand[0] - 14 + (sa + 4) * inOut(k)}px,${hand[1] + sh / 2 - 14 - 10 * Math.sin(Math.PI * k)}px,0) rotate(${180 * k}deg) scale(${.7 + .5 * Math.sin(Math.PI * k)})`;
+    const w = before ? (first ? 0 : 1 - seg(u, [T.fold[0] - .02, T.fold[0] + .03])) : out(seg(u, T.wire));
     wire.style.strokeDashoffset = 1 - w;
     nodes[0].classList.toggle('on', w >= G.hit && w > 0); nodes[1].classList.toggle('on', w > .98);
   };
-  const still = () => { sc.classList.remove('is-live'); sc.classList.add('is-still'); measure(); render(.75, 0); };
-  new ResizeObserver(() => { measure(); if (sc.classList.contains('is-still')) render(.75, 0); }).observe(sc);
+  const still = () => { sc.classList.remove('is-live'); sc.classList.add('is-still'); measure(); render(.85, 0, false); };
+  new ResizeObserver(() => { measure(); if (sc.classList.contains('is-still')) render(.85, 0, false); }).observe(sc);
   window.__scene = { v, render, measure };                /* handle for visual tests */
   const key = !reduce.matches && makeKeyer(c);
   if (!key) return still();
@@ -1025,14 +1028,14 @@ const makeKeyer = (c) => {
       if (t !== lastT) {
         if (t < lastT - 1) loops++;                       /* the clip wrapped: the next strip is now the one in his hand */
         if (key.draw(v) && !live) { live = true; sc.classList.remove('is-still'); sc.classList.add('is-live'); }
-        lastT = t; render(clamp(t / v.duration), loops % 3);
+        lastT = t; render(clamp(t / v.duration), loops % 3, loops === 0);
       }
     }
     requestAnimationFrame(tick);
   };
   still(); tick();
   new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !seen) { seen = true; v.src = v.dataset.src; v.load(); }
+    if (e.isIntersecting && !seen) { seen = true; v.src = v.dataset.src; v.load(); v.playbackRate = .9; }
     if (!seen) return;
     if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
   }, { rootMargin: '200px 0px' }).observe(sc);

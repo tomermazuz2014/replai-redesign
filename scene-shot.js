@@ -10,6 +10,6 @@ const http = require('http'), fs = require('fs'), path = require('path');
   await page.evaluate(() => { document.documentElement.style.scrollBehavior = 'auto'; const e = document.querySelector('#scene'); scrollTo(0, e.getBoundingClientRect().top + scrollY - 110); });
   await page.waitForTimeout(700);
   const el = await page.$('#scene'); let i = 0;
-  for (const u of us.split(',')) { await page.evaluate(([u, a]) => window.__scene.render(u, a), [+u, +a]); await page.waitForTimeout(350); await el.screenshot({ path: `shots/${name}-${i++}.png` }); }
+  for (const u of us.split(',')) { await page.evaluate(([u, a]) => window.__scene.render(u, a, false), [+u, +a]); await page.waitForTimeout(350); await el.screenshot({ path: `shots/${name}-${i++}.png` }); }
   await browser.close(); server.close();
 })();
