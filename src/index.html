@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Replai redesign prototype · round 1</title>
-<meta name="theme-color" content="#d1f5de">
+<meta name="theme-color" content="#ffffff">
 <meta name="robots" content="noindex,nofollow">
 <script>document.documentElement.classList.add('js')</script>
 <style>
@@ -13,7 +13,7 @@
 /* ---------- Tokens ---------- */
 :root{
   /* brand palette, sampled from the live site */
-  --cream:#fcfbf6; --paper:#f4f1e6; --mint:#d1f5de; --mint-deep:#b4e9c7;
+  --page:#ffffff; --cream:#fcfbf6; --paper:#f4f1e6; --mint:#d1f5de; --mint-deep:#b4e9c7;
   --forest:#0b291d; --night:#061a13; --ink:#0a251c; --green:#0e5e45;
   --sage:#90caaa; --muted:#4c5c56; --line:#dee7e0;
   --lav:#ded8ff; --peach:#ffe0b5; --orange:#f55a0a; --spark:#3fb4ff;
@@ -49,7 +49,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-body{margin:0;font-family:var(--sans);font-weight:400;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{margin:0;font-family:var(--sans);font-weight:400;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--ink);background:var(--page);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 h1,h2,h3,p,ol,ul{margin:0}
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:var(--ls-heading);line-height:var(--lh-heading)}
 b,strong{font-weight:700}
@@ -90,7 +90,7 @@ svg{display:block}
 @media (hover:hover) and (pointer:fine){.link:hover{color:var(--green)}}
 
 /* ---------- Nav ---------- */
-.nav{position:sticky;top:0;z-index:50;background:rgba(252,251,246,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav__in{display:flex;align-items:center;gap:var(--s5);min-height:72px}
 .logo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:"Replai Logo",var(--display);font-weight:600;font-size:1.625rem;letter-spacing:-.045em;min-height:44px}
 .logo svg{width:34px;height:34px}
@@ -104,15 +104,15 @@ svg{display:block}
   .nav__in{gap:var(--s3);min-height:64px}
   .nav__cta{margin-left:auto}
   .nav__menu{display:grid}
-  .nav__links{position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;margin:0;padding:var(--s2) var(--gutter) var(--s4);background:var(--cream);border-bottom:1px solid var(--line);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
+  .nav__links{position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0;margin:0;padding:var(--s2) var(--gutter) var(--s4);background:var(--page);border-bottom:1px solid var(--line);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
   .nav__links a{min-height:52px;font-size:var(--fs-body);border-bottom:1px solid var(--line);border-radius:0;padding:0}
   .nav__links a[aria-current]{box-shadow:none}
   .nav.open .nav__links{opacity:1;transform:none;visibility:visible;transition:opacity 220ms var(--ease-out),transform 220ms var(--ease-out),visibility 0s}
 }
 
 /* ---------- Hero ---------- */
-.hero{background:var(--mint);padding-block:clamp(40px,5vw,72px) 0;overflow:hidden}
-.hero__grid{display:grid;gap:var(--s7);padding-bottom:clamp(56px,7vw,96px);align-items:center}
+.hero{background:var(--page);padding-block:clamp(40px,5vw,72px) 0;overflow:hidden}
+.hero__grid{display:grid;gap:var(--s5);padding-bottom:clamp(40px,5vw,72px);align-items:center;width:100%}
 @media (min-width:1001px){.hero__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7)}}
 .hero__copy{display:grid;justify-items:start}
 .hero h1{font-size:var(--fs-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);margin-top:var(--s5)}
@@ -126,12 +126,25 @@ svg{display:block}
 .hero__stack a{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink);font-weight:500}
 @media (max-width:520px){.hero__cta .btn{width:100%}.hero__cta .btn__face{width:100%}}
 
-/* The scene: Plai on the three layers (code, structure, knowledge).
-   A keyed still for now; the looping clip drops into the same box. */
-.scene{position:relative;width:100%;max-width:500px;margin-inline:auto;padding-bottom:var(--s6)}
-.scene__img{display:block;width:100%;height:auto;animation:bob 5.6s var(--ease-in-out) infinite alternate}
-.scene__cap{position:absolute;left:0;right:0;bottom:0;text-align:center;color:#2a6b52;letter-spacing:.06em}
-@keyframes bob{to{transform:translateY(-6px)}}
+/* Plai's clip. One H.264 file on flat magenta, keyed to transparent on a canvas
+   at runtime, so it works in every browser without an alpha video format.
+   Depth: he passes in front of the body copy and behind the headline and buttons. */
+.hero{--fxw:clamp(900px,min(100vw,(100vh - 150px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638 + 34px);display:grid;align-content:center}
+.hero__fx{position:absolute;right:0;bottom:34px;width:var(--fxw);aspect-ratio:1600/902;pointer-events:none;z-index:1;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%);mask-image:linear-gradient(90deg,transparent,#000 9%)}
+.hero__fx img,.hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero__fx canvas{opacity:0}
+.hero__fx.is-live canvas{opacity:1}.hero__fx.is-live img{opacity:0}
+.hero__fx video{position:absolute;width:2px;height:2px;opacity:0}
+.hero__copy > *{position:relative;z-index:0}
+.hero__copy > .eyebrow,.hero__copy > h1,.hero__copy > .hero__cta{z-index:2}
+.hero .seam{position:absolute;left:0;right:0;bottom:0}
+@media (max-width:1000px){
+  .hero{min-height:0;display:block;padding-bottom:34px}
+  .hero__fx{width:126%;-webkit-mask-image:none;mask-image:none}
+  .hero__space{height:68vw}
+}
+@media (max-width:600px){.hero__fx{width:165%}.hero__space{height:90vw}}
 
 /* ---------- Code to context ---------- */
 .reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
@@ -216,7 +229,7 @@ svg{display:block}
 .js .rise{animation:rise 720ms var(--ease-out) both;animation-delay:var(--d,0ms)}
 
 /* punch-row seam between hero and proof */
-.seam{height:34px;color:var(--mint-deep)}
+.seam{height:34px;color:var(--mint)}
 .seam svg{width:100%;height:100%}
 
 /* ---------- Proof ---------- */
@@ -226,7 +239,7 @@ svg{display:block}
 .proof h2{font-size:clamp(1.5rem,1.1rem + 1.3vw,2rem);line-height:1.25}
 .proof h2 em{font-style:normal;color:var(--green)}
 .chips{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s5)}
-.chips li{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;font-size:var(--fs-small);font-weight:500;background:#fff}
+.chips li{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;font-size:var(--fs-small);font-weight:500;background:var(--cream)}
 .cards{display:grid;gap:var(--s4)}
 @media (min-width:641px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .card{position:relative;display:grid;grid-template-rows:auto 1fr auto auto;gap:var(--s3);min-height:248px;padding:22px 20px 18px;background:var(--bg);clip-path:polygon(22px 0,100% 0,100% 100%,0 100%,0 22px);border-radius:0 14px 14px 14px}
@@ -345,7 +358,6 @@ svg{display:block}
   .js .rise,.js .hits li{animation:fade 200ms ease both}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
-  .scene__img{animation:none}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
   .blk::before,.blk::after,.btn__face,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
@@ -393,6 +405,11 @@ svg{display:block}
 
 <!-- ============ HERO ============ -->
 <section class="hero" aria-labelledby="h1">
+  <div class="hero__fx" id="heroFx" aria-hidden="true">
+    <img class="hero__poster" src="assets/plai-hero-poster.webp" alt="" width="1600" height="902" decoding="async">
+    <canvas width="1600" height="902"></canvas>
+    <video src="assets/plai-hero.mp4" muted playsinline preload="auto" tabindex="-1"></video>
+  </div>
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="label eyebrow rise">The living knowledge platform</p>
@@ -407,10 +424,7 @@ svg{display:block}
         <p class="hero__stack">COBOL · Oracle Forms · Java · .NET &nbsp;<a href="#proof">+ more</a></p>
       </div>
     </div>
-    <div class="scene rise" style="--d:200ms" aria-hidden="true">
-      <img class="scene__img" src="__SCENE_STILL__" alt="" width="684" height="976" decoding="async">
-      <p class="label scene__cap">Still frame · animation in production</p>
-    </div>
+    <div class="hero__space" aria-hidden="true"></div>
   </div>
   <div class="seam" aria-hidden="true" data-punch="3,140,7"></div>
 </section>
@@ -637,6 +651,58 @@ $$('[data-punch]').forEach((el) => {
 
 /* reel tape pack: fuller on the supply side */
 $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
+
+/* ---------- Hero clip: chroma-key the magenta away on a WebGL canvas ---------- */
+(() => {
+  const fx = $('#heroFx'); if (!fx || reduce.matches) return;        /* reduced motion keeps the still */
+  const v = $('video', fx), c = $('canvas', fx);
+  const gl = c.getContext('webgl', { premultipliedAlpha: true, antialias: false });
+  if (!gl) return;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}'));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, `precision mediump float;uniform sampler2D t;varying vec2 uv;
+    void main(){vec3 c=texture2D(t,uv).rgb;
+      float m=min(c.r,c.b)-c.g;                 /* how magenta this pixel is: ~0.87 on the backdrop, <0.1 on the art */
+      float a=1.-smoothstep(.18,.55,m);
+      float s=max(m-.06,0.);c.r-=s;c.b-=s;      /* pull the pink fringe out of edge pixels */
+      gl_FragColor=vec4(c*a,a);}`));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+  [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]
+    .forEach(([k, val]) => gl.texParameteri(gl.TEXTURE_2D, k, val));
+
+  let live = false;
+  const draw = () => {
+    if (v.readyState < 2) return;
+    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); } catch (e) { return; }
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (!live) { live = true; fx.classList.add('is-live'); }
+  };
+  const loop = () => { draw(); if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(loop); else requestAnimationFrame(loop); };
+  v.addEventListener('seeked', draw);
+
+  /* The story: walk in and hop up, sit for a while, then sneeze, climb down and leave. */
+  const HOLD_AT = 8.2, HOLD = 5200, GAP = 1600;
+  let phase = 'in', onScreen = true, timer = 0;
+  const go = () => { if (onScreen && (phase === 'in' || phase === 'out')) v.play().catch(() => {}); };
+  v.addEventListener('timeupdate', () => {
+    if (phase === 'in' && v.currentTime >= HOLD_AT) {
+      phase = 'hold'; v.pause();
+      timer = setTimeout(() => { phase = 'out'; go(); }, HOLD);
+    }
+  });
+  v.addEventListener('ended', () => {
+    phase = 'gap';
+    timer = setTimeout(() => { v.currentTime = 0; phase = 'in'; go(); }, GAP);
+  });
+  new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; if (onScreen) go(); else v.pause(); }, { threshold: .15 }).observe(fx);
+  loop(); go();
+  window.__heroClip = { v, draw };   /* handle for visual tests */
+})();
 
 /* ---------- Mobile menu ---------- */
 const nav = $('#nav'), menuBtn = $('#menuBtn');

@@ -12,8 +12,7 @@ const fonts = '\n' + [
   face('Replai Logo', 'src/geist-logo.woff2', '100 900'), // six glyphs, wordmark only
 ].join('\n');
 const src = fs.readFileSync(path.join(__dirname, 'src/index.html'), 'utf8');
-fs.mkdirSync(path.join(__dirname, 'dist'), { recursive: true });
-const out = path.join(__dirname, 'dist/replai-redesign.html');
-const still = 'data:image/webp;base64,' + fs.readFileSync(path.join(__dirname, 'src/scene-still.webp')).toString('base64');
-fs.writeFileSync(out, src.replace('/*__FONTS__*/', fonts).replace('__SCENE_STILL__', still));
+// The page ships as index.html at the repo root, next to assets/ (the hero clip and its still).
+const out = path.join(__dirname, 'index.html');
+fs.writeFileSync(out, src.replace('/*__FONTS__*/', fonts));
 console.log(out, (fs.statSync(out).size / 1024).toFixed(0) + ' KB');
