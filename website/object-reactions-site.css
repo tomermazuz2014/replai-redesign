@@ -1,0 +1,16 @@
+/* Stable input regions; the art and palette are retained. */
+.nav .logo{display:inline-flex;align-items:center;overflow:visible;min-height:44px}
+.nav .logo .reactive-wordmark{display:block;width:124px;height:auto;overflow:visible;pointer-events:none}
+[data-scene-local],[data-scene-local]:hover,[data-scene-local]:focus-within{transform:none!important;cursor:default}
+.agent-art [data-scene-local],.agent-art [data-scene-local]:hover,.agent-art [data-scene-local]:focus-within{transform:rotate(2deg)!important}
+[data-local-reactions] .reaction-trigger,[data-kite-flight] .reaction-trigger{pointer-events:all}
+[data-local-reactions] .reaction-trigger:focus:not(:focus-visible),[data-kite-flight] .reaction-trigger:focus:not(:focus-visible){outline:none}
+.reactive-wordmark,.reaction-trigger,[data-reactive-tree]{user-select:none;-webkit-user-select:none;-webkit-user-drag:none}
+.tree-gust-marks,.detached-leaves{pointer-events:none}
+.button[data-reaction-button]{position:relative;isolation:isolate;transform:none!important;background:transparent;box-shadow:none;border-color:transparent;overflow:visible}
+.button[data-reaction-button]>.reaction-button-surface{position:absolute;inset:-1px;display:block;z-index:-1;background:var(--yellow);border:1px solid var(--ink);box-shadow:3px 3px 0 var(--ink);pointer-events:none;transition:background-color .2s}
+.button[data-reaction-button]:hover>.reaction-button-surface{background:var(--butter)}
+.button[data-reaction-button]:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+@media(max-width:760px){.nav .logo .reactive-wordmark{width:104px}}
+@media(prefers-reduced-motion:reduce){.reaction-button-surface{transform:none!important;transition:none!important}}
+@media print{.reaction-button-surface{transform:none!important}.reaction-trigger{display:none}}

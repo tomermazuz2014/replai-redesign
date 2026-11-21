@@ -1,0 +1,8 @@
+/* No opacity:0, visibility:hidden, clipping or transform in the initial state.
+   The JS adds one finite effect to a neutral wrapper only when it enters view. */
+@media print, (prefers-reduced-motion: reduce) {
+ [data-scroll-reveal]{opacity:1!important;transform:none!important}
+}
+html[data-effects-paused=true] [data-scroll-reveal],
+html[data-effects-reduced=true] [data-scroll-reveal],
+[data-scroll-reveal]:focus-within{opacity:1!important;transform:none!important}

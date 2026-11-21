@@ -1,0 +1,10 @@
+/* The base SVG is always a useful still; enhancement only touches named children. */
+[data-articulation]{overflow:visible;transform:none!important}
+[data-motion-trigger]{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button[data-motion-trigger]{border:0;background:transparent;color:inherit;padding:12px;cursor:pointer;display:inline-grid;place-items:center;position:relative}
+[data-motion-trigger]:focus-visible{outline:2px solid currentColor;outline-offset:6px}
+[data-motion-trigger] [data-part-motion]{will-change:transform}
+[data-motion-trigger]:after{content:'↗';font:14px sans-serif;position:absolute;right:0;bottom:0;opacity:0;transition:opacity .2s}
+[data-motion-trigger]:hover:after,[data-motion-trigger]:focus-visible:after,[data-motion-trigger][aria-pressed=true]:after{opacity:.7}
+[data-force-model]{overflow:visible}
+html[data-effects-paused=true] [data-motion-trigger]:after,html[data-effects-reduced=true] [data-motion-trigger]:after{content:'·'}

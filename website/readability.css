@@ -1,0 +1,75 @@
+/* Read at the size it is used. The website scale is separate from fixed-format brand masters. */
+:root{--type-body:1.125rem;--type-control:1rem;--type-small:.875rem;--type-label:.8125rem}
+body{font-size:var(--type-body);line-height:1.6}
+.eyebrow,.hero-copy .eyebrow{font-size:var(--type-label);line-height:1.6}
+.button,.text-link,.capability-list .text-link,.component-lab .text-link{font-size:var(--type-control);line-height:1.5}
+.button,.quiet-button,.text-button{min-height:48px;white-space:normal;max-width:100%}
+.button{padding:13px 21px}.text-link{max-width:100%}
+.quiet-button,.text-button,.nav nav,.menu-toggle{font-size:var(--type-control);line-height:1.5}
+.nav{min-height:80px;height:auto;gap:24px}.nav nav{flex-wrap:wrap;justify-content:flex-end}
+.hero .hero-description{font-size:1.375rem;line-height:1.55;max-width:60ch;margin:20px auto 0}
+.hero .hero-commitment{font-size:var(--type-control);line-height:1.6;max-width:62ch;margin:16px auto 20px}
+.hero .hero-copy .eyebrow{font-size:var(--type-small);margin-bottom:14px}
+.hero .actions{gap:18px 30px;flex-wrap:wrap}
+.hero .hero-copy .button{font-size:var(--type-control);min-height:48px;padding:13px 21px}
+.hero-art .art-caption,.art-caption,.small-note,.sample-note,#zoom-caption,.motion-toolbar,footer,.footer-links{font-size:var(--type-small);line-height:1.55}
+.motion-toolbar .quiet-button{font-size:var(--type-small)}
+.hero-art .art-caption{padding:0 6vw}
+.opening-copy>p:not(.eyebrow),.utility-opening .opening-copy>p:not(.eyebrow){font-size:1.25rem;line-height:1.6;max-width:54ch}
+.section-heading p,.knowledge-copy>p,.example>div>p,.agent-copy p,.feature-body p,.capability-list p,.component-lab p,.approach-step p{font-size:var(--type-body);line-height:1.6}
+.wind-controls,.wind-adjust,.wind-label,.wind-label p,.direction-widget legend,.direction-widget label,.direction-result p{font-size:var(--type-control);line-height:1.55}
+.wind-adjust{gap:14px 20px;flex-wrap:wrap}.wind-adjust input{flex:1;max-width:280px;min-width:100px;min-height:36px}
+.direction-widget label span,.direction-result>span,.base-and-live figcaption,.step-object span{font-size:var(--type-small);line-height:1.55}
+.direction-lab{grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr)}
+.direction-widget,.direction-copy{min-width:0}
+.direction-widget fieldset{min-width:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.tabs button,.proof-tabs button,.faq summary,.faq p{font-size:var(--type-control);line-height:1.55}
+.tabs,.proof-tabs{flex-wrap:wrap}.tabs button,.proof-tabs button{white-space:normal;min-width:0}
+.demo-layout label,.demo-layout input,.demo-layout textarea{font-size:var(--type-control);line-height:1.5}
+.demo-layout input,.demo-layout textarea{min-width:0}
+.demo-layout>*,.platform-detail>*,.component-lab article{min-width:0}
+h1,h2,h3,p,a,button,label,legend,li{overflow-wrap:break-word}
+@media(min-width:761px){
+ .hero{padding-top:28px}
+ .hero h1{font-size:clamp(4.25rem,6vw,5.5rem)}
+ .hero .hero-art{margin-top:24px}
+}
+@media(max-width:1050px){
+ .component-lab{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+ :root{--type-body:1.0625rem}
+ .nav{min-height:70px;gap:16px}.nav nav{justify-content:flex-start}
+ .hero .hero-description{font-size:1.125rem;line-height:1.6;margin-top:22px}
+ .hero .hero-commitment{margin:18px 0 22px;max-width:100%}
+ .hero .hero-copy .eyebrow{font-size:var(--type-label);max-width:100%;margin-bottom:16px}
+ .hero .actions{gap:14px 22px}
+ .hero .hero-copy .button{padding:13px 17px}
+ .hero-art .art-caption{font-size:var(--type-small)}
+ .opening-copy>p:not(.eyebrow),.utility-opening .opening-copy>p:not(.eyebrow){font-size:var(--type-body)}
+ .wind-controls{align-items:flex-start;gap:16px;flex-wrap:wrap}
+ .wind-adjust{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px}
+ .wind-adjust input{width:100%;min-width:0;max-width:none}.wind-adjust output{grid-column:1/-1;justify-self:end}
+ .direction-lab{display:block}.direction-widget fieldset{grid-template-columns:1fr}
+ .direction-widget label span{margin-left:0}
+ .component-lab{display:block}
+ .page-cta h2{max-width:none}.platform-page .page-cta h2{max-width:none}
+ .footer-links{font-size:var(--type-small)}
+ .dialog-header{flex-wrap:wrap}
+}
+
+/* Enlarged text remains in flow; only the unfocused skip link moves offscreen. */
+.skip{top:0;transform:translateY(-150%)}.skip:focus{top:10px;transform:none}
+.capability-list article>div{min-width:0}
+@media(max-width:760px){.agent-copy{width:100%;max-width:100%}}
+/* Qualifiers and working controls carry meaning, including on the smallest screens. */
+#connect-kite,.step-tabs button,.product-tabs button,.proof-tabs [role=tab],.closing .button{font-size:var(--type-control);line-height:1.5}
+.wind-hint,#proof-caption,.delivery-steps .scope-note,.agent-line,footer a,footer .footer-links a{font-size:var(--type-small);line-height:1.6}
+.product .eyebrow{font-size:var(--type-label)}
+.step-tabs,.product-tabs,.proof-tabs{flex-wrap:wrap}
+.step-tabs button,.product-tabs button,.proof-tabs [role=tab]{flex:1 1 8rem;min-width:0;white-space:normal}
+.closing h2,.closing>.eyebrow{background:var(--butter)}
+@media(max-width:760px){.closing-air{top:0;height:170px}}
+footer>a:not(:first-child),.sample-label{font-size:var(--type-small);line-height:1.6}
+.delivery-copy,.delivery-steps,.delivery-steps li>div{min-width:0}
+@media(max-width:760px){.nav{position:relative}.nav nav{top:100%}}

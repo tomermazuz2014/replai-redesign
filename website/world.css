@@ -1,0 +1,92 @@
+/* Kite's flight field: landscape and materials, separate from physical actor rigs. */
+:root{--sage:oklch(73% .048 161);--mist:oklch(91% .023 144);--lilac:oklch(77% .041 288)}
+#guided-scene .world-field{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none}
+#guided-scene .world-air{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#guided-scene .world-sun{position:absolute;width:9%;height:auto;left:7%;top:0}
+#guided-scene .world-cloud{position:absolute;height:auto;width:12%;animation:cloud-drift 24s ease-in-out infinite}
+#guided-scene .cloud-near{left:18%;top:3%;width:13%}
+#guided-scene .cloud-far{right:17%;top:2%;width:8%;animation-delay:-9s;opacity:.85}
+#guided-scene>.hero-field{display:none}
+#guided-scene>.hero-corner{opacity:.85;max-height:38%;width:15%}
+.world-field,.world-air img,.page-world-object{user-select:none;-webkit-user-drag:none}
+@keyframes cloud-drift{0%,100%{transform:translateX(-10px)}50%{transform:translateX(20px)}}
+.hero-ground{display:none}
+.hero{border-bottom:0}
+.wind-section{background:#c5e2e9}
+.product{background:#dbe7dc}
+.product .product-stage{background:transparent}
+.delivery{background:#f4f0e7}
+.opening-art.object-field{position:relative;isolation:isolate}
+.opening-art.object-field:before{content:"";position:absolute;z-index:-1;inset:13% 1% 8%;border-radius:45% 48% 15% 19%;background:var(--mist)}
+.opening-art.world-lilac:before{background:#d9d7e6;border-radius:20% 47% 22% 10%}
+.opening-art.world-sun:before{background:#f2dc93;border-radius:45% 20% 14% 16%}
+.opening-art .page-world-object{position:absolute;right:0;top:0;width:24%;height:36%;object-fit:contain;transform:rotate(9deg);z-index:1;pointer-events:none}
+.opening-art>svg{position:relative;z-index:2}
+.context-example{box-shadow:none;background:#f2dc93}
+.context-example .sample-label{font-size:14px;letter-spacing:.1em}
+.step-tabs button{display:flex;align-items:center;justify-content:center;gap:7px}
+.step-tabs button img{width:32px;height:32px;flex:none}
+.step-tabs button[aria-selected=true] img{background:#f2dc93;border-radius:50%}
+.example-step{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.example-step>img{width:56px;height:56px;display:block}
+.example-step .example-number{font-size:14px;font-weight:600;margin:0;letter-spacing:.02em}
+.context-example #example-panel{min-height:0}
+.context-example #example-title{margin-bottom:16px}
+.context-example .sample-note{margin-top:24px}
+footer{justify-content:space-between;flex-wrap:wrap}
+footer .footer-links{flex-wrap:wrap;align-items:center}
+footer .motion-preferences{position:relative;font-size:14px}
+footer .motion-preferences summary{padding:10px 0;list-style:none;min-height:44px;display:flex;align-items:center;gap:8px;font-weight:400}
+footer .motion-preferences summary:after{content:'+';position:static;font-size:18px}
+footer .motion-preferences[open] summary:after{content:'−'}
+.preference-panel{position:absolute;bottom:100%;right:0;width:290px;max-width:85vw;border:1px solid var(--ink);background:var(--paper);padding:18px;z-index:20;box-shadow:4px 4px 0 #172c391a}
+.preference-panel label{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:16px;min-height:44px}
+.preference-panel input{width:20px;height:20px;accent-color:var(--ink);flex:none}
+footer .preference-panel p{font-family:DM,'DM Sans',sans-serif;font-size:14px;line-height:1.5;margin:8px 0 12px}
+.preference-panel a{display:block;font-size:14px;text-decoration:underline;min-height:44px;padding-top:12px}
+@media(max-width:760px){
+ #guided-scene .world-field{object-fit:cover;object-position:57% bottom;opacity:.75}
+ #guided-scene .world-sun{width:21%;left:7%;top:0}
+ #guided-scene .cloud-near{width:23%;left:20%;top:3%}
+ #guided-scene .cloud-far{width:18%;right:1%;top:13%}
+ .step-tabs{gap:0;margin-bottom:22px}
+ .step-tabs button{flex-direction:column;gap:5px;font-size:16px;line-height:1.3;padding:10px 5px}
+ .step-tabs button img{width:28px;height:28px}
+ .example-step>img{width:44px;height:44px}
+ .example-step{margin-bottom:12px}
+ .opening-art .page-world-object{width:20%;height:30%;right:2%}
+ footer .motion-preferences{position:static}
+ .preference-panel{position:static;width:100%;max-width:none;box-shadow:none;margin-bottom:10px}
+}
+html[data-effects-paused=true] #guided-scene .world-cloud,html[data-effects-reduced=true] #guided-scene .world-cloud,html[data-effects-hidden=true] #guided-scene .world-cloud,[data-motion-region][data-in-view=false] #guided-scene .world-cloud{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){#guided-scene .world-cloud{animation:none}}
+html:not(.js) #guided-scene .world-cloud{animation:none}
+.nav .logo img{width:124px;height:auto}
+@media(max-width:760px){.nav .logo img{width:104px;height:auto}}
+/* The example is a reading task: body/result get reading sizes, qualifier a support role. */
+.context-example #example-body{font-size:18px;line-height:1.55}
+.context-example .example-outcome{font-size:16px;line-height:1.5}
+.context-example .sample-note{font-size:14px;line-height:1.5}
+.context-example .step-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.context-example .step-tabs button{min-width:0}
+@media(max-width:760px){
+ .context-example{padding:22px 20px}
+ .context-example #example-body{font-size:17px;line-height:1.5;margin-bottom:16px}
+ .context-example .step-tabs button{padding:10px 4px;overflow-wrap:normal}
+ .context-example blockquote{margin:16px 0;font-size:24px;line-height:1.2}
+ .context-example .example-outcome{padding-top:14px}
+ .context-example .sample-note{margin-top:18px}
+ .context-example .sample-label{margin-bottom:16px}
+}
+@media(max-width:360px){
+ .context-example .step-tabs{grid-template-columns:1fr}
+ .context-example .step-tabs button{flex-direction:row;justify-content:flex-start;padding:6px 10px;gap:8px;min-height:44px}
+ .context-example .step-tabs button img{width:26px;height:26px}
+}
+.component-world>p{max-width:65ch}.world-object-strip{display:flex;gap:25px;flex-wrap:wrap;margin:30px 0}.world-object-strip figure{flex:1 0 130px;margin:0}.world-object-strip img{display:block;width:100%;max-width:160px;height:170px;object-fit:contain;margin:auto}.world-object-strip figcaption{font-size:14px}
+@media(max-width:360px){
+ .context-example{padding-top:16px;padding-bottom:16px}
+ .context-example .sample-label{line-height:1.4;margin-bottom:12px}
+ .context-example .step-tabs{margin-bottom:16px}
+ .context-example .sample-note{margin-top:14px}
+}

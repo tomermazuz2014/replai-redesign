@@ -1,0 +1,10 @@
+/* Stable input footprints with separate visual children. Palette belongs to brand. */
+.reaction-trigger{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.reaction-trigger:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+svg .reaction-trigger:focus-visible{outline:2px dashed currentColor;outline-offset:2px}
+.reaction-paint{pointer-events:none;transform-origin:center;will-change:auto}
+[data-reaction-card]{position:relative;isolation:isolate;cursor:pointer}
+[data-reaction-card]>.reaction-surface{display:block;transition:background-color .2s cubic-bezier(.22,1,.36,1),border-color .2s;transform:translateY(calc(var(--reaction-energy,0)*-3px)) scale(calc(1 + var(--reaction-energy,0)*.015));transform-origin:center}
+[data-reaction-card]:hover>.reaction-surface,[data-reaction-card]:focus-visible>.reaction-surface{background-color:var(--reaction-fill);border-color:var(--reaction-ink,currentColor)}
+html[data-effects-paused=true] .reaction-surface,html[data-effects-reduced=true] .reaction-surface{transform:none;transition:none}
+@media(prefers-reduced-motion:reduce){.reaction-surface{transform:none!important;transition:none!important}}

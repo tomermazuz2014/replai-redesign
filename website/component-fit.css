@@ -1,0 +1,108 @@
+/* Message-led opening: let the unchanged headline and explanation lead above the full-width scene. */
+/* Fit a complete opening and self-contained explanations at ordinary laptop heights.
+   Reading sizes stay in readability.css. Enlarged text can expand normal document flow. */
+@media(min-width:761px){
+ .hero{padding:clamp(40px,6vh,72px) 0 2px}
+ .hero h1{font-size:clamp(4rem,5vw,5rem)}
+ .hero .hero-copy .eyebrow{margin-bottom:8px}
+ .hero .hero-description{margin-top:12px}
+ .hero .hero-commitment{margin:10px auto 12px}
+ .hero .hero-art{margin-top:24px}
+ .hero-art .animated-scene{aspect-ratio:2200/540;max-height:340px}
+ .hero-art .animated-scene>svg{height:100%}
+ .hero-art .art-caption{margin:0 auto 4px}
+ .wind-section{padding-top:28px;padding-bottom:32px}
+ .wind-section .section-heading{display:grid;grid-template-columns:1.05fr 1fr;column-gap:5vw;max-width:1120px;margin-bottom:16px;align-items:center}
+ .wind-section .section-heading .eyebrow{grid-column:1/-1;margin-bottom:8px}
+ .wind-section .section-heading h2{font-size:clamp(2.6rem,4vw,3.5rem);margin:0}
+ .wind-section .section-heading p:not(.eyebrow){margin:0}
+ .wind-controls{padding:10px 0;min-height:0}
+ .wind-adjust{padding:6px 0 0}
+ #wind-model{height:260px;width:100%;margin:0}
+ .wind-hint{margin:0 0 8px;max-width:none}
+ .wind-label{min-height:0;padding:10px 0 12px}
+ .direction-lab{padding-top:32px;padding-bottom:40px;align-items:center}
+ .direction-widget{padding:22px 26px}
+ .direction-widget fieldset{margin:14px 0 0;gap:10px}
+ .direction-widget .route-illustration{max-height:155px;margin:8px 0;width:100%}
+ .direction-result{min-height:0;padding-top:12px}
+ .direction-result h3{margin-top:6px;margin-bottom:8px}
+ .direction-result p{margin-bottom:8px}
+ .direction-widget .sample-label{margin-bottom:6px}
+ .direction-widget .sample-note{margin-top:8px;margin-bottom:0}
+}
+@media(min-width:761px) and (max-height:740px){
+ .hero h1{font-size:4rem}
+ .hero-art .animated-scene{max-height:300px}
+}
+@media(max-width:760px){
+ .hero{padding-top:32px;padding-bottom:8px}
+ .hero h1{font-size:clamp(2.5rem,12vw,3.25rem);line-height:1}
+ .hero .hero-copy .eyebrow{margin-bottom:10px}
+ .hero .hero-description{margin-top:14px}
+ .hero .hero-commitment{margin:10px 0 12px}
+ .hero .actions{gap:8px 16px}
+ .hero .hero-art{margin-top:24px}
+ .hero-art .animated-scene{max-height:235px}
+ .hero-art .animated-scene>svg{height:100%}
+ .hero-art .art-caption{margin:0;padding:0 6vw}
+ .wind-controls{padding:10px 0;gap:8px}
+ .wind-adjust{padding-top:8px;gap:4px 8px}
+ #wind-model{width:100%;height:175px;margin:0}
+ .wind-hint{margin:0 0 8px}
+ .wind-label{padding:8px 0 12px;min-height:0}
+ .direction-widget{padding:18px}
+ .direction-widget .sample-label{margin-bottom:8px}
+ .direction-widget>h3{font-size:1.65rem}
+ .direction-widget fieldset{margin-top:12px;gap:8px}
+ .direction-widget label{padding:8px 10px}
+ .direction-widget .route-illustration{margin:8px 0}
+ .direction-result{min-height:0;padding-top:12px}
+ .direction-result h3{font-size:1.5rem;margin:6px 0 8px}
+ .direction-result p{margin-bottom:8px}
+ .direction-widget .sample-note{margin:8px 0 0}
+}
+@media(max-width:760px){.hero .actions{margin-top:0}}
+.hero-field,.hero-corner{display:none}
+@media(min-width:761px){
+ #guided-scene{position:relative}
+ #guided-rig>image{display:none}
+ #guided-rig{position:relative;z-index:1;overflow:visible}
+ #guided-scene>.hero-field{display:block;position:absolute;inset:0;width:100%;height:100%}
+ #guided-scene>.hero-corner{display:block;position:absolute;bottom:0;width:22%;height:auto;max-height:65%;pointer-events:none}
+ #guided-scene>.hero-corner.left{left:-1%}
+ #guided-scene>.hero-corner.right{right:-1%}
+ .hero-art .art-caption{position:relative;background:var(--paper);padding:4px 6vw 6px;margin:0;z-index:2}
+ .hero-ground{height:14px}
+ .hero-art .animated-scene{max-height:324px}
+}
+@media(min-width:761px) and (max-height:740px){.hero-art .animated-scene{max-height:290px}}
+.hero-art .art-caption{width:100%;text-align:center}
+@media(max-width:760px){
+ .direction-widget .route-illustration text{font-size:30px}
+ .route-illustration text:first-of-type{text-anchor:start}
+ .route-illustration text:last-of-type{text-anchor:end}
+}
+@media(min-width:761px) and (max-height:740px){.direction-lab{padding-top:16px;padding-bottom:16px}}
+@media(max-width:360px){.hero-art .animated-scene{max-height:208px}}
+@media(max-width:760px){#guided-scene>.hero-field,#guided-scene>.hero-corner{display:none}}
+@media(max-width:760px){.hero-art .art-caption{position:relative;z-index:2;background:var(--paper);padding-top:2px;padding-bottom:2px}}
+/* Moving SVG descendants are not scroll anchors when a widget changes state. */
+#wind,.direction-widget,.animated-scene{overflow-anchor:none}
+@media(min-width:761px){
+ .inner-opening{padding-top:40px;padding-bottom:40px}
+ .inner-opening .opening-art.object-field{width:100%;max-width:640px;justify-self:center}
+}
+@media(max-width:360px){.direction-widget .route-illustration text{font-size:36px}}
+/* Keep the complete native control and its keyboard ring inside the interaction. */
+.wind-adjust{padding-left:8px;padding-right:8px}
+.wind-adjust input{margin-left:0;margin-right:0}
+.wind-adjust input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(max-width:760px){.wind-adjust input{width:100%;min-width:0}}
+/* A full-width track stays usable when labels enlarge; their text can reflow. */
+@media(max-width:760px){
+ .wind-adjust{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .wind-adjust label{grid-column:1;grid-row:1}
+ .wind-adjust output{grid-column:2;grid-row:1;min-width:0;max-width:100%}
+ .wind-adjust input{grid-column:1/-1;grid-row:2;width:100%;max-width:none}
+}

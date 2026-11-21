@@ -13,6 +13,6 @@ const fonts = '\n' + [
 ].join('\n');
 const src = fs.readFileSync(path.join(__dirname, 'src/index.html'), 'utf8');
 // The page ships as index.html at the repo root, next to assets/ (the hero clip and its still).
-const out = path.join(__dirname, 'index.html');
+const out = path.join(__dirname, 'v1', 'index.html');
 fs.writeFileSync(out, src.replace('/*__FONTS__*/', fonts));
 console.log(out, (fs.statSync(out).size / 1024).toFixed(0) + ' KB');

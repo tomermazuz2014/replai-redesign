@@ -1,0 +1,21 @@
+/* Original, brand-neutral recipes. Set amplitude, origin, palette and timing per asset. */
+:root{--effect-ease:cubic-bezier(.22,1,.36,1)}
+[data-loop]{animation-duration:var(--loop-duration,6s);animation-delay:var(--loop-delay,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out;transform-box:fill-box;transform-origin:var(--origin,center)}
+[data-loop=float]{animation-name:effect-float}[data-loop=sway]{animation-name:effect-sway}[data-loop=turn]{animation-name:effect-turn;animation-timing-function:linear}[data-loop=pulse]{animation-name:effect-pulse}[data-loop=dash]{animation-name:effect-dash;animation-timing-function:linear}[data-loop=orbit]{animation-name:effect-orbit;animation-timing-function:linear}[data-loop=sheen]{animation-name:effect-sheen}[data-loop=ripple]{animation-name:effect-ripple}
+@keyframes effect-float{0%,100%{transform:translateY(calc(var(--distance,8px)*-.5))}50%{transform:translateY(calc(var(--distance,8px)*.5))}}
+@keyframes effect-sway{0%,100%{transform:rotate(calc(var(--angle,6deg)*-1))}50%{transform:rotate(var(--angle,6deg))}}
+@keyframes effect-turn{to{transform:rotate(360deg)}}
+@keyframes effect-pulse{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes effect-dash{to{stroke-dashoffset:var(--dash-distance,-40)}}
+@keyframes effect-orbit{from{transform:rotate(0deg) translateX(var(--distance,5px)) rotate(0deg)}to{transform:rotate(360deg) translateX(var(--distance,5px)) rotate(-360deg)}}
+@keyframes effect-sheen{0%,100%{transform:translateX(-100%);opacity:0}20%,70%{opacity:.35}85%{transform:translateX(100%);opacity:0}}
+@keyframes effect-ripple{0%,100%{transform:scale(.94);opacity:.4}50%{transform:scale(1.04);opacity:.85}}
+[data-reactive]{transition:transform .28s var(--effect-ease),background-color .28s,color .28s;transform:translate(var(--react-x,0px),var(--react-y,0px)) rotate(var(--react-angle,0deg))}
+@media(hover:hover) and (pointer:fine){[data-reactive]:hover{--react-y:-4px;--react-angle:-1deg}}
+[data-reactive]:focus-visible,[data-reactive]:focus-within{--react-y:-4px;--react-angle:-1deg}
+[data-spotlight]{position:relative;isolation:isolate}[data-spotlight]::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at var(--light-x,50%) var(--light-y,50%),var(--light-color,rgba(255,220,120,.3)),transparent 60%);opacity:0;transition:opacity .25s}
+[data-spotlight]:hover::before,[data-spotlight]:focus-within::before{opacity:1}
+html[data-effects-paused=true] [data-loop],html[data-effects-hidden=true] [data-loop],[data-motion-region][data-in-view=false] [data-loop]{animation-play-state:paused!important}
+html[data-effects-paused=true] [data-reactive]{transform:none;transition:none}
+html[data-effects-reduced=true] [data-loop]{animation:none!important}html[data-effects-reduced=true] [data-reactive]{transform:none;transition:none}
+@media(prefers-reduced-motion:reduce){[data-loop]{animation:none!important}[data-reactive]{transform:none;transition:none}html{scroll-behavior:auto!important}}
