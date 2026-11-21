@@ -117,7 +117,7 @@ html{scroll-padding-top:104px}
   .nav__in{grid-template-columns:1fr auto;gap:var(--s2);min-height:60px;padding:0 8px 0 16px;border-radius:20px}
   .nav.is-scrolled .nav__in{min-height:54px}
   .nav__menu{display:grid}
-  .nav__links{position:absolute;left:0;right:0;top:calc(100% + 8px);flex-direction:column;gap:0;padding:6px 20px;border-radius:20px;background:rgba(255,255,255,.98);box-shadow:inset 0 0 0 1px rgba(11,41,29,.06),0 18px 40px -16px rgba(11,41,29,.28);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
+  .nav__links{position:absolute;left:0;right:0;top:calc(100% + 8px);flex-direction:column;gap:0;padding:6px 20px;border-radius:20px;background:#fff;box-shadow:inset 0 0 0 1px rgba(11,41,29,.06),0 18px 40px -16px rgba(11,41,29,.28);opacity:0;transform:translateY(-8px);visibility:hidden;transition:opacity 180ms var(--ease-out),transform 180ms var(--ease-out),visibility 0s 180ms}
   .nav__links a{min-height:52px;font-size:var(--fs-body);padding:0}
   .nav__links a+a{box-shadow:inset 0 1px 0 var(--line)}
   .nav__links a::before{inset:7px -10px}
@@ -165,6 +165,69 @@ html{scroll-padding-top:104px}
   .hero__space{height:68vw}
 }
 @media (max-width:600px){.hero__fx{width:200%;right:-5%}.hero__space{height:86vw}.hero__replay{right:auto;left:var(--gutter)}}
+
+/* ---------- What Replai actually does ---------- */
+.does{position:relative;background:var(--cream);padding-block:clamp(72px,9vw,120px);overflow-x:clip}
+/* The flying reader. The page moves it across; its own clip (keyed like Plai's) flaps the wings. */
+.drone{position:absolute;left:0;top:0;z-index:6;width:clamp(112px,13vw,184px);pointer-events:none;visibility:hidden;will-change:transform}
+.drone.is-on{visibility:visible}
+.drone__bob{position:relative;aspect-ratio:1213/619;animation:hover 2.4s ease-in-out infinite alternate}
+@keyframes hover{from{transform:translateY(-7px) rotate(-2.5deg)}to{transform:translateY(7px) rotate(2deg)}}
+.drone img{display:block;width:100%;height:100%}
+.drone canvas{position:absolute;left:-33.33%;top:-41.9%;width:166.67%;height:auto;aspect-ratio:16/9;opacity:0}
+.drone.is-live canvas{opacity:1}.drone.is-live img{opacity:0}
+.drone video{position:absolute;width:2px;height:2px;opacity:0}
+.drone.is-still{visibility:visible;left:auto;top:auto;right:6%;bottom:20px}
+.drone.is-still .drone__bob{animation:none}
+.does__grid{display:grid;gap:var(--s7)}
+@media (min-width:1001px){.does__grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:var(--s8)}}
+.does h2{font-size:clamp(1.875rem,1.2rem + 2vw,2.5rem)}
+.does__copy{display:grid;gap:var(--s5);align-content:start;font-size:var(--fs-lead);line-height:1.7;color:#1e3a30;max-width:38rem}
+.does__copy a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:5px}
+/* The scene. Everything is placed in % of the box, so it scales as one picture.
+   The four slots are where a strip can rest: two in the floating pile, one beside his hand, one in his hand. */
+.scene{--strip:clamp(28px,6.2cqw,34px);position:relative;container-type:inline-size;aspect-ratio:6/5;margin-top:var(--s6);max-width:600px}
+.scene canvas,.scene__poster{position:absolute;left:-3%;bottom:0;width:150%;max-width:none;height:auto;aspect-ratio:16/9;pointer-events:none;opacity:0}
+.scene.is-live canvas,.scene.is-still .scene__poster{opacity:1}
+.scene video{position:absolute;width:2px;height:2px;opacity:0}
+.scene__slot{position:absolute;width:1px;height:1px}
+.scene__slot[data-slot="p0"]{left:26%;top:6%}
+.scene__slot[data-slot="p1"]{left:31%;top:16.5%}
+.scene__slot[data-slot="near"]{left:54%;top:50%}
+.scene__slot[data-slot="hand"]{left:47%;top:62%}
+.scene__strip{position:absolute;left:0;top:0;z-index:3;will-change:transform}
+.scene__strip i{position:relative;overflow:hidden;display:flex;align-items:center;height:var(--strip);padding:0 clamp(10px,2.4cqw,14px);border-radius:9px;background:var(--forest);color:var(--bright);font:normal 500 clamp(.75rem,2.25cqw,.8125rem)/1 var(--mono);white-space:nowrap;box-shadow:0 2px 0 var(--night),0 12px 18px -12px rgba(11,41,29,.5);transition:box-shadow 240ms ease}
+.scene__strip i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(0,184,252,.6) 50%,transparent 75%);transform:translateX(var(--shine,-110%))}
+.scene__strip.is-read i{box-shadow:inset 3px 0 0 var(--spark),0 2px 0 var(--night),0 12px 18px -12px rgba(11,41,29,.5)}
+.scene.is-live .scene__strip i{animation:bob 3.6s ease-in-out infinite}
+.scene.is-live .scene__strip:nth-of-type(2) i{animation-delay:-1.2s}
+.scene.is-live .scene__strip:nth-of-type(3) i{animation-delay:-2.4s}
+@keyframes bob{50%{transform:translateY(-4px)}}
+/* the card grows out of the strip: the strip stays as its bottom line, the rule opens above it */
+.scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,52cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
+.scene__tag{display:flex;align-items:center;gap:8px;color:#2a3d36}
+.scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;border-radius:6px;background:var(--lav);color:var(--ink);font-weight:600;letter-spacing:.04em}
+.scene__rule{font-size:clamp(.875rem,2.9cqw,1.0625rem);line-height:1.4;color:var(--ink)}
+.scene__src{font:normal 400 var(--fs-label)/1.4 var(--mono);color:var(--muted)}
+.scene__wire{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.scene__wire path{fill:none;stroke:#8f7ff0;stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.scene__node{position:absolute;display:grid;place-items:center;width:clamp(30px,7.6cqw,42px);aspect-ratio:1;border-radius:11px;background:#fff;color:#cfc8f5;box-shadow:inset 0 0 0 1.5px #cfc8f5;transform:translate(-50%,-50%);transition:background-color 260ms ease,color 260ms ease,box-shadow 260ms ease}
+.scene__node span{width:34%;aspect-ratio:1;border-radius:2px;background:currentColor;transform:rotate(45deg)}
+.scene__node.on{background:var(--lav);color:#6a57e0;box-shadow:inset 0 0 0 1.5px #8f7ff0,0 0 0 6px rgba(143,127,240,.18)}
+.scene__node[data-n="0"]{left:90%;top:20%}
+.scene__node[data-n="1"]{left:74%;top:7%}
+.scene__spark{position:absolute;left:0;top:0;z-index:5;width:clamp(20px,5cqw,28px);height:auto;aspect-ratio:1;fill:var(--spark);filter:drop-shadow(0 0 6px rgba(0,184,252,.7));opacity:0;pointer-events:none;will-change:transform,opacity}
+/* a narrow scene is taller, and he sits a little smaller so the card has room */
+@media (max-width:520px){
+  .scene{aspect-ratio:5/6}
+  .scene canvas,.scene__poster{left:-6%;width:132%}
+  .scene__slot[data-slot="p0"]{left:14%;top:7%}
+  .scene__slot[data-slot="p1"]{left:19%;top:16.5%}
+  .scene__slot[data-slot="near"]{left:44%;top:60%}
+  .scene__slot[data-slot="hand"]{left:37%;top:70%}
+  .scene__node[data-n="0"]{left:88%;top:19%}
+  .scene__node[data-n="1"]{left:71%;top:6%}
+}
 
 /* ---------- Code to context ---------- */
 .reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
@@ -393,7 +456,7 @@ html{scroll-padding-top:104px}
   @keyframes fade{from{opacity:0}}
   .js .rule,.js .reveal{transform:none;transition:opacity 200ms ease}
   .stage[data-state="playing"] .reel__spin,.stage[data-state="playing"] .tape i,.plai.is-reading .eye--reel g,.plai.is-play .sparkgrp{animation:none}
-  .blk::before,.blk::after,.btn__face,.nav__in,.nav__links,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
+  .blk::before,.blk::after,.btn__face,.nav__in,.nav__links,.scene__node,.scene__strip i,.btn .arrow,.term,.plai .eye,.plai .headgrp,.plai .arm-r{transition-duration:1ms}
 }
 </style>
 </head>
@@ -483,6 +546,47 @@ html{scroll-padding-top:104px}
       <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 17V5.500L11 3v14M11 8h5v9M2.500 17h15M6.500 7.500v0M6.500 10.500v0M6.500 13.500v0"/></svg>Enterprise</li>
       <li><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.500"/><rect x="11" y="11" width="6" height="6" rx="1.500"/><path d="M9 6h3.500a1.500 1.500 0 0 1 1.500 1.500V11"/></svg>System integrators</li>
     </ul>
+  </div>
+</section>
+
+<!-- ============ WHAT REPLAI ACTUALLY DOES ============ -->
+<section class="does" id="does" aria-labelledby="doesT">
+  <!-- the flying reader: crosses the section in front of the copy, once from each side -->
+  <div class="drone" id="drone" aria-hidden="true">
+    <div class="drone__bob">
+      <img src="assets/drone.webp" alt="" width="520" height="265" loading="lazy" decoding="async">
+      <canvas width="960" height="540"></canvas>
+      <video data-src="assets/drone.mp4" muted playsinline loop preload="none" tabindex="-1"></video>
+    </div>
+  </div>
+  <div class="wrap does__grid">
+    <div class="does__lead">
+      <h2 id="doesT">What Replai Actually Does</h2>
+      <!-- Plai's clip is the clock: the strips, the card and the nodes are drawn by the page and follow his hands. -->
+      <div class="scene" id="scene" role="img" aria-label="Plai pulls a strip of legacy code toward him and passes the blue spark over it. The strip opens into a card with the business rule it holds, and a line from the card lights two nodes of the system map.">
+        <canvas width="1600" height="900"></canvas>
+        <img class="scene__poster" src="assets/plai-desk-poster.webp" alt="" width="1600" height="900" loading="lazy" decoding="async">
+        <video data-src="assets/plai-desk.mp4" muted playsinline loop preload="none" tabindex="-1"></video>
+        <svg class="scene__wire"><path pathLength="1"/></svg>
+        <i class="scene__node" data-n="0"><span></span></i>
+        <i class="scene__node" data-n="1"><span></span></i>
+        <div class="scene__card">
+          <p class="label scene__tag"><b>Rule 01</b><span>Overtime</span></p>
+          <p class="scene__rule">Hours above 40 are paid at 1.5× the base rate.</p>
+          <p class="scene__src">PAYCALC.cbl · 213–216</p>
+        </div>
+        <span class="scene__strip"><i>IF WS-HOURS &gt; 40</i></span>
+        <span class="scene__strip"><i>IF WS-NET-PAY &lt; 0</i></span>
+        <span class="scene__strip"><i>PERFORM POST-LEDGER</i></span>
+        <svg class="scene__spark" viewBox="0 0 28 28"><path d="M14 1Q17 11 27 14 17 17 14 27 11 17 1 14 11 11 14 1Z"/></svg>
+        <i class="scene__slot" data-slot="p0"></i><i class="scene__slot" data-slot="p1"></i><i class="scene__slot" data-slot="near"></i><i class="scene__slot" data-slot="hand"></i>
+      </div>
+    </div>
+    <div class="does__copy">
+      <p>Most legacy systems carry decades of business logic that nobody fully understands anymore. The original developers are gone, the documentation is incomplete, and making changes feels risky.</p>
+      <p>Replai reads your existing code - COBOL, Oracle Forms, PL/I, and others - and builds a structured map of what the system actually does: the business rules, the workflows, the dependencies between components. Your team can then ask plain-language questions about that code, trace how changes will ripple through the system, and plan modernization work without guessing.</p>
+      <p>The result is a team that can safely extend, refactor, or <a href="#">migrate legacy systems without needing someone who remembers how things were built 30 years ago</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -704,18 +808,14 @@ $$('[data-punch]').forEach((el) => {
 /* reel tape pack: fuller on the supply side */
 $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
 
-/* ---------- Hero clips: chroma-key the magenta away on a WebGL canvas ---------- */
-(() => {
-  const fx = $('#heroFx'); if (!fx) return;
-  const still = () => fx.classList.add('is-still');                   /* the sleeping still */
-  if (reduce.matches) return still();
-  const clips = $$('video', fx), c = $('canvas', fx), replay = $('#heroReplay');
+/* ---------- Keyed video: draw a clip on a canvas with its flat magenta backdrop made transparent ---------- */
+const makeKeyer = (c) => {
   const gl = c.getContext('webgl', { premultipliedAlpha: true, antialias: false });
-  if (!gl) return still();
+  if (!gl) return null;
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}'));
-  /* The canvas is as wide as the hero; the clip is drawn at its right end (from x = vs).
+  /* The canvas can be wider than the clip: the clip is drawn at its right end (from x = vs).
      Left of the split, the picture can slide further left by "shift", so a character who
      walks out of the clip keeps going to the real edge of the screen. */
   gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, `precision mediump float;uniform sampler2D t;uniform float vs,shift,split;varying vec2 uv;
@@ -734,6 +834,24 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
   gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
   [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]
     .forEach(([k, val]) => gl.texParameteri(gl.TEXTURE_2D, k, val));
+  const U = { vs: gl.getUniformLocation(prog, 'vs'), shift: gl.getUniformLocation(prog, 'shift'), split: gl.getUniformLocation(prog, 'split') };
+  return {
+    geo(vs, split) { gl.viewport(0, 0, c.width, c.height); gl.uniform1f(U.vs, vs); gl.uniform1f(U.split, split); },
+    draw(v, shift) {
+      try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); } catch (e) { return false; }
+      gl.uniform1f(U.shift, shift || 0); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); return true;
+    },
+  };
+};
+
+/* ---------- Hero clips ---------- */
+(() => {
+  const fx = $('#heroFx'); if (!fx) return;
+  const still = () => fx.classList.add('is-still');                   /* the sleeping still */
+  if (reduce.matches) return still();
+  const clips = $$('video', fx), c = $('canvas', fx), replay = $('#heroReplay');
+  const key = makeKeyer(c);
+  if (!key) return still();
 
   /* Six clips on one canvas.
      STORY walks in, hops up, sneezes, walks off left · RETURN comes back and falls asleep · SLEEP loops
@@ -743,23 +861,21 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
   const plai = $('#heroPlai'), replayText = $('span', replay);
   let cur = STORY, want = false, onScreen = true, held = false, live = false, lastT = -1, timer = 0;
   /* geometry: where the clip starts inside the canvas (0 when the clip is as wide as the box) */
-  const U = { vs: gl.getUniformLocation(prog, 'vs'), shift: gl.getUniformLocation(prog, 'shift'), split: gl.getUniformLocation(prog, 'split') };
   const SPLIT = .545, EXIT_FROM = 11.9, EXIT_TO = 14.5;   /* STORY: he is clear of the stack, then out of frame */
   let vs = 0;
   const fit = () => {
     const box = fx.clientWidth, clipW = Math.min(box, $('img', fx).getBoundingClientRect().width || box);
     vs = Math.max(0, 1 - clipW / box);
     c.width = Math.min(3200, Math.round(1600 * box / clipW)); c.height = 894;
-    gl.viewport(0, 0, c.width, c.height); gl.uniform1f(U.vs, vs); gl.uniform1f(U.split, SPLIT); lastT = -1;
+    key.geo(vs, SPLIT); lastT = -1;
   };
   fit(); new ResizeObserver(fit).observe(fx);
   const draw = (force) => {
     const v = clips[cur];
     if (v.readyState < 2 || (!force && v.currentTime === lastT)) return;
-    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); } catch (e) { return; }
     const p = cur === STORY ? Math.min(1, Math.max(0, (v.currentTime - EXIT_FROM) / (EXIT_TO - EXIT_FROM))) : 0;
-    gl.uniform1f(U.shift, vs * p * p * (3 - 2 * p));     /* eased, so the extra slide has no start or stop jolt */
-    lastT = v.currentTime; gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    if (!key.draw(v, vs * p * p * (3 - 2 * p))) return;  /* eased, so the extra slide has no start or stop jolt */
+    lastT = v.currentTime;
     if (!live) { live = true; fx.classList.remove('is-still'); fx.classList.add('is-live'); }
   };
   const tick = () => { draw(); requestAnimationFrame(tick); };
@@ -803,6 +919,130 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); }, { threshold: .15 }).observe(fx);
   tick(); show(STORY);
   window.__heroClip = { clips, draw, show, poke, get cur() { return cur; } };   /* handle for visual tests */
+})();
+
+/* ---------- What Replai does: Plai's clip is the clock for a small scene drawn by the page ---------- */
+(() => {
+  const sc = $('#scene'); if (!sc) return;
+  const v = $('video', sc), c = $('canvas', sc), card = $('.scene__card', sc), svg = $('.scene__wire', sc), wire = $('path', svg),
+    spark = $('.scene__spark', sc), strips = $$('.scene__strip', sc), nodes = $$('.scene__node', sc);
+  const RULES = [
+    ['01', 'Overtime', 'Hours above 40 are paid at 1.5× the base rate.', 'PAYCALC.cbl · 213–216'],
+    ['02', 'Negative pay', 'Net pay can never drop below zero. If it would, the run is held for audit.', 'PAYCALC.cbl · 219–221'],
+    ['03', 'Posting', 'Every approved payslip posts exactly one entry to the ledger.', 'PAYCALC.cbl · 223'],
+  ];
+  /* One loop of the clip, as fractions of its length. The last stretch already brings the next
+     strip to his hand and sends the old one to the back of the pile, so the loop has no seam. */
+  const T = { pull: [.04, .2], spark: [.26, .44], open: [.44, .56], wire: [.56, .7], fold: [.79, .88], next: [.78, .9], shift: [.84, .96], back: [.9, 1] };
+  const PAD = 10, clamp = (k) => Math.min(1, Math.max(0, k)), seg = (u, [a, b]) => clamp((u - a) / (b - a));
+  const out = (k) => 1 - Math.pow(1 - k, 3), inOut = (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+  const mix = (A, B, k) => [A[0] + (B[0] - A[0]) * k, A[1] + (B[1] - A[1]) * k];
+  let G = null, shown = -1;
+  const fill = (a) => {                                  /* the card takes the rule of the strip in his hand */
+    if (a === shown) return; shown = a;
+    const [n, name, text, src] = RULES[a];
+    $('.scene__tag b', card).textContent = 'Rule ' + n; $('.scene__tag span', card).textContent = name;
+    $('.scene__rule', card).textContent = text; $('.scene__src', card).textContent = src;
+    if (G) layout();
+  };
+  const layout = () => {                                 /* the card sits around the hand slot; the wire leaves its top edge */
+    const { hand, sh } = G, ch = card.offsetHeight, cw = card.offsetWidth;
+    G.card = [hand[0] - PAD, hand[1] + sh + PAD - ch, cw, ch];
+    card.style.transform = `translate3d(${G.card[0]}px,${G.card[1]}px,0)`;
+    const [n0, n1] = G.n, r = 14, x = n0[0], y0 = G.card[1], y1 = n1[1], x1 = n1[0] + G.nr;
+    wire.setAttribute('d', `M${x} ${y0}V${y1 + r}Q${x} ${y1} ${x - r} ${y1}H${x1}`);
+    G.hit = clamp((y0 - n0[1]) / (y0 - y1 + (x - x1)));   /* how far along the wire the first node sits */
+  };
+  const measure = () => {
+    const r = sc.getBoundingClientRect();
+    const at = (k) => { const s = $(`[data-slot="${k}"]`, sc).getBoundingClientRect(); return [s.left - r.left, s.top - r.top]; };
+    G = { p0: at('p0'), p1: at('p1'), near: at('near'), hand: at('hand'), sw: strips.map((s) => s.offsetWidth), sh: strips[0].offsetHeight,
+      n: nodes.map((n) => [n.offsetLeft, n.offsetTop]), nr: nodes[0].offsetWidth / 2 };
+    svg.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`); layout();
+  };
+  /* u: where we are in the loop (0..1) · a: which of the three strips is in his hand this time round */
+  const render = (u, a) => {
+    if (!G) return;
+    fill(a);
+    const { p0, p1, near, hand, sh } = G, fold = out(seg(u, T.fold)), open = out(seg(u, T.open)) * (1 - fold);
+    strips.forEach((s, j) => {
+      const r = (j - a + 3) % 3;
+      const at = r === 0 ? (u < T.back[0] ? mix(near, hand, out(seg(u, T.pull))) : mix(hand, p1, inOut(seg(u, T.back))))
+        : r === 1 ? mix(p0, near, inOut(seg(u, T.next))) : mix(p1, p0, inOut(seg(u, T.shift)));
+      s.style.transform = `translate3d(${at[0]}px,${at[1]}px,0)`;
+      s.style.zIndex = r === 0 ? (u < T.back[0] ? 4 : 1) : 3 - r + 1;
+      const k = r === 0 ? seg(u, T.spark) : 0;
+      s.style.setProperty('--shine', (k > 0 && k < 1 ? -110 + 220 * k : -110) + '%');
+      s.classList.toggle('is-read', r === 0 && u >= T.spark[1] && u < T.back[0]);
+    });
+    /* the card opens out of the strip (which stays as its bottom-left corner) and folds back the same way */
+    const [, , cw, ch] = G.card, sw = G.sw[a];
+    card.style.visibility = open > .001 ? 'visible' : 'hidden';
+    card.style.clipPath = `inset(${(ch - sh - 2 * PAD) * (1 - open)}px ${(cw - sw - 2 * PAD) * (1 - open)}px 0 0 round 16px)`;
+    const k = seg(u, T.spark), lit = k > 0 && k < 1;
+    spark.style.opacity = lit ? Math.sin(Math.PI * k) ** .6 : 0;
+    if (lit) spark.style.transform = `translate3d(${hand[0] - 14 + (sw + 4) * inOut(k)}px,${hand[1] + sh / 2 - 14 - 10 * Math.sin(Math.PI * k)}px,0) rotate(${180 * k}deg) scale(${.7 + .5 * Math.sin(Math.PI * k)})`;
+    const w = out(seg(u, T.wire)) * (1 - seg(u, [T.fold[0] - .03, T.fold[0] + .02]));
+    wire.style.strokeDashoffset = 1 - w;
+    nodes[0].classList.toggle('on', w >= G.hit && w > 0); nodes[1].classList.toggle('on', w > .98);
+  };
+  const still = () => { sc.classList.remove('is-live'); sc.classList.add('is-still'); measure(); render(.75, 0); };
+  new ResizeObserver(() => { measure(); if (sc.classList.contains('is-still')) render(.75, 0); }).observe(sc);
+  window.__scene = { v, render, measure };                /* handle for visual tests */
+  const key = !reduce.matches && makeKeyer(c);
+  if (!key) return still();
+  c.width = 1600; c.height = 900; key.geo(0, 0);
+  let loops = 0, lastT = -1, seen = false, live = false;
+  const tick = () => {
+    if (v.readyState >= 2 && v.duration) {
+      const t = v.currentTime;
+      if (t !== lastT) {
+        if (t < lastT - 1) loops++;                       /* the clip wrapped: the next strip is now the one in his hand */
+        if (key.draw(v) && !live) { live = true; sc.classList.remove('is-still'); sc.classList.add('is-live'); }
+        lastT = t; render(clamp(t / v.duration), loops % 3);
+      }
+    }
+    requestAnimationFrame(tick);
+  };
+  still(); tick();
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !seen) { seen = true; v.src = v.dataset.src; v.load(); }
+    if (!seen) return;
+    if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+  }, { rootMargin: '200px 0px' }).observe(sc);
+})();
+
+/* ---------- The flying reader: one pass from the left, a rest, one pass from the right ---------- */
+(() => {
+  const d = $('#drone'), sec = d && d.parentElement; if (!d) return;
+  if (reduce.matches || !d.animate) return d.classList.add('is-still');
+  const v = $('video', d), c = $('canvas', d), key = makeKeyer(c);
+  let pass = 0, fly = null, rest = 0, on = false, lastT = -1;
+  if (key) {
+    key.geo(0, 0);
+    const tick = () => {
+      if (on && v.readyState >= 2 && v.currentTime !== lastT && key.draw(v)) { lastT = v.currentTime; d.classList.add('is-live'); }
+      requestAnimationFrame(tick);
+    };
+    tick();
+  }
+  const go = () => {
+    rest = 0;
+    const W = sec.clientWidth, H = sec.clientHeight, w = d.offsetWidth, h = d.offsetHeight, ltr = pass % 2 === 0;
+    /* upper band on the way out, lower band on the way back, never the same line twice */
+    const y0 = H * (ltr ? .1 + Math.random() * .12 : .5 + Math.random() * .16), y1 = y0 + H * (Math.random() * .12 - .06);
+    const x0 = ltr ? -w * 1.2 : W + w * .2, x1 = ltr ? W + w * .2 : -w * 1.2, flip = ltr ? '' : ' scaleX(-1)';   /* it always faces the way it flies */
+    d.classList.add('is-on');
+    fly = d.animate([{ transform: `translate3d(${x0}px,${y0}px,0)${flip}` }, { transform: `translate3d(${x1}px,${Math.min(H - h, y1)}px,0)${flip}` }],
+      { duration: Math.max(7000, (W + w * 1.4) / 150 * 1000), easing: 'linear', fill: 'both' });   /* constant motion: linear, about 150px a second */
+    fly.onfinish = () => { pass++; fly = null; rest = setTimeout(go, 2600 + Math.random() * 2200); };
+  };
+  new IntersectionObserver(([e]) => {
+    on = e.isIntersecting;
+    if (on && key && !v.src) { v.src = v.dataset.src; v.load(); }
+    if (on) { v.play().catch(() => {}); if (fly) fly.play(); else if (!rest) rest = setTimeout(go, 900); }
+    else { v.pause(); if (fly) fly.pause(); else { clearTimeout(rest); rest = 0; } }
+  }, { threshold: .05 }).observe(sec);
 })();
 
 /* ---------- Ticker: three hidden copies make the -25% loop seamless ---------- */
