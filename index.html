@@ -135,19 +135,16 @@ svg{display:block}
    at runtime, so it works in every browser without an alpha video format.
    He walks in front of the copy; the canvas ignores the pointer, so links stay clickable. */
 .hero{--fxw:clamp(900px,min(100vw,(100vh - 150px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638);display:grid;align-content:center}
-.hero__fx{position:absolute;right:0;bottom:0;width:var(--fxw);aspect-ratio:1600/902;pointer-events:none;z-index:3;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%);mask-image:linear-gradient(90deg,transparent,#000 9%)}
-.hero__fx img,.hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero__fx{position:absolute;left:0;right:0;bottom:0;height:calc(var(--fxw)*.5638);pointer-events:none;z-index:3}
+.hero__fx img{position:absolute;right:0;top:0;width:var(--fxw);height:100%}
+.hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
 .hero__fx canvas,.hero__fx img{opacity:0}
 .hero__fx.is-live canvas,.hero__fx.is-still img{opacity:1}
-.hero__replay{position:absolute;right:var(--gutter);bottom:16px;z-index:4;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font-size:var(--fs-small);font-weight:500;cursor:pointer;transition:transform 140ms var(--ease-out),opacity 300ms var(--ease-out)}
-.hero__replay[hidden]{display:none}
-.hero__replay:active{transform:scale(.97)}
-@starting-style{.hero__replay{opacity:0}}
 .hero__fx video{position:absolute;width:2px;height:2px;opacity:0}
 @media (max-width:1000px){
   .hero{min-height:0;display:block;padding-bottom:0}
-  .hero__fx{width:126%;-webkit-mask-image:none;mask-image:none}
+  .hero__fx{left:auto;width:126%;height:auto;aspect-ratio:1600/902}
+  .hero__fx img{width:100%}
   .hero__space{height:68vw}
 }
 @media (max-width:600px){.hero__fx{width:165%}.hero__space{height:90vw}}
@@ -695,8 +692,14 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}'));
-  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, `precision mediump float;uniform sampler2D t;varying vec2 uv;
-    void main(){vec3 c=texture2D(t,uv).rgb;
+  /* The canvas is as wide as the hero; the clip is drawn at its right end (from x = vs).
+     Left of the split, the picture can slide further left by "shift", so a character who
+     walks out of the clip keeps going to the real edge of the screen. */
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, `precision mediump float;uniform sampler2D t;uniform float vs,shift,split;varying vec2 uv;
+    void main(){float w=1.-vs;float vx=(uv.x-vs)/w;
+      if(vx<split){vx=(uv.x+shift-vs)/w;if(vx>=split){gl_FragColor=vec4(0.);return;}}
+      if(vx<0.||vx>1.){gl_FragColor=vec4(0.);return;}
+      vec3 c=texture2D(t,vec2(vx,uv.y)).rgb;
       float m=min(c.r,c.b)-c.g;                 /* how magenta this pixel is: ~0.87 on the backdrop, <0.1 on the art */
       float a=1.-smoothstep(.18,.55,m);
       float s=max(m-.06,0.);c.r-=s;c.b-=s;      /* pull the pink fringe out of edge pixels */
@@ -713,10 +716,23 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
      0 walks in, hops up, sneezes, walks off left · 1 comes back and falls asleep · 2 sleeps (loops) */
   const HOLD_AT = 8.2, HOLD = 2200, GAP = 900;
   let cur = 0, want = false, onScreen = true, held = false, live = false, lastT = -1, timer = 0;
+  /* geometry: where the clip starts inside the canvas (0 when the clip is as wide as the box) */
+  const U = { vs: gl.getUniformLocation(prog, 'vs'), shift: gl.getUniformLocation(prog, 'shift'), split: gl.getUniformLocation(prog, 'split') };
+  const SPLIT = .52, EXIT_FROM = 11.95, EXIT_TO = 14.3;   /* clip 0: he is clear of the stack, then out of frame */
+  let vs = 0;
+  const fit = () => {
+    const box = fx.clientWidth, clipW = Math.min(box, $('img', fx).getBoundingClientRect().width || box);
+    vs = Math.max(0, 1 - clipW / box);
+    c.width = Math.min(3200, Math.round(1600 * box / clipW)); c.height = 902;
+    gl.viewport(0, 0, c.width, c.height); gl.uniform1f(U.vs, vs); gl.uniform1f(U.split, SPLIT); lastT = -1;
+  };
+  fit(); new ResizeObserver(fit).observe(fx);
   const draw = (force) => {
     const v = clips[cur];
     if (v.readyState < 2 || (!force && v.currentTime === lastT)) return;
     try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); } catch (e) { return; }
+    const p = cur === 0 ? Math.min(1, Math.max(0, (v.currentTime - EXIT_FROM) / (EXIT_TO - EXIT_FROM))) : 0;
+    gl.uniform1f(U.shift, vs * p * p * (3 - 2 * p));     /* eased, so the extra slide has no start or stop jolt */
     lastT = v.currentTime; gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     if (!live) { live = true; fx.classList.remove('is-still'); fx.classList.add('is-live'); }
   };
