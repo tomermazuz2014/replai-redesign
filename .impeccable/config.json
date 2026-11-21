@@ -1,0 +1,47 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "geist",
+        "createdAt": "2026-11-21T06:50:18.386Z",
+        "reason": "user confirmed: chose 'evolution' keeping the live site's brand font (Geist, measured on replaitech.ai)"
+      },
+      {
+        "rule": "overused-font",
+        "value": "geist mono",
+        "createdAt": "2026-11-21T06:50:18.393Z",
+        "reason": "agent decision: mono companion of the brand's own Geist family, used only for code and labels"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "src/index.html"
+        ],
+        "createdAt": "2026-11-21T06:50:18.414Z",
+        "reason": "agent decision: false positive; sections are full-bleed and the .wrap child supplies a 20-48px gutter, verified in 390px and 1440px screenshots"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "src/index.html"
+        ],
+        "createdAt": "2026-11-21T06:50:25.636Z",
+        "reason": "user confirmed: chose 'evolution' keeping the live site's palette; #fcfbf6 is the existing brand background"
+      },
+      {
+        "rule": "repeated-container-text",
+        "value": "*",
+        "files": [
+          "src/index.html"
+        ],
+        "createdAt": "2026-11-21T06:50:25.644Z",
+        "reason": "agent decision: literal COBOL keyword inside an illustrative source listing, not template copy"
+      }
+    ]
+  }
+}
