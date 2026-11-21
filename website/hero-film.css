@@ -7,7 +7,7 @@
   --film-span:.6;        /* share of the film's width shown on upright screens: the figure, the kite and a little air */
   position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:stretch;
   grid-template-columns:none;
-  min-height:max(520px,51vw,calc(100svh - var(--header-h,83px)));   /* on very wide, short windows the scene keeps its headroom under the copy */
+  min-height:max(520px,calc(100svh - var(--header-h,83px)));
   padding:clamp(26px,5.2vh,60px) 0 0;
   overflow:hidden;border-bottom:0;
   background:var(--paper,#f4f0e7);
@@ -48,11 +48,17 @@ html[data-effects-paused=true] #hero.hero--film .hero-wind,html[data-effects-red
     transform:translateX(-57%);
   }
 }
-@media(max-width:760px),(orientation:portrait) and (max-width:1100px){#hero.hero--film{min-height:max(520px,calc(100svh - var(--header-h,83px)))}}
 @media(max-width:760px){#hero.hero--film{padding-top:22px}}
 /* wide screens: the kite flies beside the copy, so the paragraph is kept clear of it */
 @media(min-width:761px){#hero.hero--film .hero-description{max-width:40rem}}
 @media(min-width:761px) and (min-aspect-ratio:9/5){#hero.hero--film .hero-description{max-width:36rem}}
+/* short, wide windows (most laptops): tighter copy, so the whole figure stays on the first screen under it */
+@media(min-width:761px) and (max-height:820px){
+  #hero.hero--film{padding-top:16px}
+  #hero.hero--film .hero-copy .eyebrow{margin-bottom:4px}
+  #hero.hero--film h1{font-size:clamp(3.1rem,4.3vw,4rem)}
+  #hero.hero--film .hero-description{font-size:1.15rem;line-height:1.5;margin-top:8px;max-width:35rem}
+}
 /* a phone held sideways: copy and scene side by side, so the whole hero still fits one screen */
 @media(max-height:520px) and (orientation:landscape){
   #hero.hero--film{flex-direction:row;align-items:center;padding:0;min-height:max(250px,calc(100svh - var(--header-h,83px)))}
