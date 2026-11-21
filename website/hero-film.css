@@ -1,14 +1,13 @@
 /* The hero as one living illustration.
-   The copy sits in the open sky; the film takes the rest of the first screen and is
-   sized so the flying kite rests clear of the text, whatever the window's shape; the kite
-   flies to the right of the copy while the figure steers it from the dune. */
+   On wide screens the scene fills the whole hero and the copy sits in its empty sky;
+   on upright screens it is a full-width band under the copy. */
 #hero.hero--film{
   --film-ratio:1.7881;   /* film width / height */
-  --film-sky:.08;        /* top share of the film that is only sky at every moment of the loop, so it may sit behind the copy */
-  --film-span:.8;        /* share of the film's width shown on phones: bird, kite and a little air */
+  --film-sky:.26;        /* top share of the film that is empty sky: on upright screens it may sit behind the copy */
+  --film-span:.6;        /* share of the film's width shown on upright screens: the figure, the kite and a little air */
   position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:stretch;
   grid-template-columns:none;
-  min-height:calc(100svh - var(--header-h,83px));
+  min-height:max(520px,51vw,calc(100svh - var(--header-h,83px)));   /* on very wide, short windows the scene keeps its headroom under the copy */
   padding:clamp(26px,5.2vh,60px) 0 0;
   overflow:hidden;border-bottom:0;
   background:var(--paper,#f4f0e7);
@@ -19,22 +18,12 @@
 #hero.hero--film .hero-copy .eyebrow{margin-left:auto;margin-right:auto}
 #hero.hero--film .hero-description{margin-left:auto;margin-right:auto;text-wrap:balance}
 
-/* the film is drawn on pure white and multiplied onto the page, so the paper shows through and it has no box */
-#hero.hero--film .hero-stage{position:relative;z-index:1;flex:1 1 auto;min-height:clamp(190px,30vw,340px);pointer-events:none;mix-blend-mode:multiply}
-#hero.hero--film .hero-film{
-  position:absolute;left:50%;bottom:0;
-  height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio)));
-  aspect-ratio:1924/1076;transform:translateX(-47%);   /* nudged right so the kite flies clear of the copy */
-}
-#hero.hero--film .hero-film-drift,#hero.hero--film .hero-film-media{position:absolute;inset:0}
+/* The scene covers the whole hero, edge to edge. It is drawn on pure white and multiplied onto
+   the page, so the paper shows through; the top-centre of the drawing is kept empty for the copy. */
+#hero.hero--film .hero-stage{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:multiply}
+#hero.hero--film .hero-film,#hero.hero--film .hero-film-drift,#hero.hero--film .hero-film-media{position:absolute;inset:0}
 #hero.hero--film .hero-film-drift{will-change:transform}
-/* when the film is narrower than the window, the landscape lines fade out instead of stopping dead */
-#hero.hero--film .hero-film-media{
-  -webkit-mask-image:linear-gradient(to right,transparent,#172c39 4%,#172c39 98%,transparent);
-  mask-image:linear-gradient(to right,transparent,#172c39 4%,#172c39 98%,transparent);
-}
-#hero.hero--film .hero-film[data-bleed] .hero-film-media{-webkit-mask-image:none;mask-image:none}
-#hero.hero--film .hero-film-still,#hero.hero--film .hero-film-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+#hero.hero--film .hero-film-still,#hero.hero--film .hero-film-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 100%}
 #hero.hero--film .hero-film-video{opacity:0;transition:opacity .5s ease}
 #hero.hero--film .hero-film.is-filming .hero-film-video{opacity:1}
 /* the still is the film's own first frame, so motion off simply shows the still */
@@ -48,36 +37,35 @@ html[data-effects-reduced=true] #hero.hero--film .hero-film-video{opacity:0!impo
 html[data-effects-paused=true] #hero.hero--film .hero-wind,html[data-effects-reduced=true] #hero.hero--film .hero-wind{opacity:0}
 @media print{#hero.hero--film .hero-wind{display:none}}
 
-/* upright screens: the figure stays large, the far edges of the landscape run off-screen,
-   and the copy is centred in the space above the scene */
+/* upright screens: a full-screen crop would lose the figure, so the scene becomes a full-width band
+   at the bottom, cropped to the figure and the kite, with the copy centred in the space above it */
 @media(max-width:760px),(orientation:portrait) and (max-width:1100px){
-  #hero.hero--film .hero-stage{flex:0 1 calc(100vw / var(--film-ratio) / var(--film-span) * (1 - var(--film-sky)));min-height:min(50vw,250px)}
+  #hero.hero--film .hero-stage{position:relative;inset:auto;flex:0 1 calc(100vw / var(--film-ratio) / var(--film-span) * (1 - var(--film-sky)));min-height:min(50vw,250px)}
   #hero.hero--film .hero-copy{margin-block:auto;padding-bottom:14px}
   #hero.hero--film .hero-film{
+    inset:auto;left:50%;bottom:0;aspect-ratio:1924/1076;
     height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio) / var(--film-span)));
-    transform:translateX(-57.5%);
+    transform:translateX(-57%);
   }
-  #hero.hero--film .hero-film .hero-film-media{-webkit-mask-image:none;mask-image:none}
 }
+@media(max-width:760px),(orientation:portrait) and (max-width:1100px){#hero.hero--film{min-height:max(520px,calc(100svh - var(--header-h,83px)))}}
 @media(max-width:760px){#hero.hero--film{padding-top:22px}}
 /* wide screens: the kite flies beside the copy, so the paragraph is kept clear of it */
 @media(min-width:761px){#hero.hero--film .hero-description{max-width:40rem}}
+@media(min-width:761px) and (min-aspect-ratio:9/5){#hero.hero--film .hero-description{max-width:36rem}}
 /* a phone held sideways: copy and scene side by side, so the whole hero still fits one screen */
 @media(max-height:520px) and (orientation:landscape){
   #hero.hero--film{flex-direction:row;align-items:center;padding:0;min-height:max(250px,calc(100svh - var(--header-h,83px)))}
   #hero.hero--film .hero-copy{flex:0 0 45%;width:45%;padding:10px 1vw 10px 5vw;text-align:left}
+  #hero.hero--film .hero-copy::before{display:none}
   #hero.hero--film .hero-copy .eyebrow{margin:0 0 6px}
   #hero.hero--film h1{font-size:clamp(2.2rem,6.2vw,3.2rem);line-height:1}
   #hero.hero--film h1 br{display:inline}
   #hero.hero--film .hero-description{font-size:1rem;line-height:1.45;margin:10px 0 0;max-width:34ch;text-wrap:pretty}
-  #hero.hero--film .hero-stage{align-self:stretch;min-height:0}
+  #hero.hero--film .hero-stage{position:relative;inset:auto;flex:1 1 auto;align-self:stretch;min-height:0}
   #hero.hero--film .hero-wind{-webkit-mask-image:linear-gradient(to right,transparent 42%,#172c39 56%);mask-image:linear-gradient(to right,transparent 42%,#172c39 56%)}
-  #hero.hero--film .hero-film{height:min(120%,calc(55vw / var(--film-ratio) / .7));transform:translateX(-60%)}
-  #hero.hero--film .hero-film .hero-film-media,
-  #hero.hero--film .hero-film[data-bleed] .hero-film-media{
-    -webkit-mask-image:linear-gradient(to right,transparent 10%,#172c39 26%);
-    mask-image:linear-gradient(to right,transparent 10%,#172c39 26%);
-  }
+  #hero.hero--film .hero-film{inset:auto;left:50%;bottom:0;aspect-ratio:1924/1076;height:calc(55vw / var(--film-ratio) / .62);transform:translateX(-57%)}
+  #hero.hero--film .hero-film-media{-webkit-mask-image:linear-gradient(to right,transparent 12%,#172c39 28%);mask-image:linear-gradient(to right,transparent 12%,#172c39 28%)}
 }
 /* the italic line becomes its own box so it can move; the word space the hidden line break gave is kept */
 @media(min-width:761px){#hero.hero--film h1 em{display:inline-block;margin-left:.2em}}

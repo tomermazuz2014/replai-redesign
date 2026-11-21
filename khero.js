@@ -18,7 +18,7 @@ const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascrip
   await page.screenshot({ path: `shots/${name}.png` });
   const r = await page.evaluate(() => {
     const hero = document.querySelector('#hero'), v = hero.querySelector('video'), film = hero.querySelector('.hero-film'), d = hero.querySelector('.hero-description').getBoundingClientRect(), f = film.getBoundingClientRect(), hr = hero.getBoundingClientRect();
-    return { src: v.currentSrc.split('/').pop(), paused: v.paused, t: +v.currentTime.toFixed(2), filming: film.classList.contains('is-filming'), videoOpacity: getComputedStyle(v).opacity, heroBottom: Math.round(hr.bottom), viewport: innerHeight, film: [Math.round(f.width), Math.round(f.height)], bleed: film.hasAttribute('data-bleed'), kiteHighest: Math.round(f.top + f.height * 0.03), copyBottom: Math.round(d.bottom), clearance: Math.round(f.top + f.height * 0.03 - d.bottom), hScroll: document.documentElement.scrollWidth > innerWidth };
+    return { src: v.currentSrc.split('/').pop(), paused: v.paused, t: +v.currentTime.toFixed(2), filming: film.classList.contains('is-filming'), videoOpacity: getComputedStyle(v).opacity, heroBottom: Math.round(hr.bottom), viewport: innerHeight, film: [Math.round(f.width), Math.round(f.height)], bleed: film.hasAttribute('data-bleed'), kiteHighest: Math.round(f.top + f.height * 0.30), copyBottom: Math.round(d.bottom), clearance: Math.round(f.top + f.height * 0.30 - d.bottom), hScroll: document.documentElement.scrollWidth > innerWidth };
   });
   await page.evaluate(() => scrollTo(0, 300)); await page.waitForTimeout(300);
   r.driftAt300 = await page.evaluate(() => document.querySelector('.hero-film-drift').style.transform);
