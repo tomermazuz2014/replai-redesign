@@ -143,23 +143,28 @@ html{scroll-padding-top:104px}
 /* Plai's clip. One H.264 file on flat magenta, keyed to transparent on a canvas
    at runtime, so it works in every browser without an alpha video format.
    He walks in front of the copy; the canvas ignores the pointer, so links stay clickable. */
-.hero{--fxw:clamp(900px,min(100vw,(100vh - 64px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638);display:grid;align-content:center}
-.hero__fx{position:absolute;left:0;right:0;bottom:0;height:calc(var(--fxw)*.5638);pointer-events:none;z-index:3}
+/* The clip keeps 40px clear of the top of the page, so the highest point of his hop stays below the nav bar. */
+.hero{--fxw:clamp(900px,min(100vw,(100vh - 104px)*1.7897),1500px);--cw:var(--fxw);position:relative;min-height:calc(var(--fxw)*.5588 + 40px);display:grid;align-content:center}
+.hero__fx{position:absolute;left:0;right:0;bottom:0;height:calc(var(--fxw)*.5588);pointer-events:none;z-index:3}
 .hero__fx img{position:absolute;right:0;top:0;width:var(--fxw);height:100%}
 .hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
 .hero__fx canvas,.hero__fx img{opacity:0}
 .hero__fx.is-live canvas,.hero__fx.is-still img{opacity:1}
 .hero__fx video{position:absolute;width:2px;height:2px;opacity:0}
+/* Plai himself is the control: click him asleep and he wakes, click him awake and he grabs at the pointer. */
+.hero__plai{position:absolute;right:calc(var(--cw)*.165);width:calc(var(--cw)*.24);top:21%;height:43%;padding:0;border:0;border-radius:28px;background:none;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hero__plai[hidden]{display:none}
+.hero__plai:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .hero__replay{position:absolute;right:var(--gutter);bottom:16px;z-index:4;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font-family:var(--sans);font-size:var(--fs-small);font-weight:450;cursor:pointer;transition:transform 140ms var(--ease-out)}
 .hero__replay[hidden]{display:none}
 .hero__replay:active{transform:scale(.97)}
 @media (max-width:1000px){
-  .hero{min-height:0;display:block;padding-bottom:0}
-  .hero__fx{left:auto;width:126%;height:auto;aspect-ratio:1600/902}
+  .hero{--cw:100%;min-height:0;display:block;padding-bottom:0}
+  .hero__fx{left:auto;width:126%;height:auto;aspect-ratio:1600/894}
   .hero__fx img{width:100%}
   .hero__space{height:68vw}
 }
-@media (max-width:600px){.hero__fx{width:165%}.hero__space{height:90vw}}
+@media (max-width:600px){.hero__fx{width:200%;right:-5%}.hero__space{height:86vw}.hero__replay{right:auto;left:var(--gutter)}}
 
 /* ---------- Code to context ---------- */
 .reads{background:#e8f4eb;padding-block:clamp(72px,9vw,120px)}
@@ -437,14 +442,18 @@ html{scroll-padding-top:104px}
 
 <!-- ============ HERO ============ -->
 <section class="hero" aria-labelledby="h1">
-  <div class="hero__fx" id="heroFx" aria-hidden="true">
-    <img class="hero__poster" src="assets/plai-sleep-poster.webp" alt="" width="1600" height="902" decoding="async">
-    <canvas width="1600" height="902"></canvas>
-    <video src="assets/plai-hero.mp4" muted playsinline preload="auto" tabindex="-1"></video>
-    <video data-src="assets/plai-return.mp4" muted playsinline preload="none" tabindex="-1"></video>
-    <video data-src="assets/plai-sleep.mp4" muted playsinline loop preload="none" tabindex="-1"></video>
+  <div class="hero__fx" id="heroFx">
+    <img class="hero__poster" src="assets/plai-sleep-poster.webp" alt="" width="1600" height="894" decoding="async">
+    <canvas width="1600" height="894" aria-hidden="true"></canvas>
+    <video src="assets/plai-story.mp4" muted playsinline preload="auto" tabindex="-1" aria-hidden="true"></video>
+    <video data-src="assets/plai-return.mp4" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    <video data-src="assets/plai-sleep.mp4" muted playsinline loop preload="none" tabindex="-1" aria-hidden="true"></video>
+    <video data-src="assets/plai-wake.mp4" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    <video data-src="assets/plai-idle.mp4" muted playsinline loop preload="none" tabindex="-1" aria-hidden="true"></video>
+    <video data-src="assets/plai-catch.mp4" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
+    <button class="hero__plai" id="heroPlai" type="button" aria-label="Wake Plai" hidden></button>
   </div>
-  <button class="hero__replay" id="heroReplay" type="button" hidden><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.200 5.200A5.600 5.600 0 1 1 2.600 9.400"/><path d="M6.200 5.400H3V2.200"/></svg>Wake Plai</button>
+  <button class="hero__replay" id="heroReplay" type="button" hidden><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.200 5.200A5.600 5.600 0 1 1 2.600 9.400"/><path d="M6.200 5.400H3V2.200"/></svg><span>Wake Plai</span></button>
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="label eyebrow rise">The living knowledge platform</p>
@@ -726,18 +735,21 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
   [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]
     .forEach(([k, val]) => gl.texParameteri(gl.TEXTURE_2D, k, val));
 
-  /* The story, three clips on one canvas:
-     0 walks in, hops up, sneezes, walks off left · 1 comes back and falls asleep · 2 sleeps (loops) */
-  const HOLD_AT = 8.2, HOLD = 2200, GAP = 900;
-  let cur = 0, want = false, onScreen = true, held = false, live = false, lastT = -1, timer = 0;
+  /* Six clips on one canvas.
+     STORY walks in, hops up, sneezes, walks off left · RETURN comes back and falls asleep · SLEEP loops
+     WAKE: poked awake, grumpy, then sits up · SIT loops · CATCH: grabs at the pointer, then back to SIT */
+  const STORY = 0, RETURN = 1, SLEEP = 2, WAKE = 3, SIT = 4, CATCH = 5;
+  const HOLD_AT = 7.3, HOLD = 1600, GAP = 900;
+  const plai = $('#heroPlai'), replayText = $('span', replay);
+  let cur = STORY, want = false, onScreen = true, held = false, live = false, lastT = -1, timer = 0;
   /* geometry: where the clip starts inside the canvas (0 when the clip is as wide as the box) */
   const U = { vs: gl.getUniformLocation(prog, 'vs'), shift: gl.getUniformLocation(prog, 'shift'), split: gl.getUniformLocation(prog, 'split') };
-  const SPLIT = .52, EXIT_FROM = 11.95, EXIT_TO = 14.3;   /* clip 0: he is clear of the stack, then out of frame */
+  const SPLIT = .545, EXIT_FROM = 11.9, EXIT_TO = 14.5;   /* STORY: he is clear of the stack, then out of frame */
   let vs = 0;
   const fit = () => {
     const box = fx.clientWidth, clipW = Math.min(box, $('img', fx).getBoundingClientRect().width || box);
     vs = Math.max(0, 1 - clipW / box);
-    c.width = Math.min(3200, Math.round(1600 * box / clipW)); c.height = 902;
+    c.width = Math.min(3200, Math.round(1600 * box / clipW)); c.height = 894;
     gl.viewport(0, 0, c.width, c.height); gl.uniform1f(U.vs, vs); gl.uniform1f(U.split, SPLIT); lastT = -1;
   };
   fit(); new ResizeObserver(fit).observe(fx);
@@ -745,7 +757,7 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
     const v = clips[cur];
     if (v.readyState < 2 || (!force && v.currentTime === lastT)) return;
     try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v); } catch (e) { return; }
-    const p = cur === 0 ? Math.min(1, Math.max(0, (v.currentTime - EXIT_FROM) / (EXIT_TO - EXIT_FROM))) : 0;
+    const p = cur === STORY ? Math.min(1, Math.max(0, (v.currentTime - EXIT_FROM) / (EXIT_TO - EXIT_FROM))) : 0;
     gl.uniform1f(U.shift, vs * p * p * (3 - 2 * p));     /* eased, so the extra slide has no start or stop jolt */
     lastT = v.currentTime; gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     if (!live) { live = true; fx.classList.remove('is-still'); fx.classList.add('is-live'); }
@@ -756,21 +768,41 @@ $$('.reel').forEach((r, i) => r.style.setProperty('--w', i ? 6 : 14));
     if (want && onScreen) v.play().catch(() => { if (!live) still(); });
     else v.pause();
   };
-  const show = (i) => { cur = i; lastT = -1; const v = clips[i]; v.currentTime = 0; want = true; sync(); replay.hidden = i !== 2; };
-  clips[0].addEventListener('playing', () => clips.slice(1).forEach((v) => { if (!v.src) { v.src = v.dataset.src; v.preload = 'auto'; v.load(); } }), { once: true });
-  clips[0].addEventListener('timeupdate', () => {
-    if (cur === 0 && !held && clips[0].currentTime >= HOLD_AT) {
+  const load = (...ids) => ids.forEach((i) => { const v = clips[i]; if (!v.getAttribute('src')) { v.src = v.dataset.src; v.preload = 'auto'; v.load(); } });
+  const ui = () => {                                   /* the controls exist once he is on the stack to stay */
+    const there = cur >= SLEEP;
+    plai.hidden = replay.hidden = !there;
+    plai.setAttribute('aria-label', cur === SLEEP ? 'Wake Plai' : 'Play with Plai');
+    replayText.textContent = cur === SLEEP ? 'Wake Plai' : 'Replay';
+  };
+  /* The canvas keeps the last frame it drew until the next clip has one, so a switch never flashes empty. */
+  const show = (i) => {
+    clips[cur].pause(); cur = i; lastT = -1; load(i);
+    const v = clips[i]; v.currentTime = 0; want = true; sync(); ui();
+    if (i === SLEEP) load(WAKE, SIT, CATCH);
+  };
+  const poke = () => { if (cur === SLEEP) show(WAKE); else if (cur === SIT) show(CATCH); };
+  clips[STORY].addEventListener('playing', () => load(RETURN, SLEEP), { once: true });
+  clips[STORY].addEventListener('timeupdate', () => {
+    if (cur === STORY && !held && clips[STORY].currentTime >= HOLD_AT) {
       held = true; want = false; sync();
       timer = setTimeout(() => { want = true; sync(); }, HOLD);
     }
   });
-  clips[0].addEventListener('ended', () => { want = false; timer = setTimeout(() => show(1), GAP); });
-  clips[1].addEventListener('ended', () => show(2));
+  clips[STORY].addEventListener('ended', () => { want = false; timer = setTimeout(() => show(RETURN), GAP); });
+  clips[RETURN].addEventListener('ended', () => show(SLEEP));
+  clips[WAKE].addEventListener('ended', () => show(SIT));
+  clips[CATCH].addEventListener('ended', () => show(SIT));
   clips.forEach((v) => v.addEventListener('seeked', () => draw(true)));
-  replay.addEventListener('click', () => { clearTimeout(timer); clips[cur].pause(); held = false; show(0); });
+  plai.addEventListener('click', poke);
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches) plai.addEventListener('pointerenter', () => { if (cur === SIT) show(CATCH); });
+  replay.addEventListener('click', () => {
+    if (cur === SLEEP) return poke();
+    clearTimeout(timer); held = false; show(STORY);
+  });
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); }, { threshold: .15 }).observe(fx);
-  tick(); show(0);
-  window.__heroClip = { clips, draw, show, get cur() { return cur; } };   /* handle for visual tests */
+  tick(); show(STORY);
+  window.__heroClip = { clips, draw, show, poke, get cur() { return cur; } };   /* handle for visual tests */
 })();
 
 /* ---------- Ticker: three hidden copies make the -25% loop seamless ---------- */
