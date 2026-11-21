@@ -1,10 +1,16 @@
-// Inlines the Geist fonts so the prototype is one self-contained file.
+// Inlines the fonts and the hero still so the prototype is one self-contained file.
 const fs = require('fs');
 const path = require('path');
-const b64 = (p) => fs.readFileSync(path.join(__dirname, 'node_modules/geist/dist/fonts', p)).toString('base64');
-const fonts = `
-@font-face{font-family:"Geist";src:url(data:font/woff2;base64,${b64('geist-sans/Geist-Variable.woff2')}) format("woff2");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Geist Mono";src:url(data:font/woff2;base64,${b64('geist-mono/GeistMono-Variable.woff2')}) format("woff2");font-weight:100 900;font-display:swap}`;
+const b64 = (p) => fs.readFileSync(path.join(__dirname, p)).toString('base64');
+const face = (family, file, weight) => `@font-face{font-family:"${family}";src:url(data:font/woff2;base64,${b64(file)}) format("woff2");font-weight:${weight};font-style:normal;font-display:swap}`;
+// Type system: Poppins 600 for headings, DM Sans for everything else, DM Mono for code.
+const fonts = '\n' + [
+  face('Poppins', 'node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2', 600),
+  face('DM Sans', 'node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2', '100 1000'),
+  face('DM Mono', 'node_modules/@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2', 400),
+  face('DM Mono', 'node_modules/@fontsource/dm-mono/files/dm-mono-latin-500-normal.woff2', 500),
+  face('Replai Logo', 'src/geist-logo.woff2', '100 900'), // six glyphs, wordmark only
+].join('\n');
 const src = fs.readFileSync(path.join(__dirname, 'src/index.html'), 'utf8');
 fs.mkdirSync(path.join(__dirname, 'dist'), { recursive: true });
 const out = path.join(__dirname, 'dist/replai-redesign.html');
