@@ -80,7 +80,7 @@ svg{display:block}
 
 /* ---------- Buttons: one flat pill in the logo blue, everywhere (press = transform only) ---------- */
 .btn{position:relative;display:inline-block;border:0;padding:0;background:none;border-radius:999px;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.btn__face{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:inherit;background:var(--spark);color:var(--ink);font-weight:450;font-size:var(--fs-body);letter-spacing:0;transition:transform 140ms var(--ease-out),background-color 150ms ease}
+.btn__face{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;min-height:52px;padding:0 24px;border-radius:inherit;background:var(--spark);color:var(--ink);font-weight:450;font-size:var(--fs-body);letter-spacing:0;transition:transform 140ms var(--ease-out),background-color 150ms ease}
 .btn:active .btn__face{transform:scale(.97)}
 .btn--sm .btn__face{min-height:46px;padding:0 22px}
 .btn .play{width:22px;height:22px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex:none}
@@ -111,7 +111,12 @@ html{scroll-padding-top:104px}
 .nav .btn__face{min-height:44px}
 .nav__menu{display:none;width:44px;height:44px;border:0;background:none;border-radius:14px;cursor:pointer;place-items:center}
 .nav__menu span{display:block;width:20px;height:2px;background:var(--ink);box-shadow:0 6px 0 var(--ink),0 -6px 0 var(--ink)}
-@media (max-width:900px){
+@media (max-width:1000px){
+  .nav__in{grid-template-columns:auto 1fr auto;gap:var(--s2);padding:0 10px 0 16px}
+  .nav__links{justify-self:center;gap:0}
+  .nav__links a{padding:0 10px;font-size:.8125rem}
+}
+@media (max-width:820px){
   html{scroll-padding-top:88px}
   .nav{top:12px}
   .nav__in{grid-template-columns:1fr auto;gap:var(--s2);min-height:60px;padding:0 8px 0 16px;border-radius:20px}
@@ -127,7 +132,8 @@ html{scroll-padding-top:104px}
 /* ---------- Hero ---------- */
 .hero{background:var(--mint);padding-block:calc(88px + clamp(28px,3.4vw,48px)) 0;overflow:hidden}
 .hero__grid{display:grid;gap:var(--s5);padding-bottom:clamp(40px,5vw,72px);align-items:center;width:100%}
-@media (min-width:1001px){.hero__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7)}}
+/* side by side on desktop, and on any screen held in landscape */
+@media (min-width:1001px),(orientation:landscape){.hero__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s7)}}
 .hero__copy{display:grid;justify-items:start}
 .hero h1{font-size:var(--fs-display);line-height:var(--lh-display);letter-spacing:var(--ls-display);margin-top:var(--s5)}
 .hero h1 em{font-style:normal;color:var(--spark)}   /* the logo's spark blue */
@@ -138,7 +144,6 @@ html{scroll-padding-top:104px}
 .hero__trust{display:flex;align-items:center;gap:10px;font-size:var(--fs-small);color:var(--muted)}
 .hero__stack{font-size:var(--fs-small);color:#2a3d36}
 .hero__stack a{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink);font-weight:450}
-@media (max-width:520px){.hero__cta .btn{width:100%}.hero__cta .btn__face{width:100%}}
 
 /* Plai's clip. One H.264 file on flat magenta, keyed to transparent on a canvas
    at runtime, so it works in every browser without an alpha video format.
@@ -155,13 +160,42 @@ html{scroll-padding-top:104px}
 .hero__plai{position:absolute;right:calc(var(--cw)*.165);width:calc(var(--cw)*.24);top:21%;height:43%;padding:0;border:0;border-radius:28px;background:none;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hero__plai[hidden]{display:none}
 .hero__plai:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-@media (max-width:1000px){
+/* Portrait tablets: the copy first, Plai below it. */
+@media (max-width:1000px) and (orientation:portrait){
   .hero{--cw:100%;min-height:0;display:block;padding-bottom:0}
   .hero__fx{left:auto;width:126%;height:auto;aspect-ratio:1600/894}
   .hero__fx img{width:100%}
   .hero__space{height:68vw}
 }
-@media (max-width:600px){.hero__fx{width:200%;right:-5%}.hero__space{height:86vw}}
+/* Portrait phones: the whole hero, Plai included, fits one screen with no scrolling.
+   The copy is set tighter and the clip takes exactly the height the copy leaves (--fh);
+   the top 28% of the clip is air for his hop, so only the lower 72% needs to clear the text. */
+@media (max-width:600px) and (orientation:portrait){
+  .hero{--fh:clamp(250px,(100svh - 512px)/.72,480px);--fw:calc(var(--fh)*1.7897);min-height:100svh;padding-top:84px;display:flex;flex-direction:column}
+  .hero__grid{flex:1;display:flex;flex-direction:column;align-items:stretch;gap:0;padding-bottom:0}
+  .hero__space{flex:1;height:auto;min-height:calc(var(--fh)*.72)}
+  .hero__fx{width:var(--fw);height:var(--fh);aspect-ratio:auto;right:min(-2%,calc(50% - var(--fw)*.2925))}
+  .hero h1{font-size:clamp(2.25rem,11vw,2.75rem);margin-top:var(--s3)}
+  .hero .lead{font-size:1rem;line-height:1.5;margin-top:var(--s3)}
+  .hero__copy{min-width:0}
+  .hero__cta{gap:0 var(--s4);margin-top:var(--s4)}
+  .hero__cta .btn__face{min-height:48px;padding:0 18px;font-size:.9375rem;white-space:nowrap}
+  .hero__cta .link{font-size:.9375rem;white-space:nowrap}
+  .hero__foot{gap:0;margin-top:var(--s3)}
+}
+/* A phone held in landscape gets the desktop composition, set a size smaller. */
+@media (max-height:540px) and (orientation:landscape){
+  .hero{--fxw:max(520px,min(100vw,(100vh - 56px)*1.7897));padding-top:68px;min-height:calc(var(--fxw)*.5588 + 24px)}
+  .hero__grid{padding-bottom:var(--s4)}
+  .hero h1{font-size:clamp(1.875rem,4.6vw,2.5rem);margin-top:var(--s2)}
+  .hero .lead{font-size:.9375rem;line-height:1.5;margin-top:var(--s3);max-width:26rem}
+  .hero__cta{margin-top:var(--s4)}
+  .hero .btn__face{min-height:44px}
+  .hero__foot{gap:0;margin-top:var(--s2)}
+  .hero__trust{display:none}
+  .nav{top:8px}
+  .nav__in,.nav.is-scrolled .nav__in{min-height:52px}
+}
 
 /* ---------- What Replai actually does ---------- */
 .does{position:relative;background:var(--cream);padding-block:clamp(72px,9vw,120px);overflow-x:clip}
@@ -178,7 +212,9 @@ html{scroll-padding-top:104px}
 .drone.is-still .drone__bob{animation:none}
 .does__grid{display:grid;gap:var(--s7)}
 @media (min-width:1001px){.does__grid{grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:var(--s8)}}
+@media (min-width:640px) and (max-width:1000px) and (orientation:landscape){.does__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6)}.does__copy{font-size:var(--fs-body)}}
 .does h2{font-size:clamp(1.875rem,1.2rem + 2vw,2.5rem)}
+.does h2 em{font-style:normal;color:var(--spark)}
 .does__copy{display:grid;gap:var(--s5);align-content:start;font-size:var(--fs-lead);line-height:1.7;color:#1e3a30;max-width:38rem}
 /* The scene. Everything is placed in % of the box, so it scales as one picture.
    The four slots are where a strip can rest: two in the floating pile, one beside his hand, one in his hand. */
@@ -202,19 +238,20 @@ html{scroll-padding-top:104px}
 /* the card grows out of the strip: the strip stays as its bottom line, the rule opens above it */
 .scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,52cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
 .scene__tag{display:flex;align-items:center;gap:8px;color:#2a3d36}
-.scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;border-radius:6px;background:var(--lav);color:var(--ink);font-weight:600;letter-spacing:.04em}
+.scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;border-radius:6px;background:#cdeffe;color:var(--ink);font-weight:600;letter-spacing:.04em}
 .scene__rule{font-size:clamp(.875rem,2.9cqw,1.0625rem);line-height:1.4;color:var(--ink)}
 .scene__src{font:normal 400 var(--fs-label)/1.4 var(--mono);color:var(--muted)}
 .scene__wire{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.scene__wire path{fill:none;stroke:#8f7ff0;stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
-.scene__node{position:absolute;display:grid;place-items:center;width:clamp(30px,7.6cqw,42px);aspect-ratio:1;border-radius:11px;background:#fff;color:#cfc8f5;box-shadow:inset 0 0 0 1.5px #cfc8f5;transform:translate(-50%,-50%);transition:background-color 260ms ease,color 260ms ease,box-shadow 260ms ease}
+.scene__wire path{fill:none;stroke:var(--spark);stroke-width:2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.scene__node{position:absolute;display:grid;place-items:center;width:clamp(30px,7.6cqw,42px);aspect-ratio:1;border-radius:11px;background:#fff;color:#b5e6fb;box-shadow:inset 0 0 0 1.5px #b5e6fb;transform:translate(-50%,-50%);transition:background-color 260ms ease,color 260ms ease,box-shadow 260ms ease}
 .scene__node span{width:34%;aspect-ratio:1;border-radius:2px;background:currentColor;transform:rotate(45deg)}
-.scene__node.on{background:var(--lav);color:#6a57e0;box-shadow:inset 0 0 0 1.5px #8f7ff0,0 0 0 6px rgba(143,127,240,.18)}
+.scene__node.on{background:#cdeffe;color:var(--spark-deep);box-shadow:inset 0 0 0 1.5px var(--spark),0 0 0 6px rgba(0,184,252,.16)}
 .scene__node[data-n="0"]{left:90%;top:20%}
 .scene__node[data-n="1"]{left:74%;top:7%}
 .scene__spark{position:absolute;left:0;top:0;z-index:5;width:clamp(20px,5cqw,28px);height:auto;aspect-ratio:1;fill:var(--spark);filter:drop-shadow(0 0 6px rgba(0,184,252,.7));opacity:0;pointer-events:none;will-change:transform,opacity}
 /* a narrow scene is taller, and he sits a little smaller so the card has room */
-@media (max-width:520px){
+.does__lead{container-type:inline-size}
+@container (max-width:480px){
   .scene{aspect-ratio:5/6}
   .scene canvas,.scene__poster{left:-6%;width:132%}
   .scene__slot[data-slot="p0"]{left:14%;top:7%}
@@ -556,7 +593,7 @@ html{scroll-padding-top:104px}
   </div>
   <div class="wrap does__grid">
     <div class="does__lead">
-      <h2 id="doesT">What Replai Actually Does</h2>
+      <h2 id="doesT">What Replai <em>Actually</em> Does</h2>
       <!-- Plai's clip is the clock: the strips, the card and the nodes are drawn by the page and follow his hands. -->
       <div class="scene" id="scene" role="img" aria-label="Plai pulls a strip of legacy code toward him and passes the blue spark over it. The strip opens into a card with the business rule it holds, and a line from the card lights two nodes of the system map.">
         <canvas width="1600" height="900"></canvas>
