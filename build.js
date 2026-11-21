@@ -3,10 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const b64 = (p) => fs.readFileSync(path.join(__dirname, p)).toString('base64');
 const face = (family, file, weight) => `@font-face{font-family:"${family}";src:url(data:font/woff2;base64,${b64(file)}) format("woff2");font-weight:${weight};font-style:normal;font-display:swap}`;
-// Type system: Poppins 600 headings, Rubik 450 paragraphs, DM Sans 500 controls, DM Mono code.
+// Type system: Poppins 600 headings, Rubik 450 for all text and controls, DM Mono code.
 const fonts = '\n' + [
   face('Poppins', 'node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2', 600),
-  face('DM Sans', 'node_modules/@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2', '100 1000'),
   face('Rubik', 'node_modules/@fontsource-variable/rubik/files/rubik-latin-wght-normal.woff2', '300 900'),
   face('DM Mono', 'node_modules/@fontsource/dm-mono/files/dm-mono-latin-400-normal.woff2', 400),
   face('DM Mono', 'node_modules/@fontsource/dm-mono/files/dm-mono-latin-500-normal.woff2', 500),
