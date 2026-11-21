@@ -128,16 +128,14 @@ svg{display:block}
 
 /* Plai's clip. One H.264 file on flat magenta, keyed to transparent on a canvas
    at runtime, so it works in every browser without an alpha video format.
-   Depth: he passes in front of the body copy and behind the headline and buttons. */
+   He walks in front of the copy; the canvas ignores the pointer, so links stay clickable. */
 .hero{--fxw:clamp(900px,min(100vw,(100vh - 150px)*1.774),1500px);position:relative;min-height:calc(var(--fxw)*.5638 + 34px);display:grid;align-content:center}
-.hero__fx{position:absolute;right:0;bottom:34px;width:var(--fxw);aspect-ratio:1600/902;pointer-events:none;z-index:1;
+.hero__fx{position:absolute;right:0;bottom:34px;width:var(--fxw);aspect-ratio:1600/902;pointer-events:none;z-index:3;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%);mask-image:linear-gradient(90deg,transparent,#000 9%)}
 .hero__fx img,.hero__fx canvas{position:absolute;inset:0;width:100%;height:100%}
 .hero__fx canvas{opacity:0}
 .hero__fx.is-live canvas{opacity:1}.hero__fx.is-live img{opacity:0}
 .hero__fx video{position:absolute;width:2px;height:2px;opacity:0}
-.hero__copy > *{position:relative;z-index:0}
-.hero__copy > .eyebrow,.hero__copy > h1,.hero__copy > .hero__cta{z-index:2}
 .hero .seam{position:absolute;left:0;right:0;bottom:0}
 @media (max-width:1000px){
   .hero{min-height:0;display:block;padding-bottom:34px}
