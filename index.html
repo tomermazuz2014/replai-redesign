@@ -198,7 +198,7 @@ html{scroll-padding-top:104px}
 }
 
 /* ---------- What Replai actually does ---------- */
-.does{position:relative;background:var(--cream);padding-block:clamp(72px,9vw,120px);overflow-x:clip}
+.does{--dh:clamp(2rem,1.1rem + 2.6vw,3rem);--dp:clamp(1.125rem,.9rem + .5vw,1.3125rem);position:relative;background:var(--cream);padding-block:clamp(72px,9vw,120px);overflow-x:clip}
 /* The flying reader. The page moves it across; its own clip (keyed like Plai's) flaps the wings. */
 .drone{position:absolute;left:0;top:0;z-index:6;width:clamp(112px,13vw,184px);pointer-events:none;visibility:hidden;will-change:transform}
 .drone.is-on{visibility:visible}
@@ -213,20 +213,21 @@ html{scroll-padding-top:104px}
 .does__grid{display:grid;gap:var(--s7)}
 @media (min-width:1001px){.does__grid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--s8)}}
 @media (min-width:640px) and (max-width:1000px) and (orientation:landscape){.does__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s6)}.does__copy{font-size:var(--fs-body)}}
-.does h2{font-size:clamp(1.875rem,1.2rem + 2vw,2.5rem)}
+/* the heading sits a hair lower so the tops of its capitals line up with the first line of copy beside it */
+.does h2{font-size:var(--dh);margin-top:calc(var(--dp)*.476 - var(--dh)*.182)}
 .does h2 em{font-style:normal;color:var(--spark)}
-.does__copy{display:grid;gap:var(--s5);align-content:start;font-size:var(--fs-lead);line-height:1.7;color:#1e3a30;max-width:38rem}
+.does__copy{display:grid;gap:var(--s5);align-content:start;font-size:var(--dp);line-height:1.65;color:#1e3a30;max-width:38rem}
 /* The scene. Everything is placed in % of the box, so it scales as one picture.
    The four slots are where a strip can rest: two in the floating pile, one beside his hand, one in his hand. */
-.scene{--strip:clamp(28px,6.2cqw,34px);position:relative;container-type:inline-size;aspect-ratio:6/5;margin-top:var(--s6);max-width:700px}
-.scene canvas,.scene__poster{position:absolute;left:-5%;bottom:0;width:175%;max-width:none;height:auto;aspect-ratio:16/9;pointer-events:none;opacity:0}
+.scene{--strip:clamp(28px,6.2cqw,34px);position:relative;container-type:inline-size;aspect-ratio:1/1;margin-top:var(--s5);max-width:700px}
+.scene canvas,.scene__poster{position:absolute;left:-8%;bottom:0;width:215%;max-width:none;height:auto;aspect-ratio:16/9;pointer-events:none;opacity:0}
 .scene.is-live canvas,.scene.is-still .scene__poster{opacity:1}
 .scene video{position:absolute;width:2px;height:2px;opacity:0}
 .scene__slot{position:absolute;width:1px;height:1px}
-.scene__slot[data-slot="p0"]{left:26%;top:6%}
-.scene__slot[data-slot="p1"]{left:31%;top:16.5%}
-.scene__slot[data-slot="near"]{left:61%;top:57%}
-.scene__slot[data-slot="hand"]{left:54.5%;top:57%}
+.scene__slot[data-slot="p0"]{left:22%;top:4%}
+.scene__slot[data-slot="p1"]{left:27%;top:13%}
+.scene__slot[data-slot="near"]{left:73%;top:57%}
+.scene__slot[data-slot="hand"]{left:66%;top:57%}
 .scene__strip{position:absolute;left:0;top:0;z-index:3;will-change:transform}
 .scene__strip i{position:relative;overflow:hidden;display:flex;align-items:center;height:var(--strip);padding:0 clamp(10px,2.4cqw,14px);border-radius:9px;background:var(--forest);color:var(--bright);font:normal 500 clamp(.75rem,2.25cqw,.8125rem)/1 var(--mono);white-space:nowrap;box-shadow:0 2px 0 var(--night),0 12px 18px -12px rgba(11,41,29,.5);transition:box-shadow 240ms ease}
 .scene__strip i::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 25%,rgba(0,184,252,.6) 50%,transparent 75%);transform:translateX(var(--shine,-110%))}
@@ -236,9 +237,9 @@ html{scroll-padding-top:104px}
 .scene.is-live .scene__strip:nth-of-type(3) i{animation-delay:-2.4s}
 @keyframes bob{50%{transform:translateY(-4px)}}
 /* the card grows out of the strip: the strip stays as its bottom line, the rule opens above it */
-.scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,44cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
+.scene__card{position:absolute;left:0;top:0;z-index:2;display:grid;gap:8px;width:clamp(184px,40cqw,300px);padding:16px 16px calc(var(--strip) + 24px);border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);filter:drop-shadow(0 14px 16px rgba(11,41,29,.14));visibility:hidden;will-change:clip-path}
 .scene__tag{display:flex;align-items:center;gap:8px;color:#2a3d36}
-.scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;border-radius:6px;background:#cdeffe;color:var(--ink);font-weight:600;letter-spacing:.04em}
+.scene__tag b{display:inline-grid;place-items:center;height:20px;padding:0 7px;white-space:nowrap;border-radius:6px;background:#cdeffe;color:var(--ink);font-weight:600;letter-spacing:.04em}
 .scene__rule{font-size:clamp(.875rem,2.9cqw,1.0625rem);line-height:1.4;color:var(--ink)}
 .scene__src{font:normal 400 var(--fs-label)/1.4 var(--mono);color:var(--muted)}
 .scene__wire{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
@@ -246,21 +247,43 @@ html{scroll-padding-top:104px}
 .scene__node{position:absolute;display:grid;place-items:center;width:clamp(30px,7.6cqw,42px);aspect-ratio:1;border-radius:11px;background:#fff;color:#b5e6fb;box-shadow:inset 0 0 0 1.5px #b5e6fb;transform:translate(-50%,-50%);transition:background-color 260ms ease,color 260ms ease,box-shadow 260ms ease}
 .scene__node span{width:34%;aspect-ratio:1;border-radius:2px;background:currentColor;transform:rotate(45deg)}
 .scene__node.on{background:#cdeffe;color:var(--spark-deep);box-shadow:inset 0 0 0 2px var(--spark)}
-.scene__node[data-n="0"]{left:90%;top:20%}
-.scene__node[data-n="1"]{left:74%;top:7%}
+.scene__node[data-n="0"]{left:92%;top:22%}
+.scene__node[data-n="1"]{left:77%;top:9%}
 .scene__spark{position:absolute;left:0;top:0;z-index:5;width:clamp(20px,5cqw,28px);height:auto;aspect-ratio:1;fill:var(--spark);filter:drop-shadow(0 0 6px rgba(0,184,252,.7));opacity:0;pointer-events:none;will-change:transform,opacity}
 /* a narrow scene is taller, and he sits a little smaller so the card has room */
 .does__lead{container-type:inline-size}
 @container (max-width:480px){
-  .scene{aspect-ratio:5/6}
-  .scene canvas,.scene__poster{left:-8%;width:160%}
-  .scene__card{width:clamp(184px,52cqw,300px)}
-  .scene__slot[data-slot="p0"]{left:14%;top:7%}
-  .scene__slot[data-slot="p1"]{left:19%;top:16.5%}
-  .scene__slot[data-slot="near"]{left:52.5%;top:71.7%}
-  .scene__slot[data-slot="hand"]{left:45%;top:71.7%}
-  .scene__node[data-n="0"]{left:88%;top:19%}
-  .scene__node[data-n="1"]{left:71%;top:6%}
+  .scene{aspect-ratio:4/5}
+  .scene canvas,.scene__poster{left:-10%;width:190%}
+  .scene__card{width:clamp(160px,48cqw,300px)}
+  .scene__slot[data-slot="p0"]{left:10%;top:4%}
+  .scene__slot[data-slot="p1"]{left:15%;top:13%}
+  .scene__slot[data-slot="near"]{left:61.5%;top:68.3%}
+  .scene__slot[data-slot="hand"]{left:54%;top:68.3%}
+  .scene__node[data-n="0"]{left:88%;top:13%}
+  .scene__node[data-n="1"]{left:71%;top:4.5%}
+}
+
+/* A phone held in landscape: the whole section in one screen. The scene fills the left half;
+   the heading moves above the copy on the right, and the nodes sit beside the card instead of above it. */
+@media (max-height:540px) and (orientation:landscape){
+  .does{min-height:100svh;padding-block:60px 8px;display:grid;align-items:center}
+  .does__grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"scene head" "scene copy";column-gap:var(--s5);row-gap:var(--s2);align-content:center;width:100%}
+  .does__lead{display:contents}
+  .does h2{grid-area:head;align-self:end;margin-top:0;font-size:clamp(1.125rem,5.6vh,1.375rem)}
+  .does__copy{grid-area:copy;align-self:start;gap:6px;max-width:none;font-size:clamp(.75rem,3.1vh,.8125rem);line-height:1.45}
+  .scene{grid-area:scene;justify-self:center;align-self:center;width:min(100%,380px,(100svh - 80px)*1.25);aspect-ratio:5/4;margin-top:0}
+  .scene canvas,.scene__poster{left:-6%;width:150%}
+  .scene__card{width:clamp(140px,45cqw,300px);gap:6px;padding-top:12px}
+  .scene__tag{flex-wrap:wrap;gap:2px 8px}
+  .scene__rule{font-size:.8125rem}
+  .scene__src{display:none}
+  .scene__slot[data-slot="p0"]{left:0;top:4%}
+  .scene__slot[data-slot="p1"]{left:1%;top:15%}
+  .scene__slot[data-slot="near"]{left:50.5%;top:60.5%}
+  .scene__slot[data-slot="hand"]{left:44%;top:60.5%}
+  .scene__node[data-n="0"]{left:96.5%;top:62%}
+  .scene__node[data-n="1"]{left:96.5%;top:28%}
 }
 
 /* ---------- Code to context ---------- */
@@ -977,9 +1000,14 @@ const makeKeyer = (c) => {
     const { hand, sh } = G, ch = card.offsetHeight, cw = card.offsetWidth;
     G.card = [hand[0] - PAD, hand[1] + sh + PAD - ch, cw, ch];
     card.style.transform = `translate3d(${G.card[0]}px,${G.card[1]}px,0)`;
-    const [n0, n1] = G.n, r = 14, x = n0[0], y0 = G.card[1], y1 = n1[1], x1 = n1[0] + G.nr;
-    wire.setAttribute('d', `M${x} ${y0}V${y1 + r}Q${x} ${y1} ${x - r} ${y1}H${x1}`);
-    G.hit = clamp((y0 - n0[1]) / (y0 - y1 + (x - x1)));   /* how far along the wire the first node sits */
+    const [n0, n1] = G.n, r = 14, x = n0[0], y0 = G.card[1], y1 = n1[1], x1 = n1[0] + G.nr, right = G.card[0] + cw;
+    if (x > right) {                                      /* nodes beside the card: out of its right edge, then up */
+      wire.setAttribute('d', `M${right} ${n0[1]}H${x}V${y1 + G.nr}`);
+      G.hit = clamp((x - right) / (x - right + n0[1] - y1 - G.nr));
+    } else {                                              /* nodes above the card: up from its top edge, then across */
+      wire.setAttribute('d', `M${x} ${y0}V${y1 + r}Q${x} ${y1} ${x - r} ${y1}H${x1}`);
+      G.hit = clamp((y0 - n0[1]) / (y0 - y1 + (x - x1)));   /* how far along the wire the first node sits */
+    }
   };
   const measure = () => {
     const r = sc.getBoundingClientRect();
