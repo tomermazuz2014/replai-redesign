@@ -1,19 +1,20 @@
 /* The hero as one painted, living scene.
    The copy sits in the open sky; the film takes the rest of the first screen and is
-   sized so the kite never reaches the text, whatever the window's shape. */
+   sized so the flying kite rests clear of the text, whatever the window's shape; when the
+   gust takes it, it climbs past the headline on the right and comes back. */
 #hero.hero--film{
-  --film-ratio:1.8169;   /* film width / height */
+  --film-ratio:1.7881;   /* film width / height */
   --film-sky:.215;       /* top share of the film that is only sky at every moment of the loop, so it may sit behind the copy */
-  --film-span:.6;        /* share of the film's width shown on phones: bird, kite and a little air */
+  --film-span:.68;       /* share of the film's width shown on phones: bird, kite and a little air */
   position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:stretch;
   grid-template-columns:none;
   min-height:calc(100svh - var(--header-h,83px));
   padding:clamp(26px,5.2vh,60px) 0 0;
   overflow:hidden;border-bottom:0;
   /* the same pale sky wash as the painting, so the scene has no edge at any width */
-  background:linear-gradient(to bottom,rgb(221 234 237 / 0) 5%,rgb(221 234 237 / .95) 32%,rgb(221 234 237 / .95) 50%,rgb(221 234 237 / 0) 74%) var(--paper,#f4f0e7);
+  background:linear-gradient(to bottom,rgb(220 236 243 / 0) 4%,rgb(220 236 243 / .95) 24%,rgb(220 236 243 / .95) 50%,rgb(220 236 243 / 0) 74%) var(--paper,#f4f0e7);
 }
-#hero.hero--film .hero-copy{position:relative;z-index:2;flex:none;width:100%;padding:0 6vw;text-align:center;will-change:transform}
+#hero.hero--film .hero-copy{position:relative;z-index:3;flex:none;width:100%;padding:0 6vw;text-align:center;will-change:transform}
 #hero.hero--film .hero-copy .eyebrow{margin-left:auto;margin-right:auto}
 #hero.hero--film .hero-description{margin-left:auto;margin-right:auto;text-wrap:balance}
 
@@ -21,20 +22,20 @@
 #hero.hero--film .hero-film{
   position:absolute;left:50%;bottom:0;
   height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio)));
-  aspect-ratio:1940/1068;transform:translateX(-50%);
+  aspect-ratio:1924/1076;transform:translateX(-50%);
 }
 #hero.hero--film .hero-film-drift,#hero.hero--film .hero-film-media{position:absolute;inset:0}
 #hero.hero--film .hero-film-drift{will-change:transform}
 /* the sky melts into the page; when the film is narrower than the window its sides do too */
 #hero.hero--film .hero-film-media{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
   -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
+  mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
   mask-composite:intersect;
 }
 #hero.hero--film .hero-film[data-bleed] .hero-film-media{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
-  mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%);
+  mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%);
 }
 #hero.hero--film .hero-film-still,#hero.hero--film .hero-film-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
 #hero.hero--film .hero-film-video{opacity:0;transition:opacity .5s ease}
@@ -43,22 +44,31 @@
 html[data-effects-paused=true] #hero.hero--film .hero-film-video,
 html[data-effects-reduced=true] #hero.hero--film .hero-film-video{opacity:0!important}
 
+/* leaves on the wind: over the scene, behind the words */
+#hero.hero--film .hero-wind{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .6s ease}
+#hero.hero--film .hero-wind.is-live{opacity:1}
+#hero.hero--film .hero-leaf{position:absolute;left:0;top:0;display:block;overflow:visible;will-change:transform}
+html[data-effects-paused=true] #hero.hero--film .hero-wind,html[data-effects-reduced=true] #hero.hero--film .hero-wind{opacity:0}
+@media print{#hero.hero--film .hero-wind{display:none}}
+
 /* phones: show the bird and the kite large and let the far edges of the landscape run off-screen */
 @media(max-width:760px),(orientation:portrait) and (max-width:1100px){
   #hero.hero--film .hero-film{
     height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio) / var(--film-span)));
-    transform:translateX(-52.5%);
+    transform:translateX(-59%);
   }
   #hero.hero--film .hero-film .hero-film-media,
   #hero.hero--film .hero-film[data-bleed] .hero-film-media{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
-    mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%);
+    mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%);
   }
 }
-@media(max-width:760px){
-  #hero.hero--film{padding-top:clamp(26px,6.5svh,64px)}
-  #hero.hero--film .hero-stage{min-height:min(62vw,300px)}
+/* upright screens: the scene keeps its full size at the bottom and the copy is centred in the sky above it */
+@media(max-width:760px),(orientation:portrait) and (max-width:1100px){
+  #hero.hero--film .hero-stage{flex:0 1 calc(100vw / var(--film-ratio) / var(--film-span) * (1 - var(--film-sky)));min-height:min(50vw,250px)}
+  #hero.hero--film .hero-copy{margin-block:auto;padding-bottom:14px}
 }
+@media(max-width:760px){#hero.hero--film{padding-top:22px}}
 /* a phone held sideways: copy and scene side by side, so the whole hero still fits one screen */
 @media(max-height:520px) and (orientation:landscape){
   #hero.hero--film{flex-direction:row;align-items:center;padding:0;min-height:max(250px,calc(100svh - var(--header-h,83px)))}
@@ -68,12 +78,13 @@ html[data-effects-reduced=true] #hero.hero--film .hero-film-video{opacity:0!impo
   #hero.hero--film h1 br{display:inline}
   #hero.hero--film .hero-description{font-size:1rem;line-height:1.45;margin:10px 0 0;max-width:34ch;text-wrap:pretty}
   #hero.hero--film .hero-stage{align-self:stretch;min-height:0}
-  #hero.hero--film .hero-film{height:min(128%,calc(53vw / var(--film-ratio) / .56));transform:translateX(-52.5%)}
+  #hero.hero--film .hero-wind{-webkit-mask-image:linear-gradient(to right,transparent 42%,#172c39 56%);mask-image:linear-gradient(to right,transparent 42%,#172c39 56%)}
+  #hero.hero--film .hero-film{height:min(128%,calc(53vw / var(--film-ratio) / .66));transform:translateX(-60%)}
   #hero.hero--film .hero-film .hero-film-media,
   #hero.hero--film .hero-film[data-bleed] .hero-film-media{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent 16%,#172c39 34%);
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%),linear-gradient(to right,transparent 16%,#172c39 34%);
     -webkit-mask-composite:source-in;
-    mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent 16%,#172c39 34%);
+    mask-image:linear-gradient(to bottom,transparent 0,#172c39 11%),linear-gradient(to right,transparent 16%,#172c39 34%);
     mask-composite:intersect;
   }
 }
