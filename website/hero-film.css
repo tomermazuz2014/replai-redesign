@@ -1,0 +1,102 @@
+/* The hero as one painted, living scene.
+   The copy sits in the open sky; the film takes the rest of the first screen and is
+   sized so the kite never reaches the text, whatever the window's shape. */
+#hero.hero--film{
+  --film-ratio:1.8169;   /* film width / height */
+  --film-sky:.215;       /* top share of the film that is only sky at every moment of the loop, so it may sit behind the copy */
+  --film-span:.6;        /* share of the film's width shown on phones: bird, kite and a little air */
+  position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:stretch;
+  grid-template-columns:none;
+  min-height:calc(100svh - var(--header-h,83px));
+  padding:clamp(26px,5.2vh,60px) 0 0;
+  overflow:hidden;border-bottom:0;
+  /* the same pale sky wash as the painting, so the scene has no edge at any width */
+  background:linear-gradient(to bottom,rgb(221 234 237 / 0) 5%,rgb(221 234 237 / .95) 32%,rgb(221 234 237 / .95) 50%,rgb(221 234 237 / 0) 74%) var(--paper,#f4f0e7);
+}
+#hero.hero--film .hero-copy{position:relative;z-index:2;flex:none;width:100%;padding:0 6vw;text-align:center;will-change:transform}
+#hero.hero--film .hero-copy .eyebrow{margin-left:auto;margin-right:auto}
+#hero.hero--film .hero-description{margin-left:auto;margin-right:auto;text-wrap:balance}
+
+#hero.hero--film .hero-stage{position:relative;z-index:1;flex:1 1 auto;min-height:clamp(190px,30vw,340px);pointer-events:none}
+#hero.hero--film .hero-film{
+  position:absolute;left:50%;bottom:0;
+  height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio)));
+  aspect-ratio:1940/1068;transform:translateX(-50%);
+}
+#hero.hero--film .hero-film-drift,#hero.hero--film .hero-film-media{position:absolute;inset:0}
+#hero.hero--film .hero-film-drift{will-change:transform}
+/* the sky melts into the page; when the film is narrower than the window its sides do too */
+#hero.hero--film .hero-film-media{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent,#172c39 10%,#172c39 90%,transparent);
+  mask-composite:intersect;
+}
+#hero.hero--film .hero-film[data-bleed] .hero-film-media{
+  -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+  mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+}
+#hero.hero--film .hero-film-still,#hero.hero--film .hero-film-video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+#hero.hero--film .hero-film-video{opacity:0;transition:opacity .5s ease}
+#hero.hero--film .hero-film.is-filming .hero-film-video{opacity:1}
+/* the still is the film's own first frame, so motion off simply shows the still */
+html[data-effects-paused=true] #hero.hero--film .hero-film-video,
+html[data-effects-reduced=true] #hero.hero--film .hero-film-video{opacity:0!important}
+
+/* phones: show the bird and the kite large and let the far edges of the landscape run off-screen */
+@media(max-width:760px),(orientation:portrait) and (max-width:1100px){
+  #hero.hero--film .hero-film{
+    height:min(calc(100% / (1 - var(--film-sky))),calc(100vw / var(--film-ratio) / var(--film-span)));
+    transform:translateX(-52.5%);
+  }
+  #hero.hero--film .hero-film .hero-film-media,
+  #hero.hero--film .hero-film[data-bleed] .hero-film-media{
+    -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+    mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%);
+  }
+}
+@media(max-width:760px){
+  #hero.hero--film{padding-top:clamp(26px,6.5svh,64px)}
+  #hero.hero--film .hero-stage{min-height:min(62vw,300px)}
+}
+/* a phone held sideways: copy and scene side by side, so the whole hero still fits one screen */
+@media(max-height:520px) and (orientation:landscape){
+  #hero.hero--film{flex-direction:row;align-items:center;padding:0;min-height:max(250px,calc(100svh - var(--header-h,83px)))}
+  #hero.hero--film .hero-copy{flex:0 0 47%;width:47%;padding:10px 1vw 10px 5vw;text-align:left}
+  #hero.hero--film .hero-copy .eyebrow{margin:0 0 6px}
+  #hero.hero--film h1{font-size:clamp(2.2rem,6.2vw,3.2rem);line-height:1}
+  #hero.hero--film h1 br{display:inline}
+  #hero.hero--film .hero-description{font-size:1rem;line-height:1.45;margin:10px 0 0;max-width:34ch;text-wrap:pretty}
+  #hero.hero--film .hero-stage{align-self:stretch;min-height:0}
+  #hero.hero--film .hero-film{height:min(128%,calc(53vw / var(--film-ratio) / .56));transform:translateX(-52.5%)}
+  #hero.hero--film .hero-film .hero-film-media,
+  #hero.hero--film .hero-film[data-bleed] .hero-film-media{
+    -webkit-mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent 16%,#172c39 34%);
+    -webkit-mask-composite:source-in;
+    mask-image:linear-gradient(to bottom,transparent 1%,#172c39 20%),linear-gradient(to right,transparent 16%,#172c39 34%);
+    mask-composite:intersect;
+  }
+}
+
+/* the italic line becomes its own box so it can move; the word space the hidden line break gave is kept */
+@media(min-width:761px){#hero.hero--film h1 em{display:inline-block;margin-left:.2em}}
+@media(max-height:520px) and (orientation:landscape){#hero.hero--film h1 em{display:inline-block;margin-left:0}}
+
+/* entrance: the words arrive first, the scene settles in behind them */
+@media(prefers-reduced-motion:no-preference){
+  #hero.hero--film .hero-copy>*{animation:hero-rise .8s cubic-bezier(.23,1,.32,1) both}
+  #hero.hero--film .hero-copy>.eyebrow{animation-delay:.04s}
+  #hero.hero--film .hero-copy>h1{animation-delay:.12s}
+  #hero.hero--film .hero-copy>.hero-description{animation-delay:.24s}
+  #hero.hero--film .hero-film-media{animation:hero-scene 1.3s cubic-bezier(.23,1,.32,1) .08s both}
+  @media(min-width:761px){
+    #hero.hero--film h1 em{animation:hero-gust 1s cubic-bezier(.23,1,.32,1) .3s both}
+  }
+}
+html[data-effects-reduced=true] #hero.hero--film .hero-copy>*,
+html[data-effects-reduced=true] #hero.hero--film .hero-film-media,
+html[data-effects-reduced=true] #hero.hero--film h1 em{animation:none}
+@keyframes hero-rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes hero-scene{from{opacity:0;transform:translateY(22px) scale(1.025)}}
+@keyframes hero-gust{from{opacity:0;transform:translateX(-.16em) skewX(-7deg)}}
+@media print{#hero.hero--film .hero-film-video{display:none}}
