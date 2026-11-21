@@ -78,20 +78,16 @@ svg{display:block}
 
 .proto{margin:0;padding:8px var(--gutter);background:var(--night);color:var(--bright);text-align:center;letter-spacing:.06em}
 
-/* ---------- Buttons: a keycap that presses down (transform only) ---------- */
-.btn{position:relative;display:inline-block;border:0;padding:0;background:none;border-radius:12px;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
-.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--spark-deep);transform:translateY(3px)}
-.btn__face{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 20px;border-radius:inherit;background:var(--spark);color:var(--ink);font-weight:450;font-size:var(--fs-body);letter-spacing:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.35);transition:transform 140ms var(--ease-out)}
-.btn:active .btn__face{transform:translateY(2px)}
-.btn--sm .btn__face{min-height:44px;padding:0 16px;font-size:var(--fs-small)}
-.btn--light::before{background:#03100b}
-.btn--light .btn__face{background:var(--cream);color:var(--ink);box-shadow:none}
+/* ---------- Buttons: one flat pill in the logo blue, everywhere (press = transform only) ---------- */
+.btn{position:relative;display:inline-block;border:0;padding:0;background:none;border-radius:999px;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.btn__face{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:inherit;background:var(--spark);color:var(--ink);font-weight:450;font-size:var(--fs-body);letter-spacing:0;transition:transform 140ms var(--ease-out),background-color 150ms ease}
+.btn:active .btn__face{transform:scale(.97)}
+.btn--sm .btn__face{min-height:46px;padding:0 22px}
 .btn .play{width:22px;height:22px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex:none}
 .btn .play::after{content:"";border-left:8px solid var(--cream);border-block:5px solid transparent;margin-left:2px}
 .btn .arrow{transition:transform 180ms var(--ease-out)}
 @media (hover:hover) and (pointer:fine){
-  .btn:hover .btn__face{transform:translateY(-1px)}
-  .btn:hover:active .btn__face{transform:translateY(2px)}
+  .btn:hover .btn__face{background:#2cc6ff}
   .btn:hover .arrow{transform:translate(2px,-2px)}
 }
 .link{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-weight:450;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 calc(100% - 9px)/100% 1px no-repeat;transition:color 150ms ease}
@@ -557,7 +553,7 @@ svg{display:block}
 
           <div class="deck__foot">
             <p class="label status" id="status" role="status">Tape loaded</p>
-            <button class="btn btn--sm btn--light replay" id="replay" type="button"><span class="btn__face"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.200 5.200A5.600 5.600 0 1 1 2.600 9.400"/><path d="M6.200 5.400H3V2.200"/></svg>Replay</span></button>
+            <button class="btn btn--sm replay" id="replay" type="button"><span class="btn__face"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.200 5.200A5.600 5.600 0 1 1 2.600 9.400"/><path d="M6.200 5.400H3V2.200"/></svg>Replay</span></button>
           </div>
         </div>
 
