@@ -55,7 +55,7 @@ h1,h2,h3,p,ol,ul{margin:0}
 h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:var(--ls-heading);line-height:var(--lh-heading)}
 b,strong{font-weight:700}
 /* controls and labels share the body face */
-.btn__face,.nav__links a,.link,.chips li,.term,.ticker__list li,.hero__replay,.slot,.hero__stack{font-family:var(--sans)}
+.btn__face,.nav__links a,.link,.chips li,.term,.ticker__list li,.slot,.hero__stack{font-family:var(--sans)}
 ol,ul{padding:0;list-style:none}
 a{color:inherit}
 button,input{font:inherit;color:inherit}
@@ -150,16 +150,13 @@ html{scroll-padding-top:104px}
 .hero__plai{position:absolute;right:calc(var(--cw)*.165);width:calc(var(--cw)*.24);top:21%;height:43%;padding:0;border:0;border-radius:28px;background:none;pointer-events:auto;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .hero__plai[hidden]{display:none}
 .hero__plai:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.hero__replay{position:absolute;right:var(--gutter);bottom:16px;z-index:4;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.9);color:var(--ink);font-family:var(--sans);font-size:var(--fs-small);font-weight:450;cursor:pointer;transition:transform 140ms var(--ease-out)}
-.hero__replay[hidden]{display:none}
-.hero__replay:active{transform:scale(.97)}
 @media (max-width:1000px){
   .hero{--cw:100%;min-height:0;display:block;padding-bottom:0}
   .hero__fx{left:auto;width:126%;height:auto;aspect-ratio:1600/894}
   .hero__fx img{width:100%}
   .hero__space{height:68vw}
 }
-@media (max-width:600px){.hero__fx{width:200%;right:-5%}.hero__space{height:86vw}.hero__replay{right:auto;left:var(--gutter)}}
+@media (max-width:600px){.hero__fx{width:200%;right:-5%}.hero__space{height:86vw}}
 
 /* ---------- What Replai actually does ---------- */
 .does{position:relative;background:var(--cream);padding-block:clamp(72px,9vw,120px);overflow-x:clip}
@@ -511,7 +508,6 @@ html{scroll-padding-top:104px}
     <video data-src="assets/plai-catch.mp4" muted playsinline preload="none" tabindex="-1" aria-hidden="true"></video>
     <button class="hero__plai" id="heroPlai" type="button" aria-label="Wake Plai" hidden></button>
   </div>
-  <button class="hero__replay" id="heroReplay" type="button" hidden><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.200 5.200A5.600 5.600 0 1 1 2.600 9.400"/><path d="M6.200 5.400H3V2.200"/></svg><span>Wake Plai</span></button>
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <p class="label eyebrow rise">The living knowledge platform</p>
@@ -844,7 +840,7 @@ const makeKeyer = (c) => {
   const fx = $('#heroFx'); if (!fx) return;
   const still = () => fx.classList.add('is-still');                   /* the sleeping still */
   if (reduce.matches) return still();
-  const clips = $$('video', fx), c = $('canvas', fx), replay = $('#heroReplay');
+  const clips = $$('video', fx), c = $('canvas', fx);
   const key = makeKeyer(c);
   if (!key) return still();
 
@@ -853,7 +849,7 @@ const makeKeyer = (c) => {
      WAKE: poked awake, grumpy, then sits up · SIT loops · CATCH: grabs at the pointer, then back to SIT */
   const STORY = 0, RETURN = 1, SLEEP = 2, WAKE = 3, SIT = 4, CATCH = 5;
   const HOLD_AT = 7.3, HOLD = 1600, GAP = 900;
-  const plai = $('#heroPlai'), replayText = $('span', replay);
+  const plai = $('#heroPlai');
   let cur = STORY, want = false, onScreen = true, held = false, live = false, lastT = -1, timer = 0;
   /* geometry: where the clip starts inside the canvas (0 when the clip is as wide as the box) */
   const SPLIT = .545, EXIT_FROM = 11.9, EXIT_TO = 14.5;   /* STORY: he is clear of the stack, then out of frame */
@@ -880,11 +876,9 @@ const makeKeyer = (c) => {
     else v.pause();
   };
   const load = (...ids) => ids.forEach((i) => { const v = clips[i]; if (!v.getAttribute('src')) { v.src = v.dataset.src; v.preload = 'auto'; v.load(); } });
-  const ui = () => {                                   /* the controls exist once he is on the stack to stay */
-    const there = cur >= SLEEP;
-    plai.hidden = replay.hidden = !there;
+  const ui = () => {                                   /* he is a control once he is on the stack to stay */
+    plai.hidden = cur < SLEEP;
     plai.setAttribute('aria-label', cur === SLEEP ? 'Wake Plai' : 'Play with Plai');
-    replayText.textContent = cur === SLEEP ? 'Wake Plai' : 'Replay';
   };
   /* The canvas keeps the last frame it drew until the next clip has one, so a switch never flashes empty. */
   const show = (i) => {
@@ -907,10 +901,6 @@ const makeKeyer = (c) => {
   clips.forEach((v) => v.addEventListener('seeked', () => draw(true)));
   plai.addEventListener('click', poke);
   if (matchMedia('(hover:hover) and (pointer:fine)').matches) plai.addEventListener('pointerenter', () => { if (cur === SIT) show(CATCH); });
-  replay.addEventListener('click', () => {
-    if (cur === SLEEP) return poke();
-    clearTimeout(timer); held = false; show(STORY);
-  });
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; sync(); }, { threshold: .15 }).observe(fx);
   tick(); show(STORY);
   window.__heroClip = { clips, draw, show, poke, get cur() { return cur; } };   /* handle for visual tests */
