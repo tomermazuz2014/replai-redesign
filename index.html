@@ -287,29 +287,29 @@ html{scroll-padding-top:104px}
 }
 
 /* ---------- A clearer picture: tabs over one living map ---------- */
-.tour{background:var(--forest);color:var(--bright);padding-block:clamp(72px,9vw,128px);overflow-x:clip}
+.tour{background:var(--mint);color:var(--ink);padding-block:clamp(72px,9vw,128px);overflow-x:clip}
 .tour__head{display:grid;gap:var(--s5);align-items:end}
 @media (min-width:1001px){.tour__head{grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:var(--s8)}}
 .tour h2{font-size:clamp(2.25rem,1.3rem + 3vw,3.75rem);line-height:1.08;letter-spacing:var(--ls-display);margin-top:var(--s4)}
 .tour h2 span{display:block}
 .tour h2 em{font-style:normal;color:var(--spark)}
-.tour__intro{color:#c3dccd;line-height:1.6;max-width:24rem;padding-bottom:6px}
+.tour__intro{color:#1e3a30;line-height:1.6;max-width:24rem;padding-bottom:6px}
 /* tabs: the line under the open tab fills as Plai works through its map */
-.tour__tabs{display:grid;grid-template-columns:repeat(4,minmax(0,max-content));gap:var(--s2);margin-top:var(--s7);border-bottom:1px solid rgba(144,202,170,.22)}
-.tour__tab{--p:0;position:relative;display:flex;align-items:center;gap:12px;min-height:58px;padding:0 22px;border:0;border-radius:10px 10px 0 0;background:none;color:#a9c9b8;font:inherit;cursor:pointer;transition:background-color 180ms ease,color 180ms ease;-webkit-tap-highlight-color:transparent}
+.tour__tabs{display:grid;grid-template-columns:repeat(4,minmax(0,max-content));gap:var(--s2);margin-top:var(--s7);border-bottom:1px solid rgba(11,41,29,.16)}
+.tour__tab{--p:0;position:relative;display:flex;align-items:center;gap:12px;min-height:58px;padding:0 22px;border:0;border-radius:10px 10px 0 0;background:none;color:#35554a;font:inherit;cursor:pointer;transition:background-color 180ms ease,color 180ms ease;-webkit-tap-highlight-color:transparent}
 .tour__tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.tour__tab i{margin-left:14px;font:normal 400 var(--fs-label)/1 var(--mono);color:#7fa391}
+.tour__tab i{margin-left:14px;font:normal 400 var(--fs-label)/1 var(--mono);color:#4c6a5e}
 .tour__tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--spark);transform:scaleX(var(--p));transform-origin:left;transition:transform 500ms var(--ease-out)}
-.tour__tab[aria-selected="true"]{background:rgba(232,244,235,.07);color:var(--bright)}
-@media (hover:hover) and (pointer:fine){.tour__tab:not([aria-selected="true"]):hover{color:var(--bright);background:rgba(232,244,235,.04)}}
+.tour__tab[aria-selected="true"]{background:rgba(255,255,255,.6);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.tour__tab:not([aria-selected="true"]):hover{color:var(--ink);background:rgba(255,255,255,.3)}}
 .tour__body{display:grid;gap:var(--s6);margin-top:var(--s7);align-items:center}
 @media (min-width:1001px){.tour__body{grid-template-columns:minmax(0,3.4fr) minmax(0,8.6fr);gap:var(--s8)}}
 .tour__copy{display:grid;gap:var(--s4);justify-items:start;align-content:center}
 .tour__copy h3{font-size:clamp(1.5rem,1.1rem + 1.1vw,2rem);line-height:1.18;letter-spacing:var(--ls-heading);max-width:14ch}
-.tour__copy p{color:#c3dccd;line-height:1.65;max-width:26rem}
-.tour__copy .link{margin-top:var(--s2);color:var(--bright)}
+.tour__copy p{color:#1e3a30;line-height:1.65;max-width:26rem}
+.tour__copy .link{margin-top:var(--s2);color:var(--ink)}
 /* the map panel */
-.map{--nd:clamp(52px,9.2cqw,76px);position:relative;container-type:inline-size;border-radius:20px;background:var(--cream);color:var(--ink);box-shadow:0 0 0 1px rgba(232,244,235,.14),0 30px 60px -30px rgba(0,0,0,.6)}
+.map{--nd:clamp(52px,9.2cqw,76px);position:relative;container-type:inline-size;border-radius:20px;background:var(--cream);color:var(--ink);box-shadow:0 0 0 1px rgba(11,41,29,.1),0 30px 50px -34px rgba(11,41,29,.45)}
 .map__bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:46px;padding:0 16px;border-bottom:1px solid var(--line)}
 .map__spark{width:18px;height:18px;fill:var(--spark)}
 .map__crumb{font:normal 400 var(--fs-label)/1 var(--mono);color:#2a3d36}
@@ -347,7 +347,7 @@ html{scroll-padding-top:104px}
 .map__say:not(:empty)::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--spark);flex:none}
 @media (max-width:1000px){
   .tour__tabs{grid-template-columns:repeat(2,minmax(0,1fr));border-bottom:0;gap:var(--s2)}
-  .tour__tab{min-height:52px;padding:0 14px;border-radius:12px;background:rgba(232,244,235,.05);box-shadow:inset 0 0 0 1px rgba(144,202,170,.16)}
+  .tour__tab{min-height:52px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,.35);box-shadow:inset 0 0 0 1px rgba(11,41,29,.1)}
   .tour__tab i{margin-left:auto}
   .tour__tab::after{left:12px;right:12px;bottom:6px;border-radius:2px}
   .tour__copy h3{max-width:none}
@@ -735,7 +735,7 @@ html{scroll-padding-top:104px}
 </section>
 
 <!-- ============ A CLEARER PICTURE: four ways in, one living map ============ -->
-<section class="tour on-dark" id="tour" aria-labelledby="tourT">
+<section class="tour" id="tour" aria-labelledby="tourT">
   <div class="wrap">
     <header class="tour__head">
       <div>
